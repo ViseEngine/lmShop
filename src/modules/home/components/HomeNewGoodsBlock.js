@@ -15,7 +15,7 @@ class HomeNewGoodsBlock extends React.PureComponent {
       </Flex.Item>
       <WhiteSpace />
       <Flex.Item>
-        <div style={{fontSize:'0.2rem'}} className='text-overflow-hidden gray'>{dataItem.goodsName.slice(0,14)}</div>
+        <div style={{fontSize:'0.2rem'}} className='text-overflow-hidden gray'>{dataItem.goodsName.slice(0,10)}</div>
       </Flex.Item>
       <Flex.Item style={{textAlign:'center'}}>
         <Img src={dataItem.goodsImage} style={{ width: '80%', height:'1.5rem' }} />
@@ -26,6 +26,7 @@ class HomeNewGoodsBlock extends React.PureComponent {
   render() {
     const { data } = this.props;
     return <List renderHeader={()=>'新品上市'}>
+      <WhiteSpace></WhiteSpace>
       <Grid data={data} columnNum={3} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(this.renderItem(dataItem))}>

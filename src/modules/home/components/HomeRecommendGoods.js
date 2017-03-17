@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Flex, List } from 'antd-mobile';
+import { Grid, Flex, List, WhiteSpace } from 'antd-mobile';
 import { Img } from 'commonComponent';
 
 class HomeRecommendGoods extends React.PureComponent {
@@ -29,7 +29,8 @@ class HomeRecommendGoods extends React.PureComponent {
     const { data } = this.props;
     console.log(data);
     return <List renderHeader={() => '为你推荐'}>
-      <Grid data={data} columnNum={2} hasLine={true}
+      <WhiteSpace></WhiteSpace>
+      <Grid data={data} columnNum={2} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(this.renderItem(dataItem))}>
       </Grid>

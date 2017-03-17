@@ -9,17 +9,6 @@ class HomeFunctionBlock extends React.PureComponent {
 
   }
 
-  /*renderItem = (dataItem) => {
-    return <Flex direction='column' >
-      <Flex.Item>
-        <img src={dataItem.icon} style={{ height:'0.5rem' }} />
-      </Flex.Item>
-      <Flex.Item>
-        <span>{dataItem.text}</span>
-      </Flex.Item>
-    </Flex>
-  }*/
-
   render() {
     const url = 'http://bbc.leimingtech.com/'
     const data = [{
@@ -56,9 +45,9 @@ class HomeFunctionBlock extends React.PureComponent {
       }
     ]
 
-    return (<div>
+    return (
       <Grid data={data} columnNum={5} hasLine={false} />
-    </div>)
+    )
   }
 }
 

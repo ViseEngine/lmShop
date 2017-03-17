@@ -92,14 +92,7 @@ class BottomBar extends React.Component {
             <div style={{
               width: '0.44rem',
               height: '0.44rem',
-              background: 'url(https://zos.alipayobjects.com/rmsportal/psUFoAMjkCcjqtUCNPxB.svg) center center /  0.42rem 0.42rem no-repeat' }}
-            />
-          }
-          selectedIcon={
-            <div style={{
-              width: '0.44rem',
-              height: '0.44rem',
-              background: 'url(https://zos.alipayobjects.com/rmsportal/IIRLrXXrFAhXVdhMWgUI.svg) center center /  0.42rem 0.42rem no-repeat' }}
+              background: 'url(http://bbc.leimingtech.com//res_v4.0/h5/images/b_4.png) center center /  0.42rem 0.42rem no-repeat' }}
             />
           }
           title="购物车"

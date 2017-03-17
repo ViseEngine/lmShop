@@ -5,7 +5,7 @@ import App from 'container/appView';
 import home from './home';
 
 const routesConfig = (<Route path="/" component={App}>
-  <IndexRoute component={home} showBottomBar={true} showTitle={true}/>
+  <IndexRoute component={home} showBottomBar={true} showTitle={false}/>
 </Route>)
 
 function Routes({ history }) {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Flex, List } from 'antd-mobile';
+import { Grid, Flex, List, WhiteSpace } from 'antd-mobile';
 import { Img } from 'commonComponent';
 
 class HomePromotionBlock extends React.PureComponent {
@@ -14,10 +14,10 @@ class HomePromotionBlock extends React.PureComponent {
         <Img src={dataItem.goodsImage} style={{ width: '80%', height:'1.5rem' }} />
       </Flex.Item>
       <Flex.Item>
-        <span style={{fontSize:'0.2rem',color:'red'}}> {dataItem.price}</span> 
+        <span style={{fontSize:'0.24rem',color:'red'}}> {dataItem.price}</span> 
       </Flex.Item>
       <Flex.Item>
-        <span style={{textDecoration:'line-through',fontSize:'0.2rem',color:'gray'}}>{`¥${dataItem.specGoodsPrice}`}</span>
+        <span style={{textDecoration:'line-through',fontSize:'0.24rem',color:'gray'}}>{`¥${dataItem.specGoodsPrice}`}</span>
       </Flex.Item>
     </Flex>
   }
@@ -30,11 +30,11 @@ class HomePromotionBlock extends React.PureComponent {
     }
     return <List renderHeader={() => (
         <div>
-        <a style={{fontSize:'0.3rem'}} href="#">{data.activityName}</a>
-        <span style={{fontSize:'0.3rem'}} className='title'>{data.activityTypeName}</span>
+          <a style={{fontSize:'0.28rem',paddingRight:'0.1rem'}} href="#">{data.activityName}</a>
+          <span style={{fontSize:'0.28rem'}} className='title'>{data.activityTypeName}</span>
         </div>
       ) }>
-    
+      <WhiteSpace></WhiteSpace>
       <Grid data={objectUnionVOList} columnNum={4} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(this.renderItem(dataItem))}>

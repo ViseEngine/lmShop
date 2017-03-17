@@ -2,12 +2,31 @@ import React, { Component } from 'react';
 import { Grid, List, Flex } from 'antd-mobile';
 import { Img } from 'commonComponent';
 
+
+const Layout28 = () => {}
+
+const Layout48 = () => {
+
+}
+
+const Layout33 = ({ goodsList }) => {
+  return null;
+}
+
 class HomeFloorGoods extends React.PureComponent {
+
+  renderHeader = (data) => {
+    return data.floorName
+  }
 
   render() {
     const { data } = this.props;
+    console.log(data);
+    // if(data){
 
-    return <List renderHeader={() => data.floorName }>
+    // }
+
+    return <List renderHeader={() => this.renderHeader(data) }>
       <List.Item>
         <Flex>
           <Flex.Item>
