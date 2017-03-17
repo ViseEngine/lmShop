@@ -1,0 +1,73 @@
+import React, { Component } from 'react'
+import { withRouter } from 'react-router'
+import { Carousel, Modal, SearchBar, WhiteSpace, WingBlank, Toast } from 'antd-mobile';
+import { queryIndexData } from '../api';
+import HomeCarouselBlock from '../components/HomeCarouselBlock'
+import HomeFunctionBlock from '../components/HomeFunctionBlock'
+import HomePromotionBlock from '../components/HomePromotionBlock'
+import HomeFloorGoods from '../components/HomeFloorGoods';
+import HomeNewGoodsBlock from '../components/HomeNewGoodsBlock';
+import HomeRecommendGoods from '../components/HomeRecommendGoods';
+
+import './home.less';
+
+class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      floorList: [],
+      relGoodsRecommedlist: [],
+      activityBeenList: [], //
+      advList: [], // 轮播
+      navigationList: [],
+      recommendGoodslist: []
+    }
+  }
+
+  componentWillMount() {
+    Toast.loading();
+    queryIndexData().then(result => {
+      Toast.hide();
+      let data = result.data[0];
+      this.setState({
+        advList: data.advPosition.advList,
+        activityBeenList: data.activityBeenList,
+        recommendGoodslist: data.recommendGoodslist,
+        relGoodsRecommedlist: data.relGoodsRecommedlist,
+        floorList: data.floorList
+      });
+    });
+  }
+
+  render() {
+    const {
+      floorList,
+      relGoodsRecommedlist,
+      activityBeenList,
+      advPosition,
+      recommendGoodslist
+    } = this.state;
+    return (
+      <div style={{height:'100%'}} className='wx-scroll-vertical scroll-vertical'>
+        <SearchBar placeholder="搜索你想要的商品"></SearchBar>
+        <HomeCarouselBlock data={this.state.advList}></HomeCarouselBlock>
+        <HomeFunctionBlock></HomeFunctionBlock>
+
+        {
+          this.state.activityBeenList && this.state.activityBeenList.map(activityBeen=>{
+            return <HomePromotionBlock key={activityBeen.activityTypeValue} data={activityBeen}></HomePromotionBlock>
+          })
+        } 
+        <HomeNewGoodsBlock data={this.state.recommendGoodslist}></HomeNewGoodsBlock>
+        {
+          this.state.floorList && this.state.floorList.map(floor=>{
+            return <HomeFloorGoods key={floor.advKey} data={floor}></HomeFloorGoods>
+          })
+        } 
+        <HomeRecommendGoods data={this.state.relGoodsRecommedlist}></HomeRecommendGoods>
+      </div>
+    )
+  }
+}
+
+export default withRouter(Home);
