@@ -44,13 +44,13 @@ class BottomBar extends React.Component {
           icon={<div style={{
             width: '0.44rem',
             height: '0.44rem',
-            background: 'url(https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg) center center /  0.42rem 0.42rem no-repeat' }}
+            background: 'url(http://bbc.leimingtech.com//res_v4.0/h5/images/b_1.png) center center /  0.42rem 0.42rem no-repeat' }}
           />
           }
           selectedIcon={<div style={{
             width: '0.44rem',
             height: '0.44rem',
-            background: 'url(https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg) center center /  0.42rem 0.42rem no-repeat' }}
+            background: 'url(http://bbc.leimingtech.com//res_v4.0/h5/images/b_2.png) center center /  0.42rem 0.42rem no-repeat' }}
           />
           }
           selected={this.state.selectedTab === 'blueTab'}
@@ -66,13 +66,13 @@ class BottomBar extends React.Component {
           icon={<div style={{
             width: '0.44rem',
             height: '0.44rem',
-            background: 'url(https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg) center center /  0.42rem 0.42rem no-repeat' }}
+            background: 'url(http://bbc.leimingtech.com//res_v4.0/h5/images/b_3.png) center center /  0.42rem 0.42rem no-repeat' }}
           />
           }
           selectedIcon={<div style={{
             width: '0.44rem',
             height: '0.44rem',
-            background: 'url(https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg) center center /  0.42rem 0.42rem no-repeat' }}
+            background: 'url(http://bbc.leimingtech.com//res_v4.0/h5/images/b_4.png) center center /  0.42rem 0.42rem no-repeat' }}
           />
           }
           title="分类"
