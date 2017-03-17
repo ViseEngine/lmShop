@@ -84,7 +84,7 @@ class App extends Component {
   showNavBar = () => {
     let { title, showTitle, showSearch } = this.props.children.props.route
     if (!title) {
-      title = '111'
+      title = '雷铭电商'
     }
 
     if (showTitle == undefined) {
