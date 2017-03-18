@@ -46,13 +46,24 @@ const commonPlugin = [
   new CopyWebpackPlugin([{
     from: path.resolve(APP_PATH, 'assets'),
     to: path.resolve(BUILD_PATH, 'assets')
-  }])
+  }]),
+  // ...CommonsChunk
 ]
 
 const svgDirs = [
   require.resolve('antd-mobile').replace(/warn\.js$/, ''), // 1. 属于 antd-mobile 内置 svg 文件
   path.resolve(__dirname, 'assets/svg'), // 2. 自己私人的 svg 存放目录
 ];
+
+var proxyInterface = ['/floor/api', '/goods/api/'];
+var proxy = {};
+proxyInterface.forEach(function(item) {
+  proxy[item] = {
+    target: 'http://testbbc.leimingtech.com',
+    changeOrigin: true,
+    logLevel: 'debug'
+  };
+});
 
 module.exports = {
   entry: {
@@ -64,21 +75,32 @@ module.exports = {
     /*publicPath: "/assets",*/
     filename: "[name].js"
   },
-  //目前最流行的Source Maps选项是cheap-module-eval-source-map，这个工具会帮助开发环境下在Chrome/Firefox中显示源代码文件，其速度快于source-map与eval-source-map：
   devtool: env === 'development' ? '#eval-source-map' : 'hidden-source-map',
+  devServer: {
+    contentBase: path.join(__dirname, "dist"),
+    // compress: true,
+    port: 3000,
+    host: '0.0.0.0',
+    overlay: {
+      warnings: true,
+      errors: true
+    },
+    // publicPath: "/assets/",
+    proxy: proxy
+  },
   module: {
     rules: [{
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: "css-loader"
+          use: ["css-loader", "postcss-loader"]
         })
       },
       {
         test: /\.less$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ['css-loader', 'less-loader']
+          use: ['css-loader', 'less-loader', 'postcss-loader']
         }),
         include: APP_PATH
       }, {

@@ -27,9 +27,7 @@ class HomeRecommendGoods extends React.PureComponent {
 
   render() {
     const { data } = this.props;
-    console.log(data);
-    return <List renderHeader={() => '为你推荐'}>
-      <WhiteSpace></WhiteSpace>
+    return <List renderHeader={() => <div>为你推荐</div>}>
       <Grid data={data} columnNum={2} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(this.renderItem(dataItem))}>

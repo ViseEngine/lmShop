@@ -3,6 +3,15 @@ import { TabBar, Icon } from 'antd-mobile';
 
 import "./BottomBar.less"
 
+const IconClass = ({ url }) => {
+  return <div style={{
+    width: '0.50rem',
+    height: '0.50rem',
+    background: `url(http://bbc.leimingtech.com/${url}) center center /  0.50rem 0.50rem no-repeat`
+  }}
+  />
+}
+
 class BottomBar extends React.Component {
 
   constructor(props) {
@@ -20,29 +29,21 @@ class BottomBar extends React.Component {
   render() {
     return (
       <TabBar
-        unselectedTintColor="#949494"
-        tintColor="#33A3F4"
-        barTintColor="white"
+        className="wx-tab-bar"   
         hidden={this.state.hidden}
       >
         <TabBar.Item
           title="首页"
           key="首页"
-          icon={<div style={{
-            width: '0.44rem',
-            height: '0.44rem',
-            background: 'url(http://bbc.leimingtech.com//res_v4.0/h5/images/b_1.png) center center /  0.42rem 0.42rem no-repeat' }}
-          />
+          icon={
+            <IconClass url={'/res_v4.0/h5/images/b_1.png'}></IconClass>
           }
           onPress={()=>this.changeTab('home')}
         >
         </TabBar.Item>
         <TabBar.Item
-          icon={<div style={{
-            width: '0.44rem',
-            height: '0.44rem',
-            background: 'url(http://bbc.leimingtech.com//res_v4.0/h5/images/b_3.png) center center /  0.42rem 0.42rem no-repeat' }}
-          />
+          icon={
+            <IconClass url={'/res_v4.0/h5/images/b_2.png'}></IconClass>
           }
           title="分类"
           key="分类"
@@ -51,11 +52,7 @@ class BottomBar extends React.Component {
         </TabBar.Item>
         <TabBar.Item
           icon={
-            <div style={{
-              width: '0.44rem',
-              height: '0.44rem',
-              background: 'url(http://bbc.leimingtech.com//res_v4.0/h5/images/b_4.png) center center /  0.42rem 0.42rem no-repeat' }}
-            />
+            <IconClass url={'/res_v4.0/h5/images/b_3.png'}></IconClass>
           }
           title="购物车"
           key="购物车"
@@ -63,8 +60,9 @@ class BottomBar extends React.Component {
         >
         </TabBar.Item>
         <TabBar.Item
-          icon={{ uri: 'https://zos.alipayobjects.com/rmsportal/asJMfBrNqpMMlVpeInPQ.svg' }}
-          selectedIcon={{ uri: 'https://zos.alipayobjects.com/rmsportal/gjpzzcrPMkhfEqgbYvmN.svg' }}
+          icon={
+            <IconClass url={'/res_v4.0/h5/images/b_4.png'}></IconClass>
+          }
           title="我的"
           key="我的"
           onPress={()=>this.changeTab('my')}

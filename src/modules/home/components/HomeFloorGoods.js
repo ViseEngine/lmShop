@@ -49,14 +49,14 @@ class HomeFloorGoods extends React.PureComponent {
           )}>
       </Grid>
     } else {
-      firstBlock = <Grid data={data.goodsList.slice(0,2)} columnNum={4} hasLine={false}
+      firstBlock = <Grid data={data.goodsList.slice(0,4)} columnNum={2} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(
             <ImgGoodsInfo dataItem={dataItem}></ImgGoodsInfo>
           )}>
       </Grid>
 
-      sencondBlock = <Grid data={data.goodsList.slice(2,10)} columnNum={4} hasLine={false}
+      sencondBlock = <Grid data={data.goodsList.slice(4,10)} columnNum={4} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(
             <ImgGoodsInfo dataItem={dataItem}></ImgGoodsInfo>

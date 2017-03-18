@@ -64,6 +64,7 @@ class Home extends Component {
           })
         } 
         <HomeRecommendGoods data={this.state.relGoodsRecommedlist}></HomeRecommendGoods>
+        <WhiteSpace style={{height:'1rem'}}></WhiteSpace>
       </div>
     )
   }

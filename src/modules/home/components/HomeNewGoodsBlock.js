@@ -25,7 +25,7 @@ class HomeNewGoodsBlock extends React.PureComponent {
 
   render() {
     const { data } = this.props;
-    return <List renderHeader={() => '新品上市'}>
+    return <List renderHeader={() => <div>新品上市</div>}>
       <List.Item>
       <Grid data={data.slice(0,6)} columnNum={3} hasLine={false}
         onClick={this.onClick}

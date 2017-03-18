@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { common } from 'common';
 import { NavBar, Icon, Flex } from 'antd-mobile';
-import BottomBar from 'commonComponent/BottomBar';
+import BottomBar from './BottomBar';
 
 import './appView.less';
 

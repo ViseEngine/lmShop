@@ -24,24 +24,35 @@ class GoodsClass extends Component {
         Toast.error(result.msg);
         return;
       }
+
       let data = result.data;
       this.setState({
         classList: data
+      });
+
+      if (data && data.length > 0) {
+        this.onMenuChange(data[0]);
+      }
+    });
+  }
+
+  onMenuChange = ({ gcAdvid, gcId }) => {
+    goodsClassApi.getGoodsClass({ advid: gcAdvid, pId: gcId }).then(result => {
+      this.setState({
+        goodsList: result.data[0]
       });
     });
   }
 
   render() {
     return (
-      <div>
-        <Flex>
-          <Flex.Item style={{flex:1}}>
-            <GoodsClassMenu data={this.state.classList}></GoodsClassMenu>
-          </Flex.Item>
-          <Flex.Item style={{flex:2}}>
-            {/*<GoodsList></GoodsList>*/}
-          </Flex.Item>
-        </Flex>
+      <div className="wx-goodsClass">
+        <div className="wx-goodsClass-menu">
+          <GoodsClassMenu data={this.state.classList} onMenuChange={this.onMenuChange}></GoodsClassMenu>
+        </div>
+        <div className="wx-goodsClass-list">
+          <GoodsList data={this.state.goodsList}></GoodsList>
+        </div>
       </div>
     )
   }
