@@ -17,10 +17,10 @@ class HomeRecommendGoods extends React.PureComponent {
         <span>{dataItem.gcName}</span> 
       </Flex.Item>
       <Flex.Item>
-        <span style={{fontSize:'0.2rem',color:'gray'}}>{dataItem.goodsName.slice(0,12)}</span>
+        <span style={{fontSize:'0.24rem',color:'gray'}}>{dataItem.goodsName.slice(0,12)}</span>
       </Flex.Item>
       <Flex.Item>
-        <span style={{fontSize:'0.2rem',color:'red'}}>{`¥${dataItem.goodsStorePrice}`}</span>
+        <span style={{fontSize:'0.24rem',color:'red'}}>{`¥${dataItem.goodsStorePrice}`}</span>
       </Flex.Item>
     </Flex>
   }

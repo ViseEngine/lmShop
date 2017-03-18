@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Grid, Flex } from 'antd-mobile';
+import { Grid, Flex, WingBlank, WhiteSpace } from 'antd-mobile';
+import { Img } from 'commonComponent';
 
 import './HomeFunctionBlock.less';
 
@@ -7,6 +8,19 @@ class HomeFunctionBlock extends React.PureComponent {
 
   jumpHandle = () => {
 
+  }
+
+  renderItem = (dataItem) => {
+    return <Flex direction='column' style={{padding:'0.1rem'}} >
+      <WhiteSpace></WhiteSpace>
+      <Flex.Item style={{textAlign:'center',marginLeft:'0'}}>
+        <img src={dataItem.icon} style={{ height:'0.8rem' }} />
+      </Flex.Item>
+      <WhiteSpace></WhiteSpace>
+      <Flex.Item style={{ textAlign: 'center', marginLeft: '0', fontSize: '0.24rem' }}>
+        <div>{dataItem.text}</div>
+      </Flex.Item>
+    </Flex>
   }
 
   render() {
@@ -46,7 +60,7 @@ class HomeFunctionBlock extends React.PureComponent {
     ]
 
     return (
-      <Grid data={data} columnNum={5} hasLine={false} />
+      <Grid data={data} columnNum={4} hasLine={false} renderItem={(dataItem) => (this.renderItem(dataItem))} />
     )
   }
 }

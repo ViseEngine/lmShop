@@ -48,10 +48,9 @@ class Home extends Component {
       recommendGoodslist
     } = this.state;
     return (
-      <div style={{height:'100%'}} className='wx-scroll-vertical scroll-vertical'>
-        <SearchBar placeholder="搜索你想要的商品"></SearchBar>
+      <div className='wx-scroll-vertical scroll-vertical'>
+        {/*<SearchBar placeholder="搜索你想要的商品"></SearchBar>*/}
         <HomeCarouselBlock data={this.state.advList}></HomeCarouselBlock>
-        {/*<WhiteSpace></WhiteSpace>*/}
         <HomeFunctionBlock></HomeFunctionBlock>
         {
           this.state.activityBeenList && this.state.activityBeenList.map(activityBeen=>{

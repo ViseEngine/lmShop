@@ -8,7 +8,7 @@
     "npm": ">3.0.0"
   },
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "node tools/server.js"
   },
   "author": "",
   "license": "ISC",

@@ -2,7 +2,7 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('../webpack.config');
 
-var proxyInterface = ['*'];
+var proxyInterface = ['/floor/api', '/goods/api/'];
 var proxy = {};
 proxyInterface.forEach(function(item) {
   proxy[item] = {

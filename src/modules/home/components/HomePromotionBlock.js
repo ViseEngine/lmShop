@@ -33,12 +33,13 @@ class HomePromotionBlock extends React.PureComponent {
           <a style={{fontSize:'0.28rem',paddingRight:'0.1rem'}} href="#">{data.activityName}</a>
           <span style={{fontSize:'0.28rem'}} className='title'>{data.activityTypeName}</span>
         </div>
-      ) }>
-      <WhiteSpace></WhiteSpace>
+    )}>
+      <List.Item>
       <Grid data={objectUnionVOList} columnNum={4} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(this.renderItem(dataItem))}>
-      </Grid>
+        </Grid>
+      </List.Item>  
     </List>
   }
 }

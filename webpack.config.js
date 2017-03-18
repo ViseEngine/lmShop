@@ -12,7 +12,7 @@ const BUILD_PATH = path.resolve(ROOT_PATH, 'dist');
 const env = process.env.NODE_ENV;
 //循环生成每个入口文件对应的html
 const HtmlWebpack = [];
-['home'].forEach((item, index) => {
+['home', 'goodsClass'].forEach((item, index) => {
   let chunks = [item];
   //动态生成html插件
   HtmlWebpack[index] = new HtmlWebpackPlugin({
@@ -56,7 +56,8 @@ const svgDirs = [
 
 module.exports = {
   entry: {
-    home: './src/modules/home'
+    home: './src/modules/home',
+    goodsClass: './src/modules/goodsClass'
   },
   output: {
     path: env === 'development' ? DEV_PATH : BUILD_PATH,
@@ -65,33 +66,8 @@ module.exports = {
   },
   //目前最流行的Source Maps选项是cheap-module-eval-source-map，这个工具会帮助开发环境下在Chrome/Firefox中显示源代码文件，其速度快于source-map与eval-source-map：
   devtool: env === 'development' ? '#eval-source-map' : 'hidden-source-map',
-  devServer: {
-    contentBase: path.join(__dirname, "dist"),
-    // compress: true,
-    port: 3000,
-    host: '0.0.0.0',
-    overlay: {
-      warnings: true,
-      errors: true
-    },
-    // publicPath: "/assets/",
-    proxy: {
-      "**/floor/**": {
-        target: 'http://testbbc.leimingtech.com',
-        changeOrigin: true,
-        logLevel: 'debug'
-      }
-    }
-  },
   module: {
-    rules: [
-      // {
-      // test: /\.js$/,
-      // loader: "eslint-loader",
-      // exclude: /node_modules/,
-      // enforce: 'pre' //webpack2写法
-      // },
-      {
+    rules: [{
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
@@ -135,9 +111,7 @@ module.exports = {
       'commonComponent': path.resolve('./src/common/components'),
       'common': path.resolve('./src/common'),
       'baseComponent': path.resolve(__dirname, './src/base-components'),
-      'assets': path.resolve(__dirname, './src/assets'),
-      "wechat.less": path.resolve(__dirname, './src/styles/wechat.less'),
-      "hackAnt.less": path.resolve(__dirname, './src/styles/hackAnt.less')
+      'assets': path.resolve(__dirname, './src/assets')
     }
   },
   externals: {

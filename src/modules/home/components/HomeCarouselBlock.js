@@ -3,7 +3,7 @@ import { withRouter } from 'react-router'
 import { Carousel } from 'antd-mobile';
 import { Img } from 'commonComponent';
 
-import './HomeCarouselBlock.less'
+// import './HomeCarouselBlock.less'
 
 class HomeCarouselBlock extends Component {
   render() {
