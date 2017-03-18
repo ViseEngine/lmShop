@@ -3,17 +3,17 @@ import { withRouter } from 'react-router'
 import { Carousel } from 'antd-mobile';
 import { Img } from 'commonComponent';
 
-// import './HomeCarouselBlock.less'
+import './HomeCarouselBlock.less'
 
 class HomeCarouselBlock extends Component {
   render() {
     const { data } = this.props;
     return <Carousel
-        className="index-banner" autoplay={false} infinite dots={false}>
+        className="index-banner" autoplay={true} infinite dots={false}>
           {
-            data.map((item,index) => (
+            [...data,...data].map((item,index) => (
               <div key={`carousel-${index}`} className="banner">
-                <a href={item.advUrl}><Img src={item.resUrl} /></a>
+            <a href={item.advUrl}><Img src={item.resUrl} style={{width:'6.4rem',height:'2.8rem'}} /></a>
               </div>
             ))
           }
