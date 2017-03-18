@@ -9,7 +9,7 @@ export function ImgGoodsInfo({ dataItem }) {
         <Img src={dataItem.goodsImage} style={{ width: '80%', height:'2rem' }} />
       </Flex.Item>
       <Flex.Item>
-        <span> {dataItem.goodsName}</span> 
+        <span style={{fontSize:'0.24rem',color:'gray'}} className='wx-home-goods-name'>{dataItem.goodsName.slice(0,10)}</span> 
       </Flex.Item>
       <Flex.Item>
         <span style={{fontSize:'0.24rem',color:'red'}}>{`¥${dataItem.goodsPrice}`}</span>
