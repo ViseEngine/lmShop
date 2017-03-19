@@ -11,16 +11,16 @@ class RecommendGoods extends React.PureComponent {
   renderItem = (dataItem) => {
     return <Flex direction='column' >
       <Flex.Item style={{textAlign:'center'}}>
-        <Img src={dataItem.goodsImage} style={{ width: '80%', height:'2rem' }} />
+        <Img src={dataItem.goodsImage} style={{ height:'2rem' }} />
       </Flex.Item>
       <Flex.Item>
         <span>{dataItem.gcName}</span> 
       </Flex.Item>
       <Flex.Item>
-        <span style={{fontSize:'0.24rem',color:'gray'}}>{dataItem.goodsName.slice(0,12)}</span>
+        <div style={{ fontSize: '24px',width:'3rem', color: 'gray' }} className='text-overflow-hidden'>{dataItem.goodsName}</div>
       </Flex.Item>
       <Flex.Item>
-        <span style={{fontSize:'0.24rem',color:'red'}}>{`¥${dataItem.goodsStorePrice}`}</span>
+        <span style={{fontSize:'24px',color:'red'}}>{`¥${dataItem.goodsStorePrice}`}</span>
       </Flex.Item>
     </Flex>
   }

@@ -3,22 +3,12 @@ import { Grid, List, Flex, Icon } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import { ImgGoodsInfo, GoodsImgInfo } from './GoodsInfo';
 
-const Layout28 = () => {}
-
-const Layout48 = () => {
-
-}
-
-const Layout33 = ({ goodsList }) => {
-  return null;
-}
-
 class HomeFloorGoods extends React.PureComponent {
 
   renderHeader = (data) => {
     return <Flex>
       <Flex.Item>{data.floorName}</Flex.Item>
-      <Flex.Item style={{textAlign:'right'}}><a href='#'>更多</a><Icon type='right' size='xs'></Icon></Flex.Item>
+      <Flex.Item style={{textAlign:'right'}}><span>更多</span><Icon type='right' size='xs'></Icon></Flex.Item>
     </Flex>
   }
 
@@ -31,35 +21,35 @@ class HomeFloorGoods extends React.PureComponent {
       firstBlock = <Grid data={data.goodsList.slice(0,2)} columnNum={2} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(
-            <ImgGoodsInfo dataItem={dataItem}></ImgGoodsInfo>
+          <ImgGoodsInfo dataItem={dataItem} columnNum={2}></ImgGoodsInfo>
           )}>
       </Grid>
 
       sencondBlock = <Grid data={data.goodsList.slice(2,10)} columnNum={4} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(
-            <ImgGoodsInfo dataItem={dataItem}></ImgGoodsInfo>
+            <ImgGoodsInfo dataItem={dataItem} columnNum={4}></ImgGoodsInfo>
           )}>
       </Grid>
     } else if (data.floorType == '9') {
       firstBlock = <Grid data={data.goodsList} columnNum={3} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(
-            <GoodsImgInfo dataItem={dataItem}></GoodsImgInfo>
+            <GoodsImgInfo dataItem={dataItem} columnNum={3}></GoodsImgInfo>
           )}>
       </Grid>
     } else {
       firstBlock = <Grid data={data.goodsList.slice(0,4)} columnNum={2} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(
-            <ImgGoodsInfo dataItem={dataItem}></ImgGoodsInfo>
+            <ImgGoodsInfo dataItem={dataItem} columnNum={2}></ImgGoodsInfo>
           )}>
       </Grid>
 
       sencondBlock = <Grid data={data.goodsList.slice(4,10)} columnNum={4} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(
-            <ImgGoodsInfo dataItem={dataItem}></ImgGoodsInfo>
+            <ImgGoodsInfo dataItem={dataItem} columnNum={4}></ImgGoodsInfo>
           )}>
       </Grid>
     }

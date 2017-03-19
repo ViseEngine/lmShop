@@ -11,14 +11,13 @@ class HomeNewGoodsBlock extends React.PureComponent {
   renderItem = (dataItem) => {
     return <Flex direction='column' >
       <Flex.Item>
-        <div style={{fontSize:'0.28rem'}}>{dataItem.gcName}</div>
+        <div style={{fontSize:'24px'}}> {dataItem.gcName}</div> 
       </Flex.Item>
-      <WhiteSpace />
       <Flex.Item>
-        <div style={{fontSize:'0.24rem'}} className='text-overflow-hidden gray'>{dataItem.goodsName.slice(0,10)}</div>
+        <div style={{fontSize:'24px',color:'gray',width:'2rem'}} className='text-overflow-hidden'>{dataItem.goodsName}</div>
       </Flex.Item>
       <Flex.Item style={{textAlign:'center'}}>
-        <Img src={dataItem.goodsImage} style={{ width: '80%', height:'1.5rem' }} />
+        <Img src={dataItem.goodsImage} style={{width:'100%', height:'100%' }} />
       </Flex.Item>
     </Flex>
   }
