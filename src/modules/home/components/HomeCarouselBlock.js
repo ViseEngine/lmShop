@@ -13,7 +13,7 @@ class HomeCarouselBlock extends Component {
           {
             [...data,...data].map((item,index) => (
               <div key={`carousel-${index}`} className="banner">
-            <a href={item.advUrl}><Img src={item.resUrl} style={{width:'8.4rem',height:'2rem'}} /></a>
+            <a href={item.advUrl}><Img src={item.resUrl} style={{width:'6.4rem',height:'3.2rem'}} /></a>
               </div>
             ))
           }

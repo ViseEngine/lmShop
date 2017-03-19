@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Flex, List, Grid } from 'antd-mobile';
 import { Img } from 'commonComponent';
+import { common } from 'common';
 
 class GoodsList extends Component {
 
@@ -11,7 +12,6 @@ class GoodsList extends Component {
   render() {
     const { data } = this.props;
     const { advPosition, classCustomList } = data;
-    console.log(data);
 
     if (!advPosition) {
       return null;
@@ -25,7 +25,7 @@ class GoodsList extends Component {
         classCustomList && classCustomList.map(customList => {
           const gridData = customList.classCustomList.map(item => {
             return {
-              icon: item.gcPic,
+              icon: `${common.IMAGE_DOMAIN}${item.gcPic}`,
               text:item.gcName
             }
           });

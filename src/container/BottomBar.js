@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { TabBar, Icon } from 'antd-mobile';
+import { common } from 'common';
 
 import "./BottomBar.less"
 
@@ -23,7 +24,15 @@ class BottomBar extends React.Component {
   }
 
   changeTab = (type) => {
-    alert(type);
+    if (type == 'home') {
+      window.location.href = common.getFullUrl('home.html');
+    } else if (type == 'goodsClass') {
+      window.location.href = common.getFullUrl('goodsClass.html');
+    } else if (type == 'cart') {
+      window.location.href = common.getFullUrl('cart.html');
+    } else if (type == 'my') {
+      window.location.href = common.getFullUrl('my.html');
+    }
   }
 
   render() {
