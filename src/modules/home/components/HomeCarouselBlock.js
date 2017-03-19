@@ -12,8 +12,8 @@ class HomeCarouselBlock extends Component {
         className="index-banner" autoplay={true} infinite dots={false}>
           {
             [...data,...data].map((item,index) => (
-              <div key={`carousel-${index}`} className="banner">
-            <a href={item.advUrl}><Img src={item.resUrl} style={{width:'6.4rem',height:'3.2rem'}} /></a>
+              <div key={`carousel-${index}`}>
+                <a href={item.advUrl}><Img src={item.resUrl} /></a>
               </div>
             ))
           }
