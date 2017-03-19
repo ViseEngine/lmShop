@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { Carousel, Modal, SearchBar, WhiteSpace, WingBlank, Toast, Flex } from 'antd-mobile';
+import { Carousel, Modal, SearchBar, WhiteSpace, WingBlank, Toast, Flex, Button } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import RecommendGoods from 'commonComponent/RecommendGoods';
 import * as goodsApi from 'common/api/goods';
+import { common } from 'common';
 
 import './cart.less';
 
@@ -22,7 +23,6 @@ class Cart extends Component {
         Toast.error(result.msg);
         return;
       }
-      // console.log(result);
       let data = result.data;
       this.setState({
         relGoodsRecommedlist: data
@@ -32,8 +32,13 @@ class Cart extends Component {
 
   render() {
     return <div>
-      <div>
-       登录
+      <WhiteSpace></WhiteSpace>
+      <WingBlank>
+        <Button inline size="small">登录</Button>
+      </WingBlank>
+      <div style={{ padding:'20px 20px' }}>
+        <img src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/b_3.png`}></img>
+        <span style={{fontSize: '28px',color:'gray'}}>购物车是空的</span>
       </div>
       <div>
         <RecommendGoods data={this.state.relGoodsRecommedlist}></RecommendGoods>

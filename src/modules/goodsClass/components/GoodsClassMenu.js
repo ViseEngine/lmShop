@@ -22,6 +22,7 @@ class GoodsClassMenu extends React.PureComponent {
     }
 
     return <Menu
+        style={{fontSize:'24px'}}
         level={1}
         data={convertedData}
         value={[convertedData[0].value]}

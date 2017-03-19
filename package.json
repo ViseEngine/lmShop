@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack -p --color --progress"
+    "build": "webpack -p --color --progress -d"
   },
   "author": "",
   "license": "ISC",

@@ -37,10 +37,16 @@ const CommonsChunk = [
   })
 ];
 
+const extractLess = new ExtractTextPlugin({
+  filename: "[name].[contenthash].css",
+  disable: process.env.NODE_ENV === "development"
+});
+
 //公共的插件
 const commonPlugin = [
   // ...CommonsChunk,
-  new ExtractTextPlugin('style.css'),
+  // new ExtractTextPlugin('style.css'),
+  extractLess,
   //热插拔
   new webpack.HotModuleReplacementPlugin(),
   //拷贝资源插件
@@ -77,7 +83,7 @@ module.exports = {
     /*publicPath: "/assets",*/
     filename: "[name].js"
   },
-  devtool: env === 'development' ? '#eval-source-map' : 'hidden-source-map',
+  // devtool: env === 'development' ? '#eval-source-map' : 'hidden-source-map',
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     // compress: true,
@@ -92,43 +98,38 @@ module.exports = {
   },
   module: {
     rules: [{
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: ["css-loader", "postcss-loader"]
-        })
+        test: /\.js$/, //用babel编译jsx和es6
+        exclude: /node_modules/,
+        use: 'babel-loader'
       },
       {
-        test: /\.less$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: ['css-loader', 'less-loader']
-        }),
-        include: APP_PATH
+        test: /\.(less|css)$/,
+        use: extractLess.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'less-loader', 'postcss-loader'],
+          // use: ["style-loader", "css-loader", "less-loader", "postcss-loader"]
+        })
+        // loader: "css-loader!less-loader",
+        // include: APP_PATH
       }, {
         test: /\.(svg)$/i,
-        loader: 'svg-sprite-loader',
+        use: 'svg-sprite-loader',
         include: svgDirs
       },
       {
         test: /\.(png|jpg|gif|jpeg)$/, //处理css文件中的背景图片
-        loader: 'url-loader?limit=1&name=./static/assets/[name].[hash:4].[ext]'
+        use: 'url-loader?limit=1&name=./static/assets/[name].[hash:4].[ext]'
         //当图片大小小于这个限制的时候，会自动启用base64编码图片。减少http请求,提高性能
-      },
-      {
-        test: /\.js$/, //用babel编译jsx和es6
-        exclude: /node_modules/,
-        loader: 'babel-loader'
       }
     ]
   },
   resolve: {
     modules: [
-      path.resolve(__dirname, "src"),
+      path.resolve(__dirname, "./src"),
       "node_modules"
     ],
     //注意一下, extensions webpack2第一个不是空字符串! 对应不需要后缀的情况.
-    extensions: ['.web.js', '.js', '.jsx', '.json'],
+    extensions: ['.web.js', '.js', '.less', '.jsx', '.json'],
     //模块别名定义，方便后续直接引用别名，无须多写长长的地址
     alias: {
       'container': path.resolve('./src/container'),
@@ -151,10 +152,6 @@ switch (env) {
         'process.env': {
           NODE_ENV: '"production"'
         }
-      }),
-      //loader的最小化文件模式将会在webpack 3或者后续版本中被彻底取消掉.为了兼容部分旧式loader，你可以通过 LoaderOptionsPlugin 的配置项来提供这些功能。
-      new webpack.LoaderOptionsPlugin({
-        minimize: true
       }),
       //每次运行webpack清理上一次的文件夹
       new CleanPlugin([BUILD_PATH]),

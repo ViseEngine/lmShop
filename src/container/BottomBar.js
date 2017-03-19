@@ -8,7 +8,7 @@ const IconClass = ({ url }) => {
   return <div style={{
     width: '0.50rem',
     height: '0.50rem',
-    background: `url(http://bbc.leimingtech.com/${url}) center center /  0.50rem 0.50rem no-repeat`
+    background: `url(${common.SERVER_DOMAIN}/${url}) center center /  0.50rem 0.50rem no-repeat`
   }}
   />
 }
