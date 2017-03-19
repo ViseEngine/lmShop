@@ -12,7 +12,7 @@ const BUILD_PATH = path.resolve(ROOT_PATH, 'dist');
 const env = process.env.NODE_ENV;
 //循环生成每个入口文件对应的html
 const HtmlWebpack = [];
-['home', 'goodsClass'].forEach((item, index) => {
+['home', 'goodsClass', 'my', 'cart'].forEach((item, index) => {
   let chunks = [item];
   //动态生成html插件
   HtmlWebpack[index] = new HtmlWebpackPlugin({
@@ -39,6 +39,7 @@ const CommonsChunk = [
 
 //公共的插件
 const commonPlugin = [
+  // ...CommonsChunk,
   new ExtractTextPlugin('style.css'),
   //热插拔
   new webpack.HotModuleReplacementPlugin(),
@@ -47,7 +48,6 @@ const commonPlugin = [
     from: path.resolve(APP_PATH, 'assets'),
     to: path.resolve(BUILD_PATH, 'assets')
   }]),
-  // ...CommonsChunk
 ]
 
 const svgDirs = [
@@ -68,7 +68,9 @@ proxyInterface.forEach(function(item) {
 module.exports = {
   entry: {
     home: './src/modules/home',
-    goodsClass: './src/modules/goodsClass'
+    goodsClass: './src/modules/goodsClass',
+    my: './src/modules/my',
+    cart: './src/modules/cart'
   },
   output: {
     path: env === 'development' ? DEV_PATH : BUILD_PATH,
@@ -100,7 +102,7 @@ module.exports = {
         test: /\.less$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ['css-loader', 'less-loader', 'postcss-loader']
+          use: ['css-loader', 'less-loader']
         }),
         include: APP_PATH
       }, {

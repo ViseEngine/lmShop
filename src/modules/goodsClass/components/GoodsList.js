@@ -17,19 +17,21 @@ class GoodsList extends Component {
       return null;
     }
 
+    console.log(data);
+
     return <div>
       <div>
         <Img src={advPosition.advList[0].resUrl} style={{width:'100%',height:'2rem'}}></Img>
       </div>
       {
         classCustomList && classCustomList.map(customList => {
-          const gridData = customList.classCustomList.map(item => {
+          const gridData = customList.classCustomList.map((item) => {
             return {
               icon: `${common.IMAGE_DOMAIN}${item.gcPic}`,
               text:item.gcName
             }
           });
-          return <List renderHeader={() => customList.gcName}>
+          return <List key={customList.gcId} renderHeader={() => customList.gcName}>
             <Grid data={gridData} columnNum={3} hasLine={false} />
           </List> 
         })

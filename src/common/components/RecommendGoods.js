@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Flex, List, WhiteSpace } from 'antd-mobile';
-import { Img } from 'commonComponent';
+import Img from './Img';
 
-class HomeRecommendGoods extends React.PureComponent {
+class RecommendGoods extends React.PureComponent {
 
   onClick = (el, index) => {
     console.log(el);
@@ -36,4 +36,4 @@ class HomeRecommendGoods extends React.PureComponent {
   }
 }
 
-export default HomeRecommendGoods;
+export default RecommendGoods;

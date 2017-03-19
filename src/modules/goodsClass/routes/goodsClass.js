@@ -46,11 +46,11 @@ class GoodsClass extends Component {
 
   render() {
     return (
-      <div className="wx-goodsClass">
-        <div className="wx-goodsClass-menu">
+      <div style={{display:'flex',width:'100%'}}>
+        <div style={{width:'25%',minWidth:'100px'}}>
           <GoodsClassMenu data={this.state.classList} onMenuChange={this.onMenuChange}></GoodsClassMenu>
         </div>
-        <div className="wx-goodsClass-list">
+        <div style={{width:'70%',display:'block',height:'100%',paddingLeft:'2.5%'}}>
           <GoodsList data={this.state.goodsList}></GoodsList>
         </div>
       </div>

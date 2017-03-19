@@ -7,7 +7,7 @@ import HomeFunctionBlock from '../components/HomeFunctionBlock'
 import HomePromotionBlock from '../components/HomePromotionBlock'
 import HomeFloorGoods from '../components/HomeFloorGoods';
 import HomeNewGoodsBlock from '../components/HomeNewGoodsBlock';
-import HomeRecommendGoods from '../components/HomeRecommendGoods';
+import HomeRecommendGoods from 'commonComponent/RecommendGoods';
 
 import './home.less';
 
@@ -64,7 +64,6 @@ class Home extends Component {
           })
         } 
         <HomeRecommendGoods data={this.state.relGoodsRecommedlist}></HomeRecommendGoods>
-        <WhiteSpace style={{height:'1.2rem'}}></WhiteSpace>
       </div>
     )
   }

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { common } from 'common';
-import { NavBar, Icon, Flex } from 'antd-mobile';
+import { NavBar, Icon, Flex, WhiteSpace } from 'antd-mobile';
 import BottomBar from './BottomBar';
 
 import './appView.less';
@@ -115,6 +115,7 @@ class App extends Component {
       <div id="container">
         {this.showNavBar()}
         {this.props.children}
+        <WhiteSpace style={{height:'1.2rem'}}></WhiteSpace>
         {this.showBottomBar()}
       </div>
     )
