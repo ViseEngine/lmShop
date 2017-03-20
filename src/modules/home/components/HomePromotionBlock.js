@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Grid, Flex, List, WhiteSpace } from 'antd-mobile';
+import { Grid, Flex, List, WhiteSpace, Modal } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import { common } from 'common';
 
 class HomePromotionBlock extends React.PureComponent {
 
   onClick = (el, index) => {
-    window.location.href = common.getFullUrl(`/goodsDetail.html#/?specId=${el.specId}`);
+    Modal.alert("开发中..");
+    // window.location.href = common.getFullUrl(`/goodsDetail.html#/?specId=${el.specId}`);
   }
 
   renderItem = (dataItem) => {
