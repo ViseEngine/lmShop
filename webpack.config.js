@@ -10,6 +10,7 @@ const APP_PATH = path.resolve(ROOT_PATH, 'src');
 const BUILD_PATH = path.resolve(ROOT_PATH, 'dist');
 //获取环境
 const env = process.env.NODE_ENV;
+console.log(process.env.NODE_ENV);
 //循环生成每个入口文件对应的html
 const HtmlWebpack = [];
 const modules = ['home', 'goodsClass', 'my', 'cart', 'goodsDetail']
@@ -17,7 +18,6 @@ let entrys = {};
 modules.forEach(module => {
   entrys[module] = `./src/modules/${module}`
 });
-console.log(entrys);
 modules.forEach((item, index) => {
   let chunks = [item];
   //动态生成html插件
@@ -35,13 +35,13 @@ modules.forEach((item, index) => {
   })
 });
 
-const CommonsChunk = [
-  new webpack.optimize.CommonsChunkPlugin({
-    name: "commons",
-    filename: "commons.js",
-    minChunks: 2,
-  })
-];
+// const CommonsChunk = [
+//   new webpack.optimize.CommonsChunkPlugin({
+//     name: "commons",
+//     filename: "commons.js",
+//     minChunks: 2,
+//   })
+// ];
 
 const extractLess = new ExtractTextPlugin({
   filename: "[name].[contenthash].css",
@@ -50,6 +50,12 @@ const extractLess = new ExtractTextPlugin({
 
 //公共的插件
 const commonPlugin = [
+  new webpack.optimize.CommonsChunkPlugin({
+    // names: ["commons", "manifest"],
+    names: "commons",
+    filename: "commons.js",
+    minChunks: 2,
+  }),
   // ...CommonsChunk,
   // new ExtractTextPlugin('style.css'),
   extractLess,
@@ -149,6 +155,8 @@ module.exports = {
   plugins: HtmlWebpack.concat(commonPlugin),
   watch: env === 'development' ? true : false
 }
+
+console.log(env);
 switch (env) {
   case 'production':
     module.exports.plugins = (module.exports.plugins || []).concat([
