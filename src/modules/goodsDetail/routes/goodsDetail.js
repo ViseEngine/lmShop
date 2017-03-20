@@ -8,11 +8,14 @@ import {
   Flex,
   List,
   Button,
-  Card
+  Card,
+  Tabs,
+  Grid
 } from 'antd-mobile';
 import * as goodsDetailApi from '../api/goodsDetail';
-import { Img } from 'commonComponent';
+import { Img, CartBar } from 'commonComponent';
 import { common } from 'common';
+const TabPane = Tabs.TabPane;
 
 import './goodsDetail.less';
 
@@ -23,8 +26,6 @@ class GoodsDetail extends Component {
       goodsDetailInfo: {}
     }
     // 获取URL参数
-    // http://localhost:3000/goodsDetail.html#/?specId=977b1be0ff274adeb4df1821b5f2e5f4
-    // console.log(this.props.location);
     if (this.props.location.query) {
       if (this.props.location.query.specId) {
         this.specId = this.props.location.query.specId;
@@ -35,7 +36,6 @@ class GoodsDetail extends Component {
   componentDidMount() {
     Toast.loading();
     // 获取商品详情
-    // this.specId = '977b1be0ff274adeb4df1821b5f2e5f4';
     goodsDetailApi.goodsdetail({ specId: this.specId }).then(result => {
       Toast.hide();
       if (result.result != 1) {
@@ -46,6 +46,14 @@ class GoodsDetail extends Component {
       this.setState({
         goodsDetailInfo
       });
+
+      // 浏览记录    
+      // setTimeout(function() {
+      //   goodsDetailApi.GoodsBrowseSaveOrUpdate({ goodsId: goodsDetailInfo.goodsId }).then(result => {
+      //     console.log(object);
+      //   });
+      // }, 100);
+
     });
 
     // goodsDetailApi.cartList().then(result => {
@@ -55,21 +63,36 @@ class GoodsDetail extends Component {
     //     return;
     //   }
     // });
+  }
 
-    // goodsDetailApi.GoodsBrowseSaveOrUpdate().then(result => {
-    //   Toast.hide();
-    //   if (result.result != 1) {
-    //     Toast.error(result.msg);
-    //     return;
-    //   }
-    // });
+  onTabChange = () => {
+
+  }
+
+  renderItem = (dataItem) => {
+    return <Flex direction='column' >
+      <Flex.Item style={{textAlign:'center'}}>
+        <Img src={dataItem.goodsImage} style={{ height:'2rem' }} />
+      </Flex.Item>
+      <Flex.Item>
+        <span>{dataItem.gcName}</span> 
+      </Flex.Item>
+      <Flex.Item>
+        <div style={{ fontSize: '24px',width:'3rem', color: 'gray' }} className='text-overflow-hidden'>{dataItem.goodsName}</div>
+      </Flex.Item>
+      <Flex.Item>
+        <span style={{fontSize:'24px',color:'red'}}>{`¥${dataItem.goodsStorePrice}`}</span>
+      </Flex.Item>
+    </Flex>
   }
 
   render() {
     if (!this.state.goodsDetailInfo || !this.state.goodsDetailInfo.goodsCallyList) {
       return null;
     }
+    const onTabChange = this.onTabChange;
     const { goodsDetailInfo } = this.state
+    const storeImg = <Img src={goodsDetailInfo.storeLabel}></Img>
     return (
       <div className='wx-goods-detail'>
         <Carousel autoplay={false} infinite dots={true}>
@@ -79,7 +102,7 @@ class GoodsDetail extends Component {
             ))
           }
         </Carousel>
-        <Flex direction='column' align='start'>
+        <Flex className='wx-goods-detail-info' direction='column' align='start'>
           <Flex.Item>{goodsDetailInfo.goodsName}</Flex.Item>
               <WhiteSpace size="lg" />
               <Flex.Item>{goodsDetailInfo.goodsSubtitle}</Flex.Item>
@@ -115,17 +138,70 @@ class GoodsDetail extends Component {
           </List.Item>
         </List>
         <WhiteSpace></WhiteSpace>
-        <Card>
-          <Card.Header
-            title="这是 title"
-            thumb={`${common.IMAGE_DOMAIN}${goodsDetailInfo.storeLabel}`}
-            extra={<span>this is extra</span>}
-          />
-          <Card.Body>
-            <div>这是卡片内容</div>
-          </Card.Body>
-          <Card.Footer content="这是卡尾" extra={<div>这是尾部介绍</div>} />
-        </Card>
+        <WingBlank>
+        <Flex>
+          <Flex.Item style={{ flex: 1 }}>
+            <Img src={goodsDetailInfo.storeLabel} style={{width:'100%'}}></Img>
+          </Flex.Item>
+          <Flex.Item style={{ flex: 2 }}>
+            <Flex>
+                <Flex.Item style={{ flex: 2 }}><div>衣品天成<br/><font color='gray'>正品行货,欢迎选购</font></div></Flex.Item>
+                <Flex.Item style={{ flex: 1 }}><div style={{color:'red',textAlign:'right'}}>4.93</div></Flex.Item>
+            </Flex>  
+          </Flex.Item>
+        </Flex>
+        <WhiteSpace></WhiteSpace>  
+        <Flex>
+          <Flex.Item>
+              <Flex direction='column'>
+                <Flex.Item>商品3.0</Flex.Item>
+                <Flex.Item>2</Flex.Item>
+                <Flex.Item>关注人数</Flex.Item>
+              </Flex>
+          </Flex.Item>
+           <Flex.Item>
+              <Flex direction='column'>
+                <Flex.Item>服务5.0</Flex.Item>
+                <Flex.Item>48</Flex.Item>
+                <Flex.Item>全部商品</Flex.Item>
+              </Flex>
+           </Flex.Item>
+           <Flex.Item>
+              <Flex direction='column'>
+                <Flex.Item>物流4.8</Flex.Item>
+                <Flex.Item>149</Flex.Item>
+                <Flex.Item>店铺动态</Flex.Item>
+              </Flex>
+          </Flex.Item>  
+          </Flex>
+        <WhiteSpace></WhiteSpace>  
+        <Flex>
+            <Flex.Item><Button>联系客服</Button></Flex.Item>
+            <Flex.Item><Button>进入店铺</Button></Flex.Item>
+        </Flex>  
+        </WingBlank>  
+        <WhiteSpace></WhiteSpace>
+        <Tabs defaultActiveKey="1" onChange={onTabChange}>
+          <TabPane tab="猜你喜欢" key="1">
+            {
+              this.state.goodsDetailInfo.recommendList &&
+              <Grid hasLine={false}
+                renderItem={(dataItem, index) => (this.renderItem(dataItem))}
+                data={this.state.goodsDetailInfo.recommendList} columnNum={3} >
+            </Grid>
+            }
+          </TabPane>
+          <TabPane tab="排行榜" key="2">
+            {
+              this.state.goodsDetailInfo.orderList &&
+              <Grid hasLine={false}
+                renderItem={(dataItem, index) => (this.renderItem(dataItem))}
+                data={this.state.goodsDetailInfo.orderList} columnNum={3} >
+            </Grid>
+            }
+          </TabPane>
+        </Tabs>
+        <CartBar></CartBar>
       </div>
     )
   }

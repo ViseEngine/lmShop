@@ -68,7 +68,8 @@ const svgDirs = [
 ];
 
 var proxyInterface = ['/floor/api',
-  '/goods/api/'
+  '/goods/api/',
+  '/memberapi/'
 ];
 var proxy = {};
 proxyInterface.forEach(function(item) {
