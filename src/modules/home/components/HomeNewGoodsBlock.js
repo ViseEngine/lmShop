@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
 import { Grid, Flex, WhiteSpace, List } from 'antd-mobile';
 import { Img } from 'commonComponent';
+import { common } from 'common';
 
 class HomeNewGoodsBlock extends React.PureComponent {
 
   onClick = (el, index) => {
-    console.log(el);
+    // console.log(el);
+    window.location.href = common.getFullUrl(`/goodsDetail.html#/?specId=${el.specId}`);
   }
 
   renderItem = (dataItem) => {
     return <Flex direction='column' >
       <Flex.Item>
-        <div style={{fontSize:'24px'}}> {dataItem.gcName}</div> 
+        <div> {dataItem.gcName}</div> 
       </Flex.Item>
       <Flex.Item>
-        <div style={{fontSize:'24px',color:'gray',width:'2rem'}} className='text-overflow-hidden'>{dataItem.goodsName}</div>
+        <div style={{color:'gray',width:'1.5rem'}} className='text-overflow-hidden'>{dataItem.goodsName}</div>
       </Flex.Item>
       <Flex.Item style={{textAlign:'center'}}>
         <Img src={dataItem.goodsImage} style={{width:'100%', height:'100%' }} />

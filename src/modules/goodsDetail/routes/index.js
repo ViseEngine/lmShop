@@ -5,7 +5,7 @@ import App from 'container/appView';
 import goodsDetail from './goodsDetail';
 
 const routesConfig = (<Route path="/" component={App}>
-  <IndexRoute component={goodsDetail} showBottomBar={true} title='商品详情' showTitle={true}/>
+  <IndexRoute component={goodsDetail} showBottomBar={false} title='商品详情' showTitle={true}/>
 </Route>)
 
 function Routes({ history }) {

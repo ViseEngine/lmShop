@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Grid, Flex, List, WhiteSpace } from 'antd-mobile';
 import Img from './Img';
+import { common } from 'common';
 
 class RecommendGoods extends React.PureComponent {
 
   onClick = (el, index) => {
-    console.log(el);
+    window.location.href = common.getFullUrl(`/goodsDetail.html#/?specId=${el.specId}`);
   }
 
   renderItem = (dataItem) => {

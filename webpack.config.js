@@ -67,7 +67,9 @@ const svgDirs = [
   path.resolve(__dirname, 'assets/svg'), // 2. 自己私人的 svg 存放目录
 ];
 
-var proxyInterface = ['/floor/api', '/goods/api/'];
+var proxyInterface = ['/floor/api',
+  '/goods/api/'
+];
 var proxy = {};
 proxyInterface.forEach(function(item) {
   proxy[item] = {

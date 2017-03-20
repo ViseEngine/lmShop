@@ -60,7 +60,7 @@ class App extends Component {
   backHandle() {
     let { history, location } = this.props
     if (location.pathname == '/') {
-      window.location.href = common.getFullUrl('/web/index.html')
+      window.location.href = common.getFullUrl('/home.html')
       return
     }
     if (this.state.backUrl) {
