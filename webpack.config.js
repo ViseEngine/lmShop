@@ -12,7 +12,13 @@ const BUILD_PATH = path.resolve(ROOT_PATH, 'dist');
 const env = process.env.NODE_ENV;
 //循环生成每个入口文件对应的html
 const HtmlWebpack = [];
-['home', 'goodsClass', 'my', 'cart'].forEach((item, index) => {
+const modules = ['home', 'goodsClass', 'my', 'cart', 'goodsDetail']
+let entrys = {};
+modules.forEach(module => {
+  entrys[module] = `./src/modules/${module}`
+});
+console.log(entrys);
+modules.forEach((item, index) => {
   let chunks = [item];
   //动态生成html插件
   HtmlWebpack[index] = new HtmlWebpackPlugin({
@@ -72,12 +78,7 @@ proxyInterface.forEach(function(item) {
 });
 
 module.exports = {
-  entry: {
-    home: './src/modules/home',
-    goodsClass: './src/modules/goodsClass',
-    my: './src/modules/my',
-    cart: './src/modules/cart'
-  },
+  entry: entrys,
   output: {
     path: env === 'development' ? DEV_PATH : BUILD_PATH,
     /*publicPath: "/assets",*/
