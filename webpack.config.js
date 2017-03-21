@@ -50,12 +50,12 @@ const extractLess = new ExtractTextPlugin({
 
 //公共的插件
 const commonPlugin = [
-  new webpack.optimize.CommonsChunkPlugin({
-    // names: ["commons", "manifest"],
-    names: "commons",
-    filename: "commons.js",
-    minChunks: 2,
-  }),
+  // new webpack.optimize.CommonsChunkPlugin({
+  //   // names: ["commons", "manifest"],
+  //   names: "commons",
+  //   filename: "commons.js",
+  //   minChunks: 2,
+  // }),
   // ...CommonsChunk,
   // new ExtractTextPlugin('style.css'),
   extractLess,

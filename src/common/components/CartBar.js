@@ -12,24 +12,27 @@ class CartBar extends React.Component {
 
   render() {
     return (
-      <div className='wx-cartbar'>
-        <Flex >
-          <Flex.Item style={{flex:1}}>
-            <div></div>
-            <div>收藏</div>
-          </Flex.Item>
-          <Flex.Item style={{flex:1}}>
-            <div>收藏</div>
-            <div>购物车</div>
-          </Flex.Item>
-          <Flex.Item style={{flex:2}}>
-            <Button>添加购物车</Button>
-          </Flex.Item>
-          <Flex.Item style={{flex:2}}>
-            <Button>立即购买</Button>
-          </Flex.Item>
-        </Flex>
-      </div>
+
+      {
+        /*<div className='wx-cartbar'>
+                <Flex >
+                  <Flex.Item style={{flex:1}}>
+                    <div></div>
+                    <div>收藏</div>
+                  </Flex.Item>
+                  <Flex.Item style={{flex:1}}>
+                    <div>收藏</div>
+                    <div>购物车</div>
+                  </Flex.Item>
+                  <Flex.Item style={{flex:2}}>
+                    <Button>添加购物车</Button>
+                  </Flex.Item>
+                  <Flex.Item style={{flex:2}}>
+                    <Button>立即购买</Button>
+                  </Flex.Item>
+                </Flex>
+              </div>*/
+      }
     );
   }
 }
