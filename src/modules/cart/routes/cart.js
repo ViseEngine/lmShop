@@ -30,11 +30,15 @@ class Cart extends Component {
     });
   }
 
+  gotoLogin = () => {
+    common.gotoLogin();
+  }
+
   render() {
     return <div>
       <WhiteSpace></WhiteSpace>
       <WingBlank>
-        <Button inline size="small">登录</Button>
+        <Button inline size="small" onClick={this.gotoLogin}>登录</Button>
       </WingBlank>
       <div style={{ padding:'20px 20px' }}>
         <img src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/b_3.png`}></img>

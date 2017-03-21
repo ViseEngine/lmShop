@@ -1,6 +1,8 @@
 import qs from 'qs';
 import { getFullUrl, getUserId, getVerifyCode, isApp } from './common';
 import fetch from 'isomorphic-fetch';
+import Encrypt from 'jsencrypt';
+console.log(Encrypt);
 
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
@@ -19,7 +21,7 @@ function parseJSON(response) {
 
 export function get(requestUrl, params) {
   const baseParams = {
-    _k: new Date().getTime()
+    timestamp: new Date().getTime()
   };
 
   params = {
@@ -30,7 +32,16 @@ export function get(requestUrl, params) {
   if (params) {
     url = url + "?" + qs.stringify(params);
   }
+
+  // var encrypt = new JSEncrypt();
+  // encrypt.setPublicKey($('#pubkey').val());
+  // var encrypted = encrypt.encrypt($('#input').val());
+
+  const token = localStorage.getItem('token');
   return fetch(url, {
+      headers: {
+        token: token
+      },
       credentials: 'include',
     }).then(checkStatus)
     .then(parseJSON);
@@ -38,7 +49,7 @@ export function get(requestUrl, params) {
 
 export function post(requestUrl, params) {
   const baseParams = {
-    _k: new Date().getTime()
+    timestamp: new Date().getTime()
   }
 
   let url = getFullUrl(requestUrl);
