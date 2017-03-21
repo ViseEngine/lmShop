@@ -9,7 +9,6 @@ import {
   List,
   Button,
   Card,
-  Tabs,
   Grid,
   Popup
 } from 'antd-mobile';
@@ -17,7 +16,9 @@ import * as goodsDetailApi from '../api/goodsDetail';
 import { Img, CartBar } from 'commonComponent';
 import { common } from 'common';
 import CouponList from '../components/CouponList';
-const TabPane = Tabs.TabPane;
+import GoodsMoreInfo from '../components/GoodsMoreInfo';
+import GoodsList from '../components/GoodsList';
+import StoreInfo from '../components/StoreInfo';
 
 import './goodsDetail.less';
 
@@ -79,22 +80,7 @@ class GoodsDetail extends Component {
     Popup.show(<CouponList storeId={this.state.goodsDetailInfo.storeId} onClose={() => Popup.hide()} />, { animationType: 'slide-up', onMaskClose });
   }
 
-  renderItem = (dataItem) => {
-    return <Flex direction='column' >
-      <Flex.Item style={{textAlign:'center'}}>
-        <Img src={dataItem.goodsImage} style={{ height:'2rem' }} />
-      </Flex.Item>
-      <Flex.Item>
-        <span>{dataItem.gcName}</span> 
-      </Flex.Item>
-      <Flex.Item>
-        <div style={{ fontSize: '24px',width:'3rem', color: 'gray' }} className='text-overflow-hidden'>{dataItem.goodsName}</div>
-      </Flex.Item>
-      <Flex.Item>
-        <span style={{fontSize:'24px',color:'red'}}>{`¥${dataItem.goodsStorePrice}`}</span>
-      </Flex.Item>
-    </Flex>
-  }
+
 
   render() {
     if (!this.state.goodsDetailInfo || !this.state.goodsDetailInfo.goodsCallyList) {
@@ -102,6 +88,7 @@ class GoodsDetail extends Component {
     }
     const onTabChange = this.onTabChange;
     const { goodsDetailInfo } = this.state
+
     const storeImg = <Img src={goodsDetailInfo.storeLabel}></Img>
     return (
       <div className='wx-goods-detail'>
@@ -148,69 +135,10 @@ class GoodsDetail extends Component {
           </List.Item>
         </List>
         <WhiteSpace></WhiteSpace>
-        <WingBlank>
-        <Flex>
-          <Flex.Item style={{ flex: 1 }}>
-            <Img src={goodsDetailInfo.storeLabel} style={{width:'100%'}}></Img>
-          </Flex.Item>
-          <Flex.Item style={{ flex: 2 }}>
-            <Flex>
-                <Flex.Item style={{ flex: 2 }}><div>衣品天成<br/><font color='gray'>正品行货,欢迎选购</font></div></Flex.Item>
-                <Flex.Item style={{ flex: 1 }}><div style={{color:'red',textAlign:'right'}}>4.93</div></Flex.Item>
-            </Flex>  
-          </Flex.Item>
-        </Flex>
-        <WhiteSpace></WhiteSpace>  
-        <Flex>
-          <Flex.Item>
-              <Flex direction='column'>
-                <Flex.Item>商品3.0</Flex.Item>
-                <Flex.Item>2</Flex.Item>
-                <Flex.Item>关注人数</Flex.Item>
-              </Flex>
-          </Flex.Item>
-           <Flex.Item>
-              <Flex direction='column'>
-                <Flex.Item>服务5.0</Flex.Item>
-                <Flex.Item>48</Flex.Item>
-                <Flex.Item>全部商品</Flex.Item>
-              </Flex>
-           </Flex.Item>
-           <Flex.Item>
-              <Flex direction='column'>
-                <Flex.Item>物流4.8</Flex.Item>
-                <Flex.Item>149</Flex.Item>
-                <Flex.Item>店铺动态</Flex.Item>
-              </Flex>
-          </Flex.Item>  
-          </Flex>
-        <WhiteSpace></WhiteSpace>  
-        <Flex>
-            <Flex.Item><Button>联系客服</Button></Flex.Item>
-            <Flex.Item><Button>进入店铺</Button></Flex.Item>
-        </Flex>  
-        </WingBlank>  
+        <StoreInfo goodsDetailInfo={goodsDetailInfo}></StoreInfo>
         <WhiteSpace></WhiteSpace>
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="猜你喜欢" key="1">
-            {
-              this.state.goodsDetailInfo.recommendList &&
-              <Grid hasLine={false}
-                renderItem={(dataItem, index) => (this.renderItem(dataItem))}
-                data={this.state.goodsDetailInfo.recommendList} columnNum={3} >
-            </Grid>
-            }
-          </TabPane>
-          <TabPane tab="排行榜" key="2">
-            {
-              this.state.goodsDetailInfo.orderList &&
-              <Grid hasLine={false}
-                renderItem={(dataItem, index) => (this.renderItem(dataItem))}
-                data={this.state.goodsDetailInfo.orderList} columnNum={3} >
-            </Grid>
-            }
-          </TabPane>
-        </Tabs>
+        <GoodsList goodsDetailInfo={goodsDetailInfo}></GoodsList>
+        <GoodsMoreInfo goodsDetailInfo={goodsDetailInfo}></GoodsMoreInfo>
         <CartBar></CartBar>
       </div>
     )
