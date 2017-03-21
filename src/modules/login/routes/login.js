@@ -13,7 +13,7 @@ const Item = List.Item;
 class Login extends Component {
 
   onSubmit = () => {
-    this.props.form.validateFields({ force: true }, (error) => {
+    this.props.form.validateFields({ force: true }, (error, value) => {
       if (!error) {
         loginApi.login(this.props.form.getFieldsValue()).then(result => {
           if (result.result == 1) {
@@ -23,7 +23,8 @@ class Login extends Component {
             localStorage.setItem('token', result.data[0].token);
             window.location.href = common.getFullUrl('/home.html');
           } else {
-            Toast.fail(result.msg);
+            console.log(this.props.form.getFieldError());
+            // Toast.fail( this.props.form.getFieldError());
           }
         })
       }

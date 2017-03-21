@@ -8,9 +8,9 @@ import forgetPassword from './forgetPassword';
 
 
 const routesConfig = (<Route path="/" component={App}>
-  <IndexRoute component={login} showBottomBar={false} title='登录' showTitle={true} />
-  <Route component={reg} showBottomBar={false} title='手机快速注册' showTitle={true}/>
-  <Route component={forgetPassword} showBottomBar={false} title='重新获取验证码' showTitle={true}/>
+  <IndexRoute component={login} title='登录'/>
+  <Route path="reg" component={reg} title='手机快速注册'/>
+  <Route path="forgetPassword" component={forgetPassword} title='重新获取验证码'/>
 </Route>)
 
 function Routes({ history }) {

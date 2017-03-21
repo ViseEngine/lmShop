@@ -1,67 +1,116 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { List, InputItem, Switch, Stepper, Range, Button, createTooltip } from 'antd-mobile';
+import { List, InputItem, Button, Toast } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import { common } from 'common';
-
-import './login.less';
+import * as api from '../api/login';
+import './reg.less';
 
 const Item = List.Item;
-const RangeWithTooltip = createTooltip(Range);
 
 class Reg extends Component {
-
+  timout = null
+  code = null
   state = {
-    value: 1
+    countDown: 60,
+    showCountDown: false
   }
 
   onSubmit = () => {
-    this.props.form.validateFields({ force: true }, (error) => {
-      if (!error) {
-        console.log(this.props.form.getFieldsValue());
-      } else {
-        alert('校验失败');
-      }
+    const getFieldsValue = this.props.form.getFieldsValue();
+    if (!getFieldsValue.mobile || getFieldsValue.mobile == '') {
+      Toast.info('请输入手机号！');
+      return;
+    }
+    if (!getFieldsValue.code || getFieldsValue.code == '') {
+      Toast.info('请输入验证码！');
+      return;
+    }
+    if (!getFieldsValue.password || getFieldsValue.password == '') {
+      Toast.info('请输入密码！');
+      return;
+    }
+    if (!getFieldsValue.password2 || getFieldsValue.password2 == '') {
+      Toast.info('请确认密码！');
+      return;
+    }
+
+    if (getFieldsValue.password != getFieldsValue.password2) {
+      Toast.info('两次输入的密码不一致！');
+      return;
+    }
+
+    if (!this.code || (this.code && this.code != getFieldsValue.code)) {
+      Toast.info('验证码不正确！');
+      return;
+    }
+    api.register({
+      mobile: getFieldsValue.mobile,
+      name: getFieldsValue.mobile,
+      password: getFieldsValue.password
+    }).then(result => {
+      // 注册处理
     });
   }
-  onReset = () => {
-    this.props.form.resetFields();
+
+  countDown = () => {
+    const self = this;
+    this.timout = setTimeout(function() {
+      if (self.state.countDown > 0) {
+        self.setState({ countDown: self.state.countDown - 1 });
+        self.countDown();
+      } else {
+        self.setState({
+          showCountDown: false
+        });
+      }
+    }, 1000, 0);
   }
-  validateAccount = (rule, value, callback) => {
-    // if (value && value.length > 4) {
-    //   callback();
-    // } else {
-    //   callback(new Error('帐号至少4个字符'));
-    // }
+
+  getCode = () => {
+    if (this.state.showCountDown) {
+      return;
+    }
+    const getFieldsValue = this.props.form.getFieldsValue();
+    console.log(getFieldsValue);
+    if (!getFieldsValue.mobile || getFieldsValue.mobile == '') {
+      Toast.info('请先输入手机号！');
+      return;
+    }
+    api.verifyCode({ mobile: getFieldsValue.mobile }).then(result => {
+      if (result.result == 0) {
+        Toast.fail(result.msg);
+        return;
+      }
+      this.code = result.data.verifyCode
+      this.setState({
+        showCountDown: true,
+        countDown: 60
+      })
+      this.countDown();
+    });
   }
+
   render() {
     const { getFieldProps, getFieldError } = this.props.form;
-
-    return (<form>
-      <List renderHeader={() => '验证表单'}
-        renderFooter={() => getFieldError('account') && getFieldError('account').join(',')}
-      >
+    return (<form className='wx-reg'>
+      <List>
         <InputItem
-          {...getFieldProps('account', {
-            rules: [
-              { required: true, message: '请输入用户名／邮箱／已验证邮箱' },
-              { validator: this.validateAccount },
-            ],
-          })}
+          {...getFieldProps('mobile') }
           clear
-          error={!!getFieldError('account')}
-          onErrorClick={() => {
-            alert(getFieldError('account').join('、'));
-          }}
-          placeholder="请输入账号"
-        >帐号</InputItem>
-        <InputItem {...getFieldProps('password')} placeholder="请输入密码" type="password">
-          密码
+          placeholder="请输入手机号"></InputItem>
+        <InputItem
+          {...getFieldProps('code') }
+          clear
+          onExtraClick={this.getCode}
+          placeholder="请输入验证码" extra={this.state.showCountDown?`${this.state.countDown}秒后重新获取`:'获取验证码'}></InputItem>
+        <InputItem {...getFieldProps('password') } placeholder="请输入密码" type="password">
+        </InputItem>
+        <InputItem {...getFieldProps('password2') } placeholder="请确认密码" type="password">
         </InputItem>
         <Item>
-          <Button type="primary" onClick={this.onSubmit} inline>登录</Button>
+          <Button type="primary" onClick={this.onSubmit}>注册</Button>
         </Item>
-        <Item extra={<div>忘记密码?</div>}>注册账号</Item>
       </List>
     </form>);
   }
