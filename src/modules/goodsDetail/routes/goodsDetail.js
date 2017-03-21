@@ -10,11 +10,13 @@ import {
   Button,
   Card,
   Tabs,
-  Grid
+  Grid,
+  Popup
 } from 'antd-mobile';
 import * as goodsDetailApi from '../api/goodsDetail';
 import { Img, CartBar } from 'commonComponent';
 import { common } from 'common';
+import CouponList from '../components/CouponList';
 const TabPane = Tabs.TabPane;
 
 import './goodsDetail.less';
@@ -23,7 +25,9 @@ class GoodsDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      goodsDetailInfo: {}
+      goodsDetailInfo: {},
+      goodsProperty: '',
+
     }
     // 获取URL参数
     if (this.props.location.query) {
@@ -65,8 +69,14 @@ class GoodsDetail extends Component {
     // });
   }
 
-  onTabChange = () => {
-
+  /**
+   * 点击获取优惠券
+   */
+  getCoupon = () => {
+    const onMaskClose = () => {
+      console.log('关闭遮罩');
+    }
+    Popup.show(<CouponList storeId={this.state.goodsDetailInfo.storeId} onClose={() => Popup.hide()} />, { animationType: 'slide-up', onMaskClose });
   }
 
   renderItem = (dataItem) => {
@@ -95,7 +105,7 @@ class GoodsDetail extends Component {
     const storeImg = <Img src={goodsDetailInfo.storeLabel}></Img>
     return (
       <div className='wx-goods-detail'>
-        <Carousel autoplay={false} infinite dots={true}>
+        <Carousel autoplay={false} infinite dots={false}>
           {
             this.state.goodsDetailInfo && this.state.goodsDetailInfo.goodsCallyList.map((item,index) => (
                 <Img key={index} src={item} />
@@ -111,7 +121,7 @@ class GoodsDetail extends Component {
         </Flex>
         
         <List>  
-          <List.Item arrow="horizontal">
+          <List.Item arrow="horizontal" onClick={this.getCoupon}>
             领券猛戳这里
           </List.Item>
           <List.Item arrow="horizontal">
@@ -181,7 +191,7 @@ class GoodsDetail extends Component {
         </Flex>  
         </WingBlank>  
         <WhiteSpace></WhiteSpace>
-        <Tabs defaultActiveKey="1" onChange={onTabChange}>
+        <Tabs defaultActiveKey="1">
           <TabPane tab="猜你喜欢" key="1">
             {
               this.state.goodsDetailInfo.recommendList &&

@@ -12,27 +12,24 @@ class CartBar extends React.Component {
 
   render() {
     return (
-
-      {
-        /*<div className='wx-cartbar'>
-                <Flex >
-                  <Flex.Item style={{flex:1}}>
-                    <div></div>
-                    <div>收藏</div>
-                  </Flex.Item>
-                  <Flex.Item style={{flex:1}}>
-                    <div>收藏</div>
-                    <div>购物车</div>
-                  </Flex.Item>
-                  <Flex.Item style={{flex:2}}>
-                    <Button>添加购物车</Button>
-                  </Flex.Item>
-                  <Flex.Item style={{flex:2}}>
-                    <Button>立即购买</Button>
-                  </Flex.Item>
-                </Flex>
-              </div>*/
-      }
+      <div className='wx-cartbar'>
+        <Flex style={{ width:'100%'}}>
+          <Flex.Item style={{ flex: 1,textAlign:'center'}}>
+            <img src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/b_1.png`} style={{width:'44px',height:'44px'}} alt=""/>   
+            <div>收藏</div>
+          </Flex.Item>
+          <Flex.Item style={{flex:1,textAlign:'center'}}>
+            <img src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/b_3.png`} style={{width:'44px',height:'44px'}} alt=""/>   
+            <div>购物车</div>
+          </Flex.Item>
+          <Flex.Item style={{flex:2}}>
+            <Button type='primary'>添加购物车</Button>
+          </Flex.Item>
+          <Flex.Item style={{flex:2}}>
+            <Button type='primary'>立即购买</Button>
+          </Flex.Item>
+        </Flex>
+      </div>
     );
   }
 }
