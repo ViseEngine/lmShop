@@ -115,7 +115,7 @@ class GoodsDetail extends Component {
             已选：蓝色
           </List.Item>
           <List.Item>
-            送至：广州市
+            送至：{goodsDetailInfo.cityName}
           </List.Item>
           <List.Item>
             运费：卖家承担运费

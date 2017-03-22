@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { Modal, WhiteSpace, WingBlank, Toast, Flex, List, Grid } from 'antd-mobile';
+import { Modal, WhiteSpace, WingBlank, Toast, Flex, List, Grid, Button } from 'antd-mobile';
 import { Img } from 'commonComponent';
+import { common } from 'common';
 
 import './my.less';
 
@@ -33,6 +34,12 @@ class My extends Component {
     // });
   }
 
+
+  gotoLogin = () => {
+    common.gotoLogin();
+  }
+
+
   render() {
     const url = 'http://bbc.leimingtech.com/'
     const orderMenu = [{
@@ -62,7 +69,9 @@ class My extends Component {
     return <div>
       <Flex style={{padding:'20px'}}>
         <Img style={{width:'100px',height:'100px'}} src={'/upload/img/avatar/01.jpg'}></Img>
-        <div style={{marginLeft:'20px'}}>登录</div>
+        <WingBlank>
+          <Button inline size="small" onClick={this.gotoLogin}>登录</Button>
+        </WingBlank>
       </Flex>
       <Flex align='center' style={{ padding: '50px',backgroundColor:'red' }}>
         <Flex.Item style={{textAlign:'center'}}>关注的商品</Flex.Item>
