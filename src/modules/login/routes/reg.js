@@ -50,6 +50,15 @@ class Reg extends Component {
       password: getFieldsValue.password
     }).then(result => {
       // 注册处理
+      if (result.result == 0) {
+        Toast.fail(result.msg);
+        return;
+      }
+
+      // 注册成功提示
+      Toast.success(result.msg);
+      // 跳转到登录
+      common.gotoLogin();
     });
   }
 
