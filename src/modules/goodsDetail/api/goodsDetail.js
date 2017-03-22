@@ -22,5 +22,10 @@ export function goodsBrowseSaveOrUpdate({ goodsId }) {
 
 // 获取规格
 export function getSpecByGoodsIdAndSpecIds({ goodsId, specIds }) {
-  return fetch.get('/goods/getSpecByGoodsIdAndSpecIds', { goodsId, specIds });
+  return fetch.get('/goods/api/getSpecByGoodsIdAndSpecIds', { goodsId, specIds });
+}
+
+// 收藏
+export function storecollection({ favType, goodsId, storeId }) {
+  return fetch.get('/storeapi/storecollection', { favType, goodsId, storeId });
 }

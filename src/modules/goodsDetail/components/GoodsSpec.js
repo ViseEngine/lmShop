@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import { Img, CartBar } from 'commonComponent';
 import { common } from 'common';
 import { List, Flex, Tag, Stepper, Icon } from 'antd-mobile';
-import * as goodsDetailApi from '../api/goodsDetail';
 
-// import * as storeApi from 'common/api/store';
-
-class GoodsSpec extends Component {
+class GoodsSpec extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -52,13 +49,30 @@ class GoodsSpec extends Component {
     </div>
   }
 
+  onChangeSpec = (spec) => {
+    const { goodsDetailInfo } = this.props;
+    // 点击规格值处理
+    let currentSpecs = goodsDetailInfo.goodsSpec.specGoodsSpec;
+    goodsDetailInfo.goodsSpecValueAll[spec.spId].forEach(item => {
+      delete currentSpecs[item.spValueId]
+    })
+    currentSpecs[spec.spValueId] = spec.spValueName
+    // const specIds = Object.keys(currentSpecs).join();
+    this.props.onChangeSpec(currentSpecs);
+  }
+
   render() {
     const { goodsDetailInfo } = this.props;
     if (!goodsDetailInfo) {
       return null;
     }
     // 获取规格属性
-    const { goodsSpecValueAll, goodsSpec, specName } = goodsDetailInfo;
+    const {
+      goodsSpecValueAll, // 所有的规格属性
+      goodsSpec, // 当前选择的规格值  
+      specName
+    } = goodsDetailInfo;
+    console.log(goodsSpec);
     // 当前选中的规格
     const { specGoodsSpec } = goodsSpec;
 
@@ -77,7 +91,7 @@ class GoodsSpec extends Component {
                       if (Object.keys(specGoodsSpec).includes(value.spValueId)){
                         isSelected = true;
                       }
-                      return <Tag key={index} selected={isSelected} style={{ marginLeft: '0.18rem' }}  >{value.spValueName}</Tag>
+                      return <Tag onChange={()=>this.onChangeSpec(value)} key={index} selected={isSelected} style={{ marginLeft: '0.18rem' }}  >{value.spValueName}</Tag>
                     })
                   }
                 </Flex.Item>  
@@ -85,8 +99,10 @@ class GoodsSpec extends Component {
             </List.Item>
           })  
         }  
-        <List.Item extra={<Stepper style={{ width: '100%', minWidth: '2rem' }} showNumber size="small" defaultValue={1} />}>数量</List.Item>
-        <List.Item>库存:{goodsDetailInfo.goodsTotalStorage}</List.Item>
+        <List.Item extra={
+          <Stepper style={{ width: '100%', minWidth: '2rem' }} showNumber min={0} max={goodsSpec.specGoodsStorage} size="small" defaultValue={1} />
+          }>数量</List.Item>
+        <List.Item>库存:{goodsSpec.specGoodsStorage}</List.Item>
         
       </List>
       <CartBar></CartBar>

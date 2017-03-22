@@ -35,3 +35,20 @@ export function gotoLogin(callBack) {
     window.location.href = getFullUrl('/login.html');
   }
 }
+
+export function getToken() {
+  return localStorage.getToken('token');
+}
+
+/**
+ * 检查登录
+ * @param {登录成功后返回的页面} callBack 
+ */
+export function checkLogin() {
+  const token = getToken();
+  if (!token || token == '') {
+    // 获取当前URL
+    const currentUrl = window.location.href;
+    gotoLogin(currentUrl);
+  }
+}

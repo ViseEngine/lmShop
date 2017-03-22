@@ -10,22 +10,39 @@ class CartBar extends React.Component {
     super(props);
   }
 
+  // 收藏
+  _storecollection = () => {
+    this.props.storecollection();
+  }
+  // 去购物车
+  _gotoCart = () => {
+    this.props.gotoCart();
+  }
+  // 加入购物车处理
+  _addCart = () => {
+    this.props.addCart();
+  }
+  // 立即购买
+  _gotoBuy = () => {
+    this.props.gotoBuy();
+  }
+
   render() {
     return (
       <div className='wx-cartbar'>
         <Flex style={{ width:'100%'}}>
-          <Flex.Item style={{ flex: 1,textAlign:'center'}}>
+          <Flex.Item style={{ flex: 1,textAlign:'center'}} onClick={()=>this._storecollection()}>
             <img src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/b_1.png`} style={{width:'44px',height:'44px'}} alt=""/>   
             <div>收藏</div>
           </Flex.Item>
-          <Flex.Item style={{flex:1,textAlign:'center'}}>
+          <Flex.Item style={{flex:1,textAlign:'center'}} onClick={()=>this._gotoCart()}>
             <img src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/b_3.png`} style={{width:'44px',height:'44px'}} alt=""/>   
             <div>购物车</div>
           </Flex.Item>
-          <Flex.Item style={{flex:2}}>
+          <Flex.Item  onClick={()=>this._addCart()} style={{flex:2}}>
             <Button type='primary'>添加购物车</Button>
           </Flex.Item>
-          <Flex.Item style={{flex:2}}>
+          <Flex.Item  onClick={()=>this._gotoBuy()} style={{flex:2}}>
             <Button type='primary'>立即购买</Button>
           </Flex.Item>
         </Flex>

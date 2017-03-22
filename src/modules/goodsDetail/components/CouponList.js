@@ -5,7 +5,7 @@ import { List, Flex } from 'antd-mobile';
 import * as goodsDetailApi from '../api/goodsDetail';
 import * as storeApi from 'common/api/store';
 
-class CouponList extends Component {
+class CouponList extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

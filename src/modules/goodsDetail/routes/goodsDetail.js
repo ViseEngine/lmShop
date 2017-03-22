@@ -21,6 +21,7 @@ import GoodsList from '../components/GoodsList';
 import StoreInfo from '../components/StoreInfo';
 import GoodsSpec from '../components/GoodsSpec';
 import EvaluateGoodsList from '../components/EvaluateGoodsList';
+import { Map } from 'immutable'
 
 import './goodsDetail.less';
 
@@ -50,26 +51,17 @@ class GoodsDetail extends Component {
         return;
       }
       const goodsDetailInfo = result.data[0];
+      // alert(JSON.stringify(goodsDetailInfo));
       this.setState({
         goodsDetailInfo
       });
 
-      // 浏览记录    
+      // 调用浏览记录    
       // setTimeout(function() {
-      //   goodsDetailApi.GoodsBrowseSaveOrUpdate({ goodsId: goodsDetailInfo.goodsId }).then(result => {
-      //     console.log(object);
-      //   });
+      //   goodsDetailApi.goodsBrowseSaveOrUpdate({ goodsId: goodsDetailInfo.goodsId });
       // }, 100);
 
     });
-
-    // goodsDetailApi.cartList().then(result => {
-    //   Toast.hide();
-    //   if (result.result != 1) {
-    //     Toast.error(result.msg);
-    //     return;
-    //   }
-    // });
   }
 
   /**
@@ -86,10 +78,56 @@ class GoodsDetail extends Component {
    * 点击获取规格
    */
   getSpec = () => {
-    const onMaskClose = () => {
-      console.log('关闭遮罩');
-    }
-    Popup.show(<GoodsSpec goodsDetailInfo={this.state.goodsDetailInfo} onClose={() => Popup.hide()} />, { animationType: 'slide-up', onMaskClose });
+    Popup.show(
+      <GoodsSpec
+        onChangeSpec={this.onChangeSpec}  
+        goodsDetailInfo={this.state.goodsDetailInfo}
+        onClose={() => Popup.hide()} />, { animationType: 'slide-up' }
+    );
+  }
+
+  // 收藏
+  storecollection = () => {
+    alert('收藏');
+  }
+  // 去购物车
+  gotoCart = () => {
+    alert('去购物车');
+  }
+  // 加入购物车处理
+  addCart = () => {
+    alert('加入购物车');
+  }
+  // 立即购买
+  gotoBuy = () => {
+    alert('立即购买');
+  }
+
+  // 修改规格处理
+  onChangeSpec = (currentSpecs) => {
+    console.log(currentSpecs);
+    const specIds = Object.keys(currentSpecs).join();
+    goodsDetailApi.getSpecByGoodsIdAndSpecIds({
+      goodsId: this.state.goodsDetailInfo.goodsId,
+      specIds: specIds
+    }).then(result => {
+      console.log(result);
+      if (result.result == 1) {
+        const data = result.data[0];
+        this.setState({
+          goodsDetailInfo: {
+            ...this.state.goodsDetailInfo,
+            goodsSpec: {
+              ...this.state.goodsDetailInfo.goodsSpec,
+              specGoodsStorage: data.num,
+              specGoodsPrice: data.price,
+              specGoodsSpec: currentSpecs
+            }
+          }
+        })
+      }
+
+    })
   }
 
   render() {
@@ -99,7 +137,10 @@ class GoodsDetail extends Component {
     const onTabChange = this.onTabChange;
     const { goodsDetailInfo } = this.state
 
-    const selectedSpecGoodsSpec = Object.values(goodsDetailInfo.goodsSpec.specGoodsSpec).join(' ');
+    const vals = Object.keys(goodsDetailInfo.goodsSpec.specGoodsSpec).map(function(key) {
+      return goodsDetailInfo.goodsSpec.specGoodsSpec[key];
+    });
+    const selectedSpecGoodsSpec = vals.join(' ');
     const storeImg = <Img src={goodsDetailInfo.storeLabel}></Img>
     return (
       <div className='wx-goods-detail'>
@@ -140,7 +181,11 @@ class GoodsDetail extends Component {
         <WhiteSpace></WhiteSpace>
         <GoodsList goodsDetailInfo={goodsDetailInfo}></GoodsList>
         <GoodsMoreInfo goodsDetailInfo={goodsDetailInfo}></GoodsMoreInfo>
-        <CartBar></CartBar>
+        <CartBar storecollection={this.storecollection}
+          gotoCart={this.gotoCart}
+          gotoBuy={this.gotoBuy}
+          addCart={this.addCart}
+        ></CartBar>
       </div>
     )
   }
