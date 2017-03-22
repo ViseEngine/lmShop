@@ -19,6 +19,8 @@ import CouponList from '../components/CouponList';
 import GoodsMoreInfo from '../components/GoodsMoreInfo';
 import GoodsList from '../components/GoodsList';
 import StoreInfo from '../components/StoreInfo';
+import GoodsSpec from '../components/GoodsSpec';
+import EvaluateGoodsList from '../components/EvaluateGoodsList';
 
 import './goodsDetail.less';
 
@@ -80,7 +82,15 @@ class GoodsDetail extends Component {
     Popup.show(<CouponList storeId={this.state.goodsDetailInfo.storeId} onClose={() => Popup.hide()} />, { animationType: 'slide-up', onMaskClose });
   }
 
-
+  /**
+   * 点击获取规格
+   */
+  getSpec = () => {
+    const onMaskClose = () => {
+      console.log('关闭遮罩');
+    }
+    Popup.show(<GoodsSpec goodsDetailInfo={this.state.goodsDetailInfo} onClose={() => Popup.hide()} />, { animationType: 'slide-up', onMaskClose });
+  }
 
   render() {
     if (!this.state.goodsDetailInfo || !this.state.goodsDetailInfo.goodsCallyList) {
@@ -89,6 +99,7 @@ class GoodsDetail extends Component {
     const onTabChange = this.onTabChange;
     const { goodsDetailInfo } = this.state
 
+    const selectedSpecGoodsSpec = Object.values(goodsDetailInfo.goodsSpec.specGoodsSpec).join(' ');
     const storeImg = <Img src={goodsDetailInfo.storeLabel}></Img>
     return (
       <div className='wx-goods-detail'>
@@ -100,40 +111,30 @@ class GoodsDetail extends Component {
           }
         </Carousel>
         <Flex className='wx-goods-detail-info' direction='column' align='start'>
-          <Flex.Item>{goodsDetailInfo.goodsName}</Flex.Item>
-              <WhiteSpace size="lg" />
-              <Flex.Item>{goodsDetailInfo.goodsSubtitle}</Flex.Item>
-              <WhiteSpace size="lg" />
-          <Flex.Item>{`¥${goodsDetailInfo.goodsStorePrice}`}</Flex.Item>
+          <WingBlank>
+            <Flex.Item>{goodsDetailInfo.goodsName}</Flex.Item>
+            <WhiteSpace size="lg" />
+            <Flex.Item>{goodsDetailInfo.goodsSubtitle}</Flex.Item>
+            <WhiteSpace size="lg" />
+            <Flex.Item>{`¥${goodsDetailInfo.goodsSpec.specGoodsPrice}`}</Flex.Item>
+          </WingBlank>
         </Flex>
-        
+
         <List>  
           <List.Item arrow="horizontal" onClick={this.getCoupon}>
             领券猛戳这里
           </List.Item>
-          <List.Item arrow="horizontal">
-            已选：蓝色
+          <List.Item arrow="horizontal" onClick={this.getSpec}>
+            已选：{selectedSpecGoodsSpec}
           </List.Item>
           <List.Item>
-            送至：{goodsDetailInfo.cityName}
+            所在地区：{goodsDetailInfo.cityName}
           </List.Item>
           <List.Item>
             运费：卖家承担运费
           </List.Item>
-          <List.Item extra="60.0%好评" arrow="horizontal">
-            &nbsp;
-          </List.Item>
-          <List.Item>
-            <Flex>
-              <Flex.Item>
-                <Button>商品晒单 (0)</Button>
-              </Flex.Item>
-              <Flex.Item>
-                <Button>购买咨询 (9)</Button>
-              </Flex.Item>
-            </Flex>
-          </List.Item>
         </List>
+        <EvaluateGoodsList goodsDetailInfo={goodsDetailInfo}></EvaluateGoodsList>
         <WhiteSpace></WhiteSpace>
         <StoreInfo goodsDetailInfo={goodsDetailInfo}></StoreInfo>
         <WhiteSpace></WhiteSpace>

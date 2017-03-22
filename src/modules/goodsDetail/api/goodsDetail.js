@@ -19,3 +19,8 @@ export function goodsdetail({ specId }) {
 export function goodsBrowseSaveOrUpdate({ goodsId }) {
   return fetch.get('/memberapi/GoodsBrowseSaveOrUpdate', { goodsId });
 }
+
+// 获取规格
+export function getSpecByGoodsIdAndSpecIds({ goodsId, specIds }) {
+  return fetch.get('/goods/getSpecByGoodsIdAndSpecIds', { goodsId, specIds });
+}

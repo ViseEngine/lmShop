@@ -17,7 +17,9 @@ export default function({ goodsDetailInfo }) {
     goodsBody = mobileBody
   } else {
     mobileBody = mobileBody.replace(/&quot;/g, '"');
-    goodsBody = JSON.parse(mobileBody);
+    if (mobileBody && mobileBody != '') {
+      goodsBody = JSON.parse(mobileBody);
+    }
   }
 
   return <Tabs defaultActiveKey="1">

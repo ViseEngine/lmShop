@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Carousel, Flex } from 'antd-mobile';
 import { Img } from 'commonComponent';
+import { common } from 'common';
+
+const onClick = (el) => {
+  window.location.href = common.getFullUrl(`/goodsDetail.html#/?specId=${el.specId}`);
+}
 
 /**图片在上面，文字在下面的布局 */
 export function ImgGoodsInfo({ dataItem, columnNum }) {
@@ -17,9 +22,9 @@ export function ImgGoodsInfo({ dataItem, columnNum }) {
     color: 'gray',
     width: `${width}`
   }
-  console.log(styles);
+  // console.log(styles);
   // console.log(object);
-  return <Flex direction='column' >
+  return <Flex direction='column' onClick={()=>onClick(dataItem)}>
       <Flex.Item style={{textAlign:'center'}}>
         <Img src={dataItem.goodsImage} style={{width:'100%', height:'100%' }} />
       </Flex.Item>
@@ -47,7 +52,7 @@ export function GoodsImgInfo({ dataItem, columnNum }) {
     color: 'gray',
     width: `${width}`
   }
-  return <Flex direction='column' >
+  return <Flex direction='column'  onClick={()=>onClick(dataItem)}>
       <Flex.Item>
         <div style={{fontSize:'24px'}} className='text-overflow-hidden'> {dataItem.gcName}</div> 
       </Flex.Item>
