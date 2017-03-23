@@ -11,15 +11,34 @@ class Shop extends React.PureComponent {
     super(props);
   }
 
+  gotoGoodsDetail = (item) => {
+    console.log(item);
+    common.gotoGoodsDetail({
+      specId: item.specId
+    });
+  }
+
   render() {
     const { data } = this.props;
-    return <List renderHeader={()=>'平台自营'}> 
-      <Item
-        arrow="horizontal"
-        multipleLine>
-        {}
-        <Brief>设置了Click事件会有material水波纹点击效果</Brief>
-      </Item>
+    console.log(data);
+    return <List className='wx-order-shop' renderHeader={() => data.storeName}> 
+      {
+        data.list.map((item,index) => {
+          return <Item key={index}
+            onClick={()=>this.gotoGoodsDetail(item)}  
+            arrow="horizontal"
+            multipleLine>
+            <Flex>
+              <Img src={item.goodsImages} style={{height:'200px',width:'200px'}}/>
+              <div>
+                <Brief>数量: {item.goodsNum}</Brief>
+                <br/>
+                <Brief style={{color:'red'}}>¥{item.goodsPrice}</Brief>
+              </div>  
+            </Flex>
+          </Item>
+        })
+      }
     </List>
   }
 }

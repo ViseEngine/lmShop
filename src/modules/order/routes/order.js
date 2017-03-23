@@ -34,6 +34,10 @@ class Order extends Component {
     }
   }
 
+  onSubmitOrder = () => {
+    alert('onSubmitOrder');
+  }
+
   componentDidMount() {
     orderApi.subToOrder({ cartId: this.cartId }).then(result => {
       if (result.result == 1) {
@@ -72,8 +76,7 @@ class Order extends Component {
   render() {
     const { getFieldProps, getFieldError } = this.props.form;
     const { cartVoList, selectedAddress } = this.props.order;
-    console.log(selectedAddress);
-    return <div>
+    return <div className='wx-order'>
       {
         selectedAddress && <List>
           <Item
@@ -104,7 +107,7 @@ class Order extends Component {
         </Item>
         <Item
           extra={<Switch {...getFieldProps('1', { initialValue: true, valuePropName: 'checked' })} />}
-        >确认信息</Item>
+        >余额支付</Item>
         <Item
           extra={'0.0'}
         >&nbsp;</Item>
@@ -133,7 +136,7 @@ class Order extends Component {
           </div>
         </Flex.Item>
       </Flex>
-      <OrderBar totalPrice={'0.00'}></OrderBar>
+      <OrderBar onSubmitOrder={this.onSubmitOrder} totalPrice={'0.00'}></OrderBar>
     </div>
   }
 }

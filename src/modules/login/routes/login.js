@@ -12,19 +12,27 @@ const Item = List.Item;
 
 class Login extends Component {
 
+  constructor(props) {
+    super(props);
+    // 获取URL参数
+    if (this.props.location.query) {
+      if (this.props.location.query.callBack) {
+        this.callBack = this.props.location.query.callBack;
+      }
+    }
+  }
+
   onSubmit = () => {
     this.props.form.validateFields({ force: true }, (error, value) => {
       if (!error) {
         loginApi.login(this.props.form.getFieldsValue()).then(result => {
           if (result.result == 1) {
             Toast.success('登录成功');
-            console.log(result);
             // 登录成功保存 token
             localStorage.setItem('token', result.data[0].token);
-            window.location.href = common.getFullUrl('/home.html');
+            window.location.href = this.callBack || common.getFullUrl('/home.html');
           } else {
-            console.log(this.props.form.getFieldError());
-            // Toast.fail( this.props.form.getFieldError());
+            // Toast.fail(this.props.form.getFieldError());
           }
         })
       }

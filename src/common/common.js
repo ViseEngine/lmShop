@@ -30,7 +30,7 @@ export function isQQ() {
  */
 export function gotoLogin(callBack) {
   if (callBack) {
-    window.location.href = getFullUrl(`/login.html?callBack=${callBack}`);
+    window.location.href = getFullUrl(`/login.html#/?callBack=${callBack}`);
   } else {
     window.location.href = getFullUrl('/login.html');
   }
@@ -38,6 +38,10 @@ export function gotoLogin(callBack) {
 
 export function gotoCart() {
   window.location.href = getFullUrl('/cart.html');
+}
+
+export function gotoGoodsDetail({ specId }) {
+  window.location.href = getFullUrl(`/goodsDetail.html#/?specId=${specId}`);
 }
 
 export function gotoOrder({ cartId }) {
@@ -64,11 +68,11 @@ export function isLogin() {
  * 检查登录
  * @param {登录成功后返回的页面} callBack 
  */
-export function checkLogin({ callBack }) {
+export function checkLogin(callBack) {
   if (!isLogin()) {
     // 获取当前URL,作为登录回调
     const currentUrl = callBack || window.location.href;
-    gotoLogin(currentUrl);
+    gotoLogin(encodeURIComponent(currentUrl));
   }
 }
 

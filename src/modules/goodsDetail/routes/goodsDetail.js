@@ -108,8 +108,8 @@ class GoodsDetail extends Component {
 
   // 收藏
   storecollection = () => {
+    common.checkLogin();
     const goodsSpec = this.state.goodsDetailInfo.get('goodsSpec')
-
     goodsDetailApi.storecollection({
       favType: 1,
       goodsId: goodsSpec.goodsId
@@ -126,12 +126,15 @@ class GoodsDetail extends Component {
       }
     });
   }
+
   // 去购物车
   gotoCart = () => {
     common.gotoCart();
   }
+
   // 加入购物车处理
   addCart = () => {
+    common.checkLogin();
     const goodsSpec = this.state.goodsDetailInfo.get('goodsSpec')
     cartApi.addCart({
       goodsId: goodsSpec.goodsId,
@@ -153,8 +156,10 @@ class GoodsDetail extends Component {
       }
     });
   }
+
   // 立即购买
   gotoBuy = () => {
+    common.checkLogin();
     const goodsSpec = this.state.goodsDetailInfo.get('goodsSpec')
     // 先加购物车
     cartApi.addCart({
@@ -174,16 +179,6 @@ class GoodsDetail extends Component {
         common.gotoOrder({
           cartId: result.data[0].cartIds
         });
-
-        // 提交订单
-        // cartApi.subToOrder({ cartId: result.data[0].cartIds }).then(r => {
-        //   if (r.result == 1) {
-        //     console.log(r);
-        //     // 跳转到订单确认页面
-        //   } else {
-        //     Toast.fail(r.msg);
-        //   }
-        // });
       } else {
         Toast.fail(result.msg);
       }
