@@ -1,5 +1,9 @@
 import { fetch, common } from 'common';
 
+export function cartList() {
+  return fetch.get('/cartapi/cartList');
+}
+
 export function addCart({ goodsId, count, specId, saveType }) {
   return fetch.get('/cartapi/addCart', {
     goodsId,

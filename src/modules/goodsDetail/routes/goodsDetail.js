@@ -155,7 +155,40 @@ class GoodsDetail extends Component {
   }
   // 立即购买
   gotoBuy = () => {
-    alert('立即购买');
+    const goodsSpec = this.state.goodsDetailInfo.get('goodsSpec')
+    // 先加购物车
+    cartApi.addCart({
+      goodsId: goodsSpec.goodsId,
+      count: 1,
+      specId: goodsSpec.goodsSpecId,
+      saveType: 1
+    }).then(result => {
+      if (result.result == 1) {
+        const cartCount = result.data[0].cartCount;
+        this.setState({
+          cartNum: cartCount
+        })
+        // 同步购物车数量
+        common.setCartNum(cartCount);
+        // 跳转到订单确认页面
+        common.gotoOrder({
+          cartId: result.data[0].cartIds
+        });
+
+        // 提交订单
+        // cartApi.subToOrder({ cartId: result.data[0].cartIds }).then(r => {
+        //   if (r.result == 1) {
+        //     console.log(r);
+        //     // 跳转到订单确认页面
+        //   } else {
+        //     Toast.fail(r.msg);
+        //   }
+        // });
+      } else {
+        Toast.fail(result.msg);
+      }
+    })
+
   }
 
   // 修改规格处理

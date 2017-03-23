@@ -40,6 +40,10 @@ export function gotoCart() {
   window.location.href = getFullUrl('/cart.html');
 }
 
+export function gotoOrder({ cartId }) {
+  window.location.href = getFullUrl(`/order.html#/?cartId=${cartId}`);
+}
+
 // 获取token
 export function getToken() {
   return localStorage.getItem('token');

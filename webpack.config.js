@@ -13,7 +13,7 @@ const env = process.env.NODE_ENV;
 console.log(process.env.NODE_ENV);
 //循环生成每个入口文件对应的html
 const HtmlWebpack = [];
-const modules = ['home', 'goodsClass', 'my', 'cart', 'goodsDetail', 'login']
+const modules = ['home', 'goodsClass', 'my', 'cart', 'goodsDetail', 'login', 'order']
 let entrys = {};
 modules.forEach(module => {
   entrys[module] = `./src/modules/${module}`
