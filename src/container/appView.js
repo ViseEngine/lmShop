@@ -59,10 +59,10 @@ class App extends Component {
 
   backHandle() {
     let { history, location } = this.props
-    if (location.pathname == '/') {
-      window.location.href = common.getFullUrl('/home.html')
-      return
-    }
+    // if (location.pathname == '/') {
+    //   window.location.href = common.getFullUrl('/home.html')
+    //   return
+    // }
     if (this.state.backUrl) {
       this.context.router.push(this.state.backUrl);
     } else if (this.state.backCallback) {
