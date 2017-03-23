@@ -7,7 +7,7 @@ export function subToOrder({ cartId }) {
 }
 
 export function addShipping({ cartIds, cityId }) {
-  return fetch.get('/cartapi/subToOrder', {
+  return fetch.get('/cartapi/addShipping', {
     cartIds,
     cityId
   });

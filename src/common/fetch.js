@@ -1,8 +1,7 @@
 import qs from 'qs';
 import { getFullUrl, getUserId, getVerifyCode, isApp } from './common';
 import fetch from 'isomorphic-fetch';
-import Encrypt from 'jsencrypt';
-console.log(Encrypt);
+// import Encrypt from 'jsencrypt';
 
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {

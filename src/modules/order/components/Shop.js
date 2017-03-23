@@ -12,7 +12,6 @@ class Shop extends React.PureComponent {
   }
 
   gotoGoodsDetail = (item) => {
-    console.log(item);
     common.gotoGoodsDetail({
       specId: item.specId
     });
@@ -20,7 +19,6 @@ class Shop extends React.PureComponent {
 
   render() {
     const { data } = this.props;
-    console.log(data);
     return <List className='wx-order-shop' renderHeader={() => data.storeName}> 
       {
         data.list.map((item,index) => {

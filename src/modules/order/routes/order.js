@@ -9,7 +9,8 @@ import {
   Flex,
   Button,
   List,
-  Switch
+  Switch,
+  Popup
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import * as orderApi from '../api/order';
@@ -38,48 +39,94 @@ class Order extends Component {
     alert('onSubmitOrder');
   }
 
+  selectPayType = (type) => {
+
+  }
+
+  onSelectPayTypeClick = () => {
+    Popup.show(<div>
+      <List renderHeader={() => '选择支付方式'}>
+        <Item><Button type='primary' onClick={() => this.selectPayType(1)}>在线支付</Button></Item>
+        <Item><Button type='primary' onClick={() => this.selectPayType(2)}>货到付款</Button></Item>
+        <Item></Item>
+
+        <Item><Button type='ghost' onClick={()=>Popup.hide()}>取消</Button></Item>
+      </List>
+    </div>, { animationType: 'slide-up' })
+  }
+
+  onClickSelectedAddress = () => {
+    this.props.router.push('/address');
+  }
+
+  onClickCoupon = () => {
+    if (this.props.order.couponCount == 0) {
+      return;
+    }
+    this.props.router.push('/coupon');
+  }
+
+  onClickInvoice = () => {
+    this.props.router.push('/invoice');
+  }
+
   componentDidMount() {
     orderApi.subToOrder({ cartId: this.cartId }).then(result => {
       if (result.result == 1) {
+        const data = result.data[0];
+        // console.log(data);
         this.props.dispatch({
           type: 'init',
-          payload: result.data[0]
+          payload: data
         })
+
+        if (data.addressList && data.addressList.length > 0) {
+          let currentSelectedAddress = data.addressList[0];
+          orderApi.addShipping({ cartIds: this.cartId, cityId: currentSelectedAddress.cityId }).then(r => {
+            // console.log(r);
+            // if (result.result == 1) {
+            //   this.props.dispatch({
+            //     type: 'init',
+            //     payload: result.data[0]
+            //   })
+            // } else {
+            //   Toast.fail(result.msg);
+            // }
+          })
+
+          orderApi.getPrice({
+            cartIds: this.cartId,
+            cityId: currentSelectedAddress.cityId,
+            isPd: 0,
+            freight: null,
+            couponId: null
+          }).then(r => {
+            const priceData = r.data[0];
+            this.props.dispatch({
+              type: 'getPrice',
+              payload: priceData
+            })
+          })
+        }
       } else {
         Toast.fail(result.msg);
       }
     })
-
-    //     export function addShipping({ cartIds, cityId }) {
-    //   return fetch.get('/cartapi/subToOrder', {
-    //     cartIds,
-    //     cityId
-    //   });
-    // }
-
-    // export function getPrice({
-    //   isPd,
-    //   freight,
-    //   cartIds,
-    //   couponId,
-    //   cityId,
-    // }) {
-    //   return fetch.get('/cartapi/getPrice', {
-    //     isPd,
-    //     freight,
-    //     cartIds,
-    //     couponId,
-    //     cityId,
-    //   });
   }
 
   render() {
     const { getFieldProps, getFieldError } = this.props.form;
-    const { cartVoList, selectedAddress } = this.props.order;
+    const {
+      cartVoList,
+      selectedAddress,
+      couponCount,
+      memberAvailable,
+      priceData
+    } = this.props.order;
     return <div className='wx-order'>
       {
         selectedAddress && <List>
-          <Item
+          <Item onClick={this.onClickSelectedAddress}
             arrow="horizontal"
             multipleLine>
             {selectedAddress.mobPhone}&nbsp;&nbsp; {selectedAddress.trueName}
@@ -88,30 +135,33 @@ class Order extends Component {
         </List>
       }
       {
-        cartVoList.map((shop,index) => {
+        cartVoList.map((shop, index) => {
           return <Shop key={index} data={shop}></Shop>
         })
       }
       <List>
         <Item
+          onClick={this.onSelectPayTypeClick}  
           arrow="horizontal"
           extra={'在线支付'}
           >
           支付方式
         </Item>
         <Item
+          onClick={this.onClickCoupon}  
           arrow="horizontal"
-          extra={'2张优惠券'}
+          extra={ couponCount>0?`${couponCount}张优惠券`:'无可用优惠券'}
           >
           优惠券
         </Item>
         <Item
-          extra={<Switch {...getFieldProps('1', { initialValue: true, valuePropName: 'checked' })} />}
+          extra={<Switch {...getFieldProps('useBalance', { initialValue: true, valuePropName: 'checked' })} />}
         >余额支付</Item>
         <Item
-          extra={'0.0'}
+          extra={memberAvailable}
         >&nbsp;</Item>
         <Item
+          onClick={this.onClickInvoice}    
           arrow="horizontal"
           extra={'不开发票'}
           >
@@ -122,21 +172,21 @@ class Order extends Component {
       <Flex>
         <Flex.Item style={{flex:2.5}}>
           <List>
-            <Item extra={`¥4792.00`}>商品总价</Item>
-            <Item extra={'4792.00'}>运费</Item>
-            <Item extra={'4792.00'}>余额支付</Item>
-            <Item extra={'4792.00'}>抵用券</Item>
-            <Item extra={'4792.00'}>优惠促销</Item>
+            <Item extra={`¥${priceData.totalGoodsPrice}`}>商品总价</Item>
+            <Item extra={`+ ¥${priceData.totalFreight}`}>运费</Item>
+            <Item extra={`- ¥${priceData.jfprice}`}>余额支付</Item>
+            <Item extra={`- ¥${priceData.couponPrice}`}>抵用券</Item>
+            <Item extra={`- ¥${priceData.conditionPrice}`}>优惠促销</Item>
           </List>
         </Flex.Item>
         <Flex.Item style={{ flex: 1 }}>
           <div >
             <div>共需支付</div>
-            <div>{`¥4792.00`}</div>
+            <div>{`¥${priceData.totalPrice}`}</div>
           </div>
         </Flex.Item>
       </Flex>
-      <OrderBar onSubmitOrder={this.onSubmitOrder} totalPrice={'0.00'}></OrderBar>
+      <OrderBar onSubmitOrder={this.onSubmitOrder} totalPrice={priceData.totalPrice}></OrderBar>
     </div>
   }
 }

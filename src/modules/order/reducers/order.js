@@ -8,11 +8,30 @@ const order = handleActions({
     if (addressList && addressList.length > 0) {
       selectedAddress = addressList[0]
     }
-
-    return { ...state, ...payload, selectedAddress };
+    return {
+      ...state,
+      ...payload,
+      selectedAddress
+    };
+  },
+  ['getPrice'](state, action) {
+    const payload = action.payload
+    return {
+      ...state,
+      priceData: payload
+    };
   }
 }, {
   selectedAddress: {},
+  priceData: {
+    conditionPrice: "0.0",
+    couponPrice: "0.0",
+    jfprice: 0,
+    predepositAmount: "0.0",
+    totalFreight: "0.0",
+    totalGoodsPrice: "0.0",
+    totalPrice: "0.0"
+  },
 
   addressList: [],
   cartVoList: [],
