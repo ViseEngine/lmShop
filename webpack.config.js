@@ -78,6 +78,7 @@ var proxyInterface = ['/floor/api',
   '/memberapi/',
   '/storeapi',
   '/loginapi',
+  '/cartapi',
 ];
 var proxy = {};
 proxyInterface.forEach(function(item) {

@@ -12,7 +12,6 @@ import {
   Grid,
   Popup
 } from 'antd-mobile';
-import * as goodsDetailApi from '../api/goodsDetail';
 import { Img, CartBar } from 'commonComponent';
 import { common } from 'common';
 import CouponList from '../components/CouponList';
@@ -22,6 +21,8 @@ import StoreInfo from '../components/StoreInfo';
 import GoodsSpec from '../components/GoodsSpec';
 import EvaluateGoodsList from '../components/EvaluateGoodsList';
 import { Map } from 'immutable'
+import * as goodsDetailApi from '../api/goodsDetail';
+import * as cartApi from '../api/cart';
 
 import './goodsDetail.less';
 
@@ -30,7 +31,8 @@ class GoodsDetail extends Component {
     super(props);
     this.state = {
       goodsDetailInfo: Map(),
-      buyCount: 1
+      buyCount: 1,
+      cartNum: 0
     }
     // 获取URL参数
     if (this.props.location.query) {
@@ -42,6 +44,10 @@ class GoodsDetail extends Component {
 
   componentDidMount() {
     Toast.loading();
+    console.log(common.getCartNum());
+    this.setState({
+      cartNum: common.getCartNum()
+    });
     // 获取商品详情
     goodsDetailApi.goodsdetail({ specId: this.specId }).then(result => {
       Toast.hide();
@@ -52,7 +58,8 @@ class GoodsDetail extends Component {
       const goodsDetailInfo = Map(result.data[0]);
       // alert(JSON.stringify(goodsDetailInfo));
       this.setState({
-        goodsDetailInfo
+        goodsDetailInfo,
+        isFav: goodsDetailInfo.isFav
       });
 
       // 登录后才上报 浏览记录
@@ -63,7 +70,6 @@ class GoodsDetail extends Component {
           });
         }, 100);
       }
-
     });
   }
 
@@ -105,11 +111,30 @@ class GoodsDetail extends Component {
   }
   // 去购物车
   gotoCart = () => {
-    alert('去购物车');
+
   }
   // 加入购物车处理
   addCart = () => {
-    alert('加入购物车');
+    const goodsSpec = this.state.goodsDetailInfo.get('goodsSpec')
+    cartApi.addCart({
+      goodsId: goodsSpec.goodsId,
+      count: 1,
+      specId: goodsSpec.goodsSpecId,
+      saveType: 0
+    }).then(result => {
+      if (result.result == 1) {
+        console.log(result);
+        const cartCount = result.data[0].cartCount;
+        this.setState({
+          cartNum: cartCount
+        })
+        // 同步购物车数量
+        common.setCartNum(cartCount);
+        Toast.info('商品已添加到购物车');
+      } else {
+        Toast.fail(result.msg);
+      }
+    });
   }
   // 立即购买
   gotoBuy = () => {
@@ -185,6 +210,9 @@ class GoodsDetail extends Component {
         <GoodsList goodsDetailInfo={goodsDetailInfo}></GoodsList>
         <GoodsMoreInfo goodsDetailInfo={goodsDetailInfo}></GoodsMoreInfo>
         <CartBar storecollection={this.storecollection}
+          isFav={this.state.isFav}  
+          cartNum={this.state.cartNum}
+          showCollectionCart={true}
           gotoCart={this.gotoCart}
           gotoBuy={this.gotoBuy}
           addCart={this.addCart}

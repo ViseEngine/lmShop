@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { common } from 'common';
-import { Grid, Flex, List, WhiteSpace, Button } from 'antd-mobile';
+import { Grid, Flex, List, WhiteSpace, Button, Badge } from 'antd-mobile';
 
 import "./CartBar.less"
 
@@ -28,17 +28,32 @@ class CartBar extends React.Component {
   }
 
   render() {
+    const { showCollectionCart } = this.props;
+    // console.log(object);
+    const filename = this.props.isFav == 1 ? 'b_1_h_2.png' : 'b_1_h_1.png'
+    const isFavUrl = `${common.SERVER_DOMAIN}/res_v4.0/h5/images/${filename}`
     return (
       <div className='wx-cartbar'>
         <Flex style={{ width:'100%'}}>
-          <Flex.Item style={{ flex: 1,textAlign:'center'}} onClick={()=>this._storecollection()}>
-            <img src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/b_1.png`} style={{width:'44px',height:'44px'}} alt=""/>   
-            <div>收藏</div>
-          </Flex.Item>
-          <Flex.Item style={{flex:1,textAlign:'center'}} onClick={()=>this._gotoCart()}>
-            <img src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/b_3.png`} style={{width:'44px',height:'44px'}} alt=""/>   
-            <div>购物车</div>
-          </Flex.Item>
+          {
+            showCollectionCart && <Flex.Item style={{ flex: 1, textAlign: 'center' }} onClick={() => this._storecollection()}>
+              <img src={isFavUrl} style={{width:'44px',height:'44px'}} alt=""/>   
+              <div>收藏</div>
+            </Flex.Item>
+          }
+          {
+            showCollectionCart && <Flex.Item style={{ flex: 1, textAlign: 'center' }} onClick={() => this._gotoCart()}>
+              <div>
+                <Badge text={this.props.cartNum} style={{
+                  position: 'absolute',
+                  top: '-50px',
+                  left: '.22rem'
+                }}></Badge>
+                <img src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/b_3.png`} style={{ width: '44px', height: '44px' }} alt="" />
+                <div>购物车</div>
+              </div>
+            </Flex.Item>
+          }
           <Flex.Item  onClick={()=>this._addCart()} style={{flex:2}}>
             <Button type='primary'>添加购物车</Button>
           </Flex.Item>

@@ -36,12 +36,13 @@ export function gotoLogin(callBack) {
   }
 }
 
+// 获取token
 export function getToken() {
   return localStorage.getItem('token');
 }
 
 /**
- * 检查登录
+ * 是否登录
  */
 export function isLogin() {
   const token = getToken();
@@ -50,7 +51,6 @@ export function isLogin() {
   }
   return true;
 }
-
 
 /**
  * 检查登录
@@ -62,4 +62,12 @@ export function checkLogin({ callBack }) {
     const currentUrl = callBack || window.location.href;
     gotoLogin(currentUrl);
   }
+}
+
+export function setCartNum(num) {
+  localStorage.setItem('_cartnum', num);
+}
+
+export function getCartNum() {
+  return localStorage.getItem('_cartnum') || 0;
 }
