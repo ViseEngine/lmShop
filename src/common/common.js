@@ -36,6 +36,10 @@ export function gotoLogin(callBack) {
   }
 }
 
+export function gotoCart() {
+  window.location.href = getFullUrl('/cart.html');
+}
+
 // 获取token
 export function getToken() {
   return localStorage.getItem('token');

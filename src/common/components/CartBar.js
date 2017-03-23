@@ -29,7 +29,7 @@ class CartBar extends React.Component {
 
   render() {
     const { showCollectionCart } = this.props;
-    // console.log(object);
+    console.log(this.props.isFav);
     const filename = this.props.isFav == 1 ? 'b_1_h_2.png' : 'b_1_h_1.png'
     const isFavUrl = `${common.SERVER_DOMAIN}/res_v4.0/h5/images/${filename}`
     return (

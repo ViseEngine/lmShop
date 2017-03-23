@@ -31,7 +31,7 @@ class GoodsSpec extends React.PureComponent {
 
   constructor(props) {
     super();
-    console.log('props', props);
+    // console.log('props', props);
     this.state = {
       goodsSpecValueAll: props.goodsDetailInfo.goodsSpecValueAll,
       goodsSpec: props.goodsDetailInfo.goodsSpec,

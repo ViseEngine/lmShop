@@ -32,7 +32,8 @@ class GoodsDetail extends Component {
     this.state = {
       goodsDetailInfo: Map(),
       buyCount: 1,
-      cartNum: 0
+      cartNum: 0,
+      isFav: 0
     }
     // 获取URL参数
     if (this.props.location.query) {
@@ -107,11 +108,27 @@ class GoodsDetail extends Component {
 
   // 收藏
   storecollection = () => {
-    alert('收藏');
+    const goodsSpec = this.state.goodsDetailInfo.get('goodsSpec')
+
+    goodsDetailApi.storecollection({
+      favType: 1,
+      goodsId: goodsSpec.goodsId
+    }).then(result => {
+      if (result.result == 1) {
+        if (result.isfav == 1) {
+          Toast.info('已收藏');
+        }
+        this.setState({
+          isFav: result.isfav
+        });
+      } else {
+        Toast.fail(result.msg);
+      }
+    });
   }
   // 去购物车
   gotoCart = () => {
-
+    common.gotoCart();
   }
   // 加入购物车处理
   addCart = () => {
