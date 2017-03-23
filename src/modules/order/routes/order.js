@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
+import { connect } from 'react-redux'
 import {
   Modal,
   WhiteSpace,
@@ -31,21 +32,15 @@ class Order extends Component {
         this.cartId = this.props.location.query.cartId;
       }
     }
-    this.state = {
-      addressList: [],
-      cartVoList: [],
-      couponCount: 0,
-      couponMemberMap: {},
-      memberAvailable: '0.0'
-    }
   }
 
   componentDidMount() {
     orderApi.subToOrder({ cartId: this.cartId }).then(result => {
       if (result.result == 1) {
-        this.setState({
-          ...result.data[0]
-        });
+        this.props.dispatch({
+          type: 'init',
+          payload: result.data[0]
+        })
       } else {
         Toast.fail(result.msg);
       }
@@ -76,17 +71,21 @@ class Order extends Component {
 
   render() {
     const { getFieldProps, getFieldError } = this.props.form;
+    const { cartVoList, selectedAddress } = this.props.order;
+    console.log(selectedAddress);
     return <div>
-      <List>
-        <Item
-          arrow="horizontal"
-          multipleLine>
-          1111
-          <Brief>设置了Click事件会有material水波纹点击效果</Brief>
-        </Item>
-      </List>
       {
-        this.state.cartVoList.map((shop,index) => {
+        selectedAddress && <List>
+          <Item
+            arrow="horizontal"
+            multipleLine>
+            {selectedAddress.mobPhone}&nbsp;&nbsp; {selectedAddress.trueName}
+            <Brief>{selectedAddress.address}</Brief>
+          </Item>
+        </List>
+      }
+      {
+        cartVoList.map((shop,index) => {
           return <Shop key={index} data={shop}></Shop>
         })
       }
@@ -139,4 +138,8 @@ class Order extends Component {
   }
 }
 
-export default withRouter(createForm()(Order));
+function mapStateToProps({ order }) {
+  return { order };
+}
+
+export default withRouter(connect(mapStateToProps)(createForm()(Order)));
