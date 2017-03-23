@@ -5,3 +5,26 @@ export function subToOrder({ cartId }) {
     cartId
   });
 }
+
+export function addShipping({ cartIds, cityId }) {
+  return fetch.get('/cartapi/subToOrder', {
+    cartIds,
+    cityId
+  });
+}
+
+export function getPrice({
+  isPd,
+  freight,
+  cartIds,
+  couponId,
+  cityId,
+}) {
+  return fetch.get('/cartapi/getPrice', {
+    isPd,
+    freight,
+    cartIds,
+    couponId,
+    cityId,
+  });
+}
