@@ -37,18 +37,29 @@ export function gotoLogin(callBack) {
 }
 
 export function getToken() {
-  return localStorage.getToken('token');
+  return localStorage.getItem('token');
 }
+
+/**
+ * 检查登录
+ */
+export function isLogin() {
+  const token = getToken();
+  if (!token || token == '') {
+    return false;
+  }
+  return true;
+}
+
 
 /**
  * 检查登录
  * @param {登录成功后返回的页面} callBack 
  */
-export function checkLogin() {
-  const token = getToken();
-  if (!token || token == '') {
-    // 获取当前URL
-    const currentUrl = window.location.href;
+export function checkLogin({ callBack }) {
+  if (!isLogin()) {
+    // 获取当前URL,作为登录回调
+    const currentUrl = callBack || window.location.href;
     gotoLogin(currentUrl);
   }
 }

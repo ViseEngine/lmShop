@@ -55,10 +55,14 @@ class GoodsDetail extends Component {
         goodsDetailInfo
       });
 
-      // 调用浏览记录    
-      // setTimeout(function() {
-      //   goodsDetailApi.goodsBrowseSaveOrUpdate({ goodsId: goodsDetailInfo.goodsId });
-      // }, 100);
+      // 登录后才上报 浏览记录
+      if (common.isLogin()) {
+        setTimeout(function() {
+          goodsDetailApi.goodsBrowseSaveOrUpdate({
+            goodsId: goodsDetailInfo.get('goodsId')
+          });
+        }, 100);
+      }
 
     });
   }
