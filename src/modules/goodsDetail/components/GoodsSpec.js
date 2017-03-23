@@ -3,19 +3,24 @@ import { Img, CartBar } from 'commonComponent';
 import { common } from 'common';
 import { List, Flex, Tag, Stepper, Icon } from 'antd-mobile';
 import * as goodsDetailApi from '../api/goodsDetail';
+import classnames from 'classnames';
+
+import './GoodsSpec.less'
 
 class SpecGroup extends React.PureComponent {
+
   render() {
     const { values, selectedValue, onChangeSpec } = this.props;
-    console.log('selectedValue', selectedValue);
-    return <div>
+    return <div className='wx-goods-detail-spec-group'>
       {
         values.map((value, index) => {
-          return <Tag onChange={() => onChangeSpec(value)}
-            key={index} selected={selectedValue.includes(value.spValueId)}
-            style={{ marginLeft: '0.18rem' }}>
-            {value.spValueName}
-          </Tag>
+          const tagClass = classnames('am-tag', {
+            'am-tag-active': selectedValue.includes(value.spValueId),
+            'am-tag-normal': !selectedValue.includes(value.spValueId)
+          })  
+          return <div key={index} onClick={() => onChangeSpec(value)} className={tagClass} style={{ marginLeft: '0.18rem' }}>
+            <div className="am-tag-text">{value.spValueName}</div>
+          </div>
         })
       }
     </div>
@@ -70,9 +75,7 @@ class GoodsSpec extends React.PureComponent {
     // 只有1个规则项，不做处理
     if (goodsSpecValueGroup.length == 1) {
       // console.log(this.refs[`specGroup-${spec.spId}`]);
-      const currentGroup = this.refs[`specGroup-${spec.spId}`];
-      console.log(currentGroup);
-      currentGroup.forceUpdate();
+      // const currentGroup = this.refs[`specGroup-${spec.spId}`];
       return;
     } else {
       //  当前规则组 ，存在多个规则时 切换处理
@@ -88,31 +91,20 @@ class GoodsSpec extends React.PureComponent {
       }).then(result => {
         if (result.result == 1) {
           const data = result.data[0]
-          console.log(data);
-          console.log(this.state.goodsSpec);
           // 更新组件相关数据
-          // this.setState({
-          //   goodsSpec: {
-
-          //   }
-          // })
+          this.setState({
+            goodsSpec: {
+              ...this.state.goodsSpec,
+              specGoodsPrice: data.price,
+              specGoodsStorage: data.num,
+              goodsSpecId: data.specId
+            }
+          })
           // 同步状态到外部页面
           this.props.onChangeSpec(currentSpecs, data);
-
-          // num
-          // :
-          // "354"
-          // price
-          // :
-          // "3888.00"
-          // specId
-          // :
-          // "1f384703ebc746e38091d74911033ed0"
-
         }
       })
     }
-
   }
 
   onChangeNum = (num) => {
@@ -163,7 +155,7 @@ class GoodsSpec extends React.PureComponent {
           <Stepper
             style={{ width: '100%', minWidth: '2rem' }}
             showNumber min={0}
-            max={goodsSpec.specGoodsStorage}
+            max={parseInt(goodsSpec.specGoodsStorage)}
             size="small"
             onChange={this.onChangeNum}
             defaultValue={this.props.buyCount} />

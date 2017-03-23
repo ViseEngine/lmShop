@@ -118,14 +118,18 @@ class GoodsDetail extends Component {
 
   // 修改规格处理
   onChangeSpec = (currentSpecs, data) => {
+    // 同步数据
     const newGoodsDetailInfo = this.state.goodsDetailInfo.update('goodsSpec', (item) => {
       item.specGoodsStorage = data.num;
       item.specGoodsPrice = data.price;
       item.specGoodsSpec = currentSpecs;
+      item.goodsSpecId = data.goodsSpecId;
       return item;
     })
+    // 记录已选的规格ID，加购物车的时候需要
+    this.specId = data.specId
     this.setState({
-      goodsDetailInfo: newGoodsDetailInfo
+      goodsDetailInfo: newGoodsDetailInfo,
     })
   }
 
