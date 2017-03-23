@@ -29,9 +29,8 @@ class GoodsDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      goodsDetailInfo: {},
-      goodsProperty: '',
-
+      goodsDetailInfo: Map(),
+      buyCount: 1
     }
     // 获取URL参数
     if (this.props.location.query) {
@@ -50,7 +49,7 @@ class GoodsDetail extends Component {
         Toast.error(result.msg);
         return;
       }
-      const goodsDetailInfo = result.data[0];
+      const goodsDetailInfo = Map(result.data[0]);
       // alert(JSON.stringify(goodsDetailInfo));
       this.setState({
         goodsDetailInfo
@@ -68,22 +67,32 @@ class GoodsDetail extends Component {
    * 点击获取优惠券
    */
   getCoupon = () => {
+    const goodsDetailInfo = this.state.goodsDetailInfo.toJS();
     const onMaskClose = () => {
       console.log('关闭遮罩');
     }
-    Popup.show(<CouponList storeId={this.state.goodsDetailInfo.storeId} onClose={() => Popup.hide()} />, { animationType: 'slide-up', onMaskClose });
+    Popup.show(<CouponList storeId={goodsDetailInfo.storeId} onClose={() => Popup.hide()} />, { animationType: 'slide-up', onMaskClose });
   }
 
   /**
    * 点击获取规格
    */
   getSpec = () => {
+    const goodsDetailInfo = this.state.goodsDetailInfo.toJS();
     Popup.show(
       <GoodsSpec
-        onChangeSpec={this.onChangeSpec}  
-        goodsDetailInfo={this.state.goodsDetailInfo}
+        buyCount={this.state.buyCount}  
+        onChangeSpec={this.onChangeSpec}
+        onChangeBuyNum={this.onChangeBuyNum}
+        goodsDetailInfo={goodsDetailInfo}
         onClose={() => Popup.hide()} />, { animationType: 'slide-up' }
     );
+  }
+
+  onChangeBuyNum = (num) => {
+    this.setState({
+      buyCount: num
+    });
   }
 
   // 收藏
@@ -104,49 +113,35 @@ class GoodsDetail extends Component {
   }
 
   // 修改规格处理
-  onChangeSpec = (currentSpecs) => {
-    console.log(currentSpecs);
-    const specIds = Object.keys(currentSpecs).join();
-    goodsDetailApi.getSpecByGoodsIdAndSpecIds({
-      goodsId: this.state.goodsDetailInfo.goodsId,
-      specIds: specIds
-    }).then(result => {
-      console.log(result);
-      if (result.result == 1) {
-        const data = result.data[0];
-        this.setState({
-          goodsDetailInfo: {
-            ...this.state.goodsDetailInfo,
-            goodsSpec: {
-              ...this.state.goodsDetailInfo.goodsSpec,
-              specGoodsStorage: data.num,
-              specGoodsPrice: data.price,
-              specGoodsSpec: currentSpecs
-            }
-          }
-        })
-      }
-
+  onChangeSpec = (currentSpecs, data) => {
+    const newGoodsDetailInfo = this.state.goodsDetailInfo.update('goodsSpec', (item) => {
+      item.specGoodsStorage = data.num;
+      item.specGoodsPrice = data.price;
+      item.specGoodsSpec = currentSpecs;
+      return item;
+    })
+    this.setState({
+      goodsDetailInfo: newGoodsDetailInfo
     })
   }
 
   render() {
-    if (!this.state.goodsDetailInfo || !this.state.goodsDetailInfo.goodsCallyList) {
+    const goodsDetailInfo = this.state.goodsDetailInfo.toJS();
+    if (!goodsDetailInfo || !goodsDetailInfo.goodsCallyList) {
       return null;
     }
-    const onTabChange = this.onTabChange;
-    const { goodsDetailInfo } = this.state
+    console.log('render', goodsDetailInfo.goodsSpec.specGoodsSpec);
 
+    // 获取规格组合名
     const vals = Object.keys(goodsDetailInfo.goodsSpec.specGoodsSpec).map(function(key) {
       return goodsDetailInfo.goodsSpec.specGoodsSpec[key];
     });
     const selectedSpecGoodsSpec = vals.join(' ');
-    const storeImg = <Img src={goodsDetailInfo.storeLabel}></Img>
     return (
       <div className='wx-goods-detail'>
         <Carousel autoplay={false} infinite dots={false}>
           {
-            this.state.goodsDetailInfo && this.state.goodsDetailInfo.goodsCallyList.map((item,index) => (
+            goodsDetailInfo.goodsCallyList.map((item,index) => (
                 <Img key={index} src={item} />
             ))
           }
