@@ -20,6 +20,17 @@ const order = handleActions({
       ...state,
       priceData: payload
     };
+  },
+  ['addShipping'](state, action) {
+    const payload = action.payload
+    const { cartVoList } = state;
+    cartVoList.map(shop => {
+      shop.shipPrice = payload[shop.storeId]
+    })
+    return {
+      ...state,
+      shipData: payload
+    };
   }
 }, {
   selectedAddress: {},
@@ -32,7 +43,12 @@ const order = handleActions({
     totalGoodsPrice: "0.0",
     totalPrice: "0.0"
   },
-
+  shipData: {},
+  isPd: 0,
+  freight: null,
+  paytype: 1,
+  couponId: null,
+  invoiceId: null,
   addressList: [],
   cartVoList: [],
   couponCount: 0,

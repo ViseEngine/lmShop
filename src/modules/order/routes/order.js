@@ -36,7 +36,61 @@ class Order extends Component {
   }
 
   onSubmitOrder = () => {
-    alert('onSubmitOrder');
+    // 验证数据
+
+    // 提交订单
+    const {
+      selectedAddress,
+      paytype,
+      isPd,
+      freight,
+      couponId,
+      invoiceId,
+      priceData
+    } = this.props.order;
+
+    orderApi.saveorder({
+      cartIds: this.cartId,
+      addressId: selectedAddress.addressId,
+      paytype,
+      freight,
+      couponId,
+      invoiceId,
+      isPd,
+      activityIds: null
+    }).then(result => {
+      console.log(result);
+      if (result.result == 1) {
+        // 跳转到收银台
+        this.props.router.push(`/cashier/${result.data[0].paySn}/${priceData.totalPrice}`);
+      } else {
+        Toast.fail(result.msg);
+      }
+
+      //       [{buyerId: "0764fc72e3964c2f89834b65cce18275", apiPayState: "0",…}]
+      // 0
+      // :
+      // {buyerId: "0764fc72e3964c2f89834b65cce18275", apiPayState: "0",…}
+      // apiPayState
+      // :
+      // "0"
+      // buyerId
+      // :
+      // "0764fc72e3964c2f89834b65cce18275"
+      // payId
+      // :
+      // "3d0cd3223f994cb99ac875a450fc09ae"
+      // paySn
+      // :
+      // "P20170324154444480"
+      // msg
+      // :
+      // "保存成功"
+      // result
+      // :
+      // 1
+
+    });
   }
 
   selectPayType = (type) => {
@@ -83,29 +137,32 @@ class Order extends Component {
         if (data.addressList && data.addressList.length > 0) {
           let currentSelectedAddress = data.addressList[0];
           orderApi.addShipping({ cartIds: this.cartId, cityId: currentSelectedAddress.cityId }).then(r => {
-            // console.log(r);
-            // if (result.result == 1) {
-            //   this.props.dispatch({
-            //     type: 'init',
-            //     payload: result.data[0]
-            //   })
-            // } else {
-            //   Toast.fail(result.msg);
-            // }
-          })
+            if (result.result == 1) {
+              this.props.dispatch({
+                type: 'addShipping',
+                payload: result.data[0]
+              })
 
-          orderApi.getPrice({
-            cartIds: this.cartId,
-            cityId: currentSelectedAddress.cityId,
-            isPd: 0,
-            freight: null,
-            couponId: null
-          }).then(r => {
-            const priceData = r.data[0];
-            this.props.dispatch({
-              type: 'getPrice',
-              payload: priceData
-            })
+              // console.log(result.data[0]);
+              // const freight = `result.data[0].`
+
+              orderApi.getPrice({
+                cartIds: this.cartId,
+                cityId: currentSelectedAddress.cityId,
+                isPd: 1,
+                freight: null,
+                couponId: null
+              }).then(r => {
+                const priceData = r.data[0];
+                this.props.dispatch({
+                  type: 'getPrice',
+                  payload: priceData
+                })
+              })
+
+            } else {
+              Toast.fail(result.msg);
+            }
           })
         }
       } else {
@@ -121,7 +178,8 @@ class Order extends Component {
       selectedAddress,
       couponCount,
       memberAvailable,
-      priceData
+      priceData,
+      shipData
     } = this.props.order;
     return <div className='wx-order'>
       {
@@ -155,7 +213,10 @@ class Order extends Component {
           优惠券
         </Item>
         <Item
-          extra={<Switch {...getFieldProps('useBalance', { initialValue: true, valuePropName: 'checked' })} />}
+          extra={<Switch {...getFieldProps('useBalance', {
+            initialValue: true,
+            valuePropName: 'checked'
+          }) } />}
         >余额支付</Item>
         <Item
           extra={memberAvailable}
@@ -174,7 +235,7 @@ class Order extends Component {
           <List>
             <Item extra={`¥${priceData.totalGoodsPrice}`}>商品总价</Item>
             <Item extra={`+ ¥${priceData.totalFreight}`}>运费</Item>
-            <Item extra={`- ¥${priceData.jfprice}`}>余额支付</Item>
+            <Item extra={`- ¥${priceData.predepositAmount}`}>余额支付</Item>
             <Item extra={`- ¥${priceData.couponPrice}`}>抵用券</Item>
             <Item extra={`- ¥${priceData.conditionPrice}`}>优惠促销</Item>
           </List>

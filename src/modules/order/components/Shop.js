@@ -22,7 +22,7 @@ class Shop extends React.PureComponent {
     return <List className='wx-order-shop' renderHeader={() => data.storeName}> 
       {
         data.list.map((item,index) => {
-          return <Item key={index}
+          return <div key={index}><Item
             onClick={()=>this.gotoGoodsDetail(item)}  
             arrow="horizontal"
             multipleLine>
@@ -35,6 +35,8 @@ class Shop extends React.PureComponent {
               </div>  
             </Flex>
           </Item>
+            <Item extra={item.shipPrice || '免运费'}>&nbsp;</Item>  
+          </div>  
         })
       }
     </List>
