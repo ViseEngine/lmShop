@@ -1,6 +1,9 @@
 import qs from 'qs';
 import { getFullUrl, getUserId, getVerifyCode, isApp } from './common';
 import fetch from 'isomorphic-fetch';
+import React from 'react';
+import { Modal } from 'antd-mobile';
+import { common } from 'common';
 // import Encrypt from 'jsencrypt';
 
 function checkStatus(response) {
@@ -15,6 +18,17 @@ function checkStatus(response) {
 
 function parseJSON(response) {
   const json = JSON.parse(response);
+  // check 通用错误码
+  if (json.result == 0) {
+    if (json.code == '99') {
+      Modal.alert('', <div>{json.msg}</div>, [{
+        text: '去登录',
+        onPress: () => {
+          common.gotoLoginAndBack();
+        }
+      }])
+    }
+  }
   return json;
 }
 
@@ -52,6 +66,7 @@ export function post(requestUrl, params) {
   }
 
   let url = getFullUrl(requestUrl);
+  const token = localStorage.getItem('token');
   params = {
     ...params,
     ...baseParams
@@ -59,6 +74,7 @@ export function post(requestUrl, params) {
   return fetch(url, {
     method: "POST",
     headers: {
+      token: token,
       "Content-Type": "application/x-www-form-urlencoded"
     },
     credentials: 'include',

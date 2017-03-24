@@ -36,6 +36,15 @@ export function gotoLogin(callBack) {
   }
 }
 
+/**
+ * 去登录回调
+ */
+export function gotoLoginAndBack() {
+  // 获取当前URL,作为登录回调
+  const currentUrl = window.location.href;
+  gotoLogin(encodeURIComponent(currentUrl));
+}
+
 export function gotoCart() {
   window.location.href = getFullUrl('/cart.html');
 }
