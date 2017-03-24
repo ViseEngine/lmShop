@@ -10,7 +10,7 @@ import cashier from './cashier';
 
 const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={order} showBottomBar={false} title='确认订单' showTitle={true} />
-  <Route path='/address' component={address} title='发票信息'/>
+  <Route path='/address' component={address} title='地址'/>
   <Route path='/coupon' component={coupon} title='店铺优惠券' />
   <Route path='/invoice' component={invoice} title='发票信息' />
   <Route path='/cashier/:orderCode/:totalPrice' component={cashier} title='选择支付方式' />

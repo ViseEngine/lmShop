@@ -18,7 +18,6 @@ import { common } from 'common';
 import Shop from '../components/Shop';
 import Fee from '../components/Fee';
 import OrderBar from '../components/OrderBar';
-import { createForm } from 'rc-form';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -36,7 +35,7 @@ class Order extends Component {
   }
 
   onSubmitOrder = () => {
-    // 验证数据
+    // TODO:验证数据
 
     // 提交订单
     const {
@@ -62,39 +61,15 @@ class Order extends Component {
       console.log(result);
       if (result.result == 1) {
         // 跳转到收银台
-        this.props.router.push(`/cashier/${result.data[0].paySn}/${priceData.totalPrice}`);
+        // this.props.router.push(`/cashier/${result.data[0].paySn}/${priceData.totalPrice}`);
       } else {
         Toast.fail(result.msg);
       }
-
-      //       [{buyerId: "0764fc72e3964c2f89834b65cce18275", apiPayState: "0",…}]
-      // 0
-      // :
-      // {buyerId: "0764fc72e3964c2f89834b65cce18275", apiPayState: "0",…}
-      // apiPayState
-      // :
-      // "0"
-      // buyerId
-      // :
-      // "0764fc72e3964c2f89834b65cce18275"
-      // payId
-      // :
-      // "3d0cd3223f994cb99ac875a450fc09ae"
-      // paySn
-      // :
-      // "P20170324154444480"
-      // msg
-      // :
-      // "保存成功"
-      // result
-      // :
-      // 1
-
     });
   }
 
   selectPayType = (type) => {
-
+    // this.props.di
   }
 
   onSelectPayTypeClick = () => {
@@ -102,8 +77,6 @@ class Order extends Component {
       <List renderHeader={() => '选择支付方式'}>
         <Item><Button type='primary' onClick={() => this.selectPayType(1)}>在线支付</Button></Item>
         <Item><Button type='primary' onClick={() => this.selectPayType(2)}>货到付款</Button></Item>
-        <Item></Item>
-
         <Item><Button type='ghost' onClick={()=>Popup.hide()}>取消</Button></Item>
       </List>
     </div>, { animationType: 'slide-up' })
@@ -124,7 +97,30 @@ class Order extends Component {
     this.props.router.push('/invoice');
   }
 
+  onChangePd = (checked) => {
+    // 刷新价格显示
+    const { freight, paytype, couponId, selectedAddress } = this.props.order;
+    const isPd = checked ? 1 : 0;
+    orderApi.getPrice({
+      cartIds: this.cartId,
+      cityId: selectedAddress.cityId,
+      freight,
+      couponId,
+      isPd
+    }).then(r => {
+      const priceData = r.data[0];
+      this.props.dispatch({
+        type: 'changePd',
+        payload: {
+          priceData,
+          isPd
+        }
+      })
+    })
+  }
+
   componentDidMount() {
+    const { isPd, freight, paytype, couponId } = this.props.order;
     orderApi.subToOrder({ cartId: this.cartId }).then(result => {
       if (result.result == 1) {
         const data = result.data[0];
@@ -136,22 +132,26 @@ class Order extends Component {
 
         if (data.addressList && data.addressList.length > 0) {
           let currentSelectedAddress = data.addressList[0];
-          orderApi.addShipping({ cartIds: this.cartId, cityId: currentSelectedAddress.cityId }).then(r => {
+          orderApi.addShipping({
+            cartIds: this.cartId,
+            cityId: currentSelectedAddress.cityId
+          }).then(r => {
             if (result.result == 1) {
               this.props.dispatch({
                 type: 'addShipping',
                 payload: result.data[0]
               })
 
+              // TDOO: 获取默认物流信息,是否使用余额
               // console.log(result.data[0]);
               // const freight = `result.data[0].`
 
               orderApi.getPrice({
                 cartIds: this.cartId,
                 cityId: currentSelectedAddress.cityId,
-                isPd: 1,
-                freight: null,
-                couponId: null
+                isPd,
+                freight,
+                couponId
               }).then(r => {
                 const priceData = r.data[0];
                 this.props.dispatch({
@@ -172,14 +172,14 @@ class Order extends Component {
   }
 
   render() {
-    const { getFieldProps, getFieldError } = this.props.form;
     const {
       cartVoList,
       selectedAddress,
       couponCount,
       memberAvailable,
       priceData,
-      shipData
+      shipData,
+      isPd
     } = this.props.order;
     return <div className='wx-order'>
       {
@@ -213,10 +213,7 @@ class Order extends Component {
           优惠券
         </Item>
         <Item
-          extra={<Switch {...getFieldProps('useBalance', {
-            initialValue: true,
-            valuePropName: 'checked'
-          }) } />}
+          extra={<Switch checked={isPd == 1} onChange={this.onChangePd} />}
         >余额支付</Item>
         <Item
           extra={memberAvailable}
@@ -256,4 +253,4 @@ function mapStateToProps({ order }) {
   return { order };
 }
 
-export default withRouter(connect(mapStateToProps)(createForm()(Order)));
+export default withRouter(connect(mapStateToProps)(Order));

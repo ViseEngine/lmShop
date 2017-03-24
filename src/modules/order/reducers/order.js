@@ -31,6 +31,13 @@ const order = handleActions({
       ...state,
       shipData: payload
     };
+  },
+  ['changePd'](state, action) {
+    const payload = action.payload
+    return {
+      ...state,
+      ...payload
+    };
   }
 }, {
   selectedAddress: {},
@@ -44,7 +51,7 @@ const order = handleActions({
     totalPrice: "0.0"
   },
   shipData: {},
-  isPd: 0,
+  isPd: 1,
   freight: null,
   paytype: 1,
   couponId: null,

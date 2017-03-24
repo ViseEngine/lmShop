@@ -49,6 +49,15 @@ export function saveorder({
   });
 }
 
+// check 余额支付密码
+export function chkPasswd({ passwd }) {
+  return fetch.post('/memberapi/chkPasswd', {
+    passwd
+  });
+}
+
+// http://testbbc.leimingtech.com/memberapi/chkPasswd
+
 // 银联支付
 // http://testbbc.leimingtech.com/unionpay/api/tounionpay
 // orderCode	P20170324105020308
