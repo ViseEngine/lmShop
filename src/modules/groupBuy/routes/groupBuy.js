@@ -15,9 +15,8 @@ class GroupBuy extends Component {
 
   componentDidMount() {
     groupBuyApi.groupPurchaseList({
-      activityClass: 20,
+      activityClass: this.props.params.activityClass,
       pageNo: 1,
-      apKey,
       activityType: 50,
       pageSize: 1,
     }).then(result => {
