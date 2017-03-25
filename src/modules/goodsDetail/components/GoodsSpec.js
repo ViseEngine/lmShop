@@ -38,7 +38,8 @@ class GoodsSpec extends React.PureComponent {
       specName: props.goodsDetailInfo.specName,
       goodsId: props.goodsDetailInfo.goodsId,
       goodsName: props.goodsDetailInfo.goodsName,
-      goodsImage: props.goodsDetailInfo.goodsImage
+      goodsImage: props.goodsDetailInfo.goodsImage,
+      buyCount: props.buyCount
     }
   }
 
@@ -108,7 +109,18 @@ class GoodsSpec extends React.PureComponent {
   }
 
   onChangeNum = (num) => {
+    this.setState({
+      buyCount: num
+    })
     this.props.onChangeBuyNum(num);
+  }
+
+  addCart = () => {
+    this.props.addCart(this.state.buyCount)
+  }
+
+  gotoBuy = () => {
+    this.props.gotoBuy(this.state.buyCount)
   }
 
   render() {
@@ -145,20 +157,20 @@ class GoodsSpec extends React.PureComponent {
           })  
         }  
         <List.Item extra={
-          <Stepper
+          <Stepper ref='stepper'
             style={{ width: '100%', minWidth: '2rem' }}
             showNumber min={0}
             max={parseInt(goodsSpec.specGoodsStorage)}
             size="small"
             onChange={this.onChangeNum}
-            defaultValue={this.props.buyCount} />
+            value={this.state.buyCount} />
           }>数量</List.Item>
         <List.Item>库存:{goodsSpec.specGoodsStorage}</List.Item>
         
       </List>
       <CartBar
-        gotoBuy={this.props.gotoBuy}
-        addCart={this.props.addCart}
+        gotoBuy={this.gotoBuy}
+        addCart={this.addCart}
       ></CartBar>
     </div>
   }

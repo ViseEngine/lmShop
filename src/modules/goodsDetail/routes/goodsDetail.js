@@ -135,12 +135,12 @@ class GoodsDetail extends Component {
   }
 
   // 加入购物车处理
-  addCart = () => {
+  addCart = (count) => {
     common.checkLogin();
     const goodsSpec = this.state.goodsDetailInfo.get('goodsSpec')
     cartApi.addCart({
       goodsId: goodsSpec.goodsId,
-      count: 1,
+      count: count || 1,
       specId: goodsSpec.goodsSpecId,
       saveType: 0
     }).then(result => {
@@ -159,13 +159,13 @@ class GoodsDetail extends Component {
   }
 
   // 立即购买
-  gotoBuy = () => {
+  gotoBuy = (count) => {
     common.checkLogin();
     const goodsSpec = this.state.goodsDetailInfo.get('goodsSpec')
     // 先加购物车
     cartApi.addCart({
       goodsId: goodsSpec.goodsId,
-      count: 1,
+      count: count || 1,
       specId: goodsSpec.goodsSpecId,
       saveType: 1
     }).then(result => {
