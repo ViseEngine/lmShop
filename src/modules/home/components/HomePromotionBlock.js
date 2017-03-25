@@ -6,12 +6,10 @@ import { common } from 'common';
 class HomePromotionBlock extends React.PureComponent {
 
   onClick = (el, data) => {
-    console.log(el);
-    console.log(data);
     if (data.activityName == '团购') {
       window.location.href = common.getFullUrl(`/groupBuy.html#/groupBuy/${data.activityTypeValue}`);
     } else if (data.activityName == '限时抢购') {
-      window.location.href = common.getFullUrl(`/timeBuy.html#/groupBuy/${data.activityTypeValue}`);
+      window.location.href = common.getFullUrl(`/timeBuy.html#/timeBuy/${data.activityTypeValue}`);
     }
   }
 

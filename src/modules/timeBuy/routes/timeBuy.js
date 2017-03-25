@@ -1,52 +1,127 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { Carousel, Modal, SearchBar, WhiteSpace, WingBlank, Toast, Flex } from 'antd-mobile';
-// import * as goodsClassApi from '../api/goods';
-// import GoodsClassMenu from '../components/GoodsClassMenu';
-// import GoodsList from '../components/GoodsList';
+import {
+  Modal,
+  WhiteSpace,
+  WingBlank,
+  Toast,
+  Flex,
+  Tabs,
+  Button,
+  ListView
+} from 'antd-mobile';
+import * as timeBuyApi from '../api/timeBuy';
+import { Img } from 'commonComponent';
+import { common } from 'common';
 
 import './timeBuy.less';
+
+const TabPane = Tabs.TabPane;
 
 class TimeBuy extends Component {
   constructor(props) {
     super(props);
+    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+
     this.state = {
-      classList: [],
-      goodsList: []
+      qiangClass: [],
+      defaultActiveClass: props.params.activityClass,
+      dataSource: this.ds.cloneWithRows([]),
     }
   }
 
   componentDidMount() {
-    // Toast.loading();
-    // goodsClassApi.queryClasslist().then(result => {
-    //   // Toast.hide();
-    //   if (result.result != 1) {
-    //     Toast.error(result.msg);
-    //     return;
-    //   }
+    // 获取分类TAB
+    timeBuyApi.flashSaleApiList({
+      activityClass: this.state.defaultActiveClass,
+      pageNo: 1,
+      activityType: 60,
+      pageSize: 1,
+    }).then(result => {
+      if (result.result == 1) {
+        const qiangClass = result.data[0].qiangClass
+        if (qiangClass && qiangClass.length > 0) {
+          this.setState({
+            qiangClass
+          });
+          this.onTabChange(this.state.defaultActiveClass);
+        }
+      }
+    })
+  }
 
-    //   let data = result.data;
-    //   this.setState({
-    //     classList: data
-    //   });
+  onTabChange = (activityClass) => {
+    timeBuyApi.flashSaleApiList({
+      activityClass,
+      pageNo: 1,
+      activityType: 60,
+      pageSize: 15
+    }).then(result => {
+      if (result.result == 1) {
+        const data = result.data[0]
+        this.setState({
+          dataSource: this.ds.cloneWithRows(data.goodsList)
+        });
+      }
+    })
+  }
 
-    //   if (data && data.length > 0) {
-    //     this.onMenuChange(data[0]);
-    //   }
-    // });
+  renderItem = (dataItem) => {
+    return <Flex>
+      <Flex.Item style={{flex:1,paddingLeft:'16px'}}>
+        <Img src={dataItem.goodsImage} style={{width:'100%'}}/>
+      </Flex.Item>
+      <Flex.Item style={{flex:2}}>
+        <div style={{width:'100%',height:'100%'}}>
+          <div>
+            {dataItem.goodsName}
+          </div>
+          <WhiteSpace></WhiteSpace>
+          <Flex>
+            <Flex.Item style={{color:'red'}}>{'¥'+dataItem.price}</Flex.Item>
+            <Flex.Item style={{textDecoration:'line-through'}}>{'¥'+dataItem.specGoodsPrice}</Flex.Item>
+            <Flex.Item style={{ minWidth: '150px', paddingRight: '16px' }}>
+              <Button size='small' type='primary' onClick={()=>this.gotoBuy(dataItem)}>马上抢</Button>
+            </Flex.Item>
+          </Flex>
+        </div>  
+      </Flex.Item>
+    </Flex>
+  }
+
+  gotoBuy = (item) => {
+    common.gotoGoodsDetail({
+      specId: item.goodsSpecId
+    })
+  }
+
+  renderHeader = () => {
+    const { qiangClass, defaultActiveClass, scrollAdv, goodsList } = this.state;
+    return <Tabs onChange={this.onTabChange} defaultActiveKey={defaultActiveClass}>
+      {
+        qiangClass.map((item, index) => {
+          return <TabPane tab={item.dictionaryName} key={item.dictionaryValue}>
+          </TabPane>    
+        })
+      }
+    </Tabs>
   }
 
   render() {
-    return (
-      <div className='wx-goods-class'>
-        {/*<div className='wx-goods-class-menu'>
-          <GoodsClassMenu data={this.state.classList} onMenuChange={this.onMenuChange}></GoodsClassMenu>
-        </div>
-        <div className='wx-goods-class-list'>
-          <GoodsList data={this.state.goodsList}></GoodsList>
-        </div>*/}
-      </div>
-    )
+    const { qiangClass, defaultActiveClass, scrollAdv, goodsList } = this.state;
+    if (qiangClass.length == 0) {
+      return null;
+    }
+    return <div>
+      {this.renderHeader()}
+      <WhiteSpace></WhiteSpace>
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this.renderItem}
+        stickyHeader
+        delayTime={10}>
+      </ListView>
+    </div>
   }
 }
 
