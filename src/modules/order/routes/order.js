@@ -43,7 +43,7 @@ class Order extends Component {
       isPd,
       freight,
       couponId,
-      invoiceId,
+      invoice,
       priceData
     } = this.props.order;
     orderApi.saveorder({
@@ -52,7 +52,7 @@ class Order extends Component {
       paytype,
       freight,
       couponId,
-      invoiceId,
+      invoiceId: invoice ? invoice.id : null,
       isPd,
       activityIds: null
     }).then(result => {
@@ -230,11 +230,17 @@ class Order extends Component {
       priceData,
       shipData,
       isPd,
-      paytype
+      paytype,
+      invoice
     } = this.props.order;
     let couponShow = couponCount > 0 ? `${couponCount}张优惠券` : '无可用优惠券';
     if (priceData.couponPrice != '0.0') {
       couponShow = `¥${priceData.couponPrice}`
+    }
+    let invoiceShow = '不开发票'
+    // 已填写发票，并且选择的是明细
+    if (invoice && invoice.invId && invoice.invContent == 2) {
+      invoiceShow = invoice.invTitle
     }
     return <div className='wx-order'>
       <List>
@@ -278,7 +284,7 @@ class Order extends Component {
         <Item
           onClick={this.onClickInvoice}    
           arrow="horizontal"
-          extra={'不开发票'}
+          extra={invoiceShow}
           >
           发票信息
         </Item>

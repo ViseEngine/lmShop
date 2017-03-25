@@ -9,27 +9,98 @@ import {
   Flex,
   Button,
   List,
-  Switch
+  Checkbox,
+  InputItem
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import * as orderApi from '../api/order';
 import { common } from 'common';
-import Shop from '../components/Shop';
-import Fee from '../components/Fee';
-import OrderBar from '../components/OrderBar';
-import { createForm } from 'rc-form';
 
 const Item = List.Item;
 const Brief = Item.Brief;
+const CheckboxItem = Checkbox.CheckboxItem;
 
 class Invoice extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      invState: 1,
+      invTitle: '',
+      invContent: 1
+    }
+  }
+
+  onClick = () => {
+    // check ,明细必须输入抬头
+    if (this.invContent == 2) {
+      Toast.fail('请输入发票抬头');
+      return;
+    }
+    orderApi.addInvoice({
+      invState: this.state.invState,
+      invContent: this.state.invContent,
+      invTitle: this.state.invTitle
+    }).then(result => {
+      if (result.result == 1) {
+        // 新增成功，回订单确认页面
+        // console.log(result);
+        const invId = result.data[0].invId;
+        // 同步到redux order页面
+        this.props.dispatch({
+          type: 'invoiceChange',
+          payload: {
+            ...this.props.order.invoice,
+            invId: invId
+          }
+        })
+        this.props.router.goBack();
+      } else {
+        Toast.info(result.msg);
+      }
+    })
+  }
+
+  onChangeContent = (value) => {
+    this.setState({
+      invContent: value
+    })
+    // 同步到redux order页面
+    this.props.dispatch({
+      type: 'invoiceChange',
+      payload: {
+        ...this.props.order.invoice,
+        invContent: value
+      }
+    })
+  }
+
+  onChangeTitle = (value) => {
+    this.setState({
+      invTitle: value
+    })
+    // 同步到redux order页面
+    this.props.dispatch({
+      type: 'invoiceChange',
+      payload: {
+        ...this.props.order.invoice,
+        invTitle: value
+      }
+    })
   }
 
   render() {
     return <div>
-      发票
+      <List renderHeader='发票类型'>
+        <Item>纸质发票</Item>
+      </List>
+      <List renderHeader='发票抬头'>
+        <InputItem value={this.state.invTitle} onChange={this.onChangeTitle} placeholder='请填写发票抬头'></InputItem>
+      </List>
+      <List renderHeader='发票内容'>
+        <CheckboxItem checked={this.state.invContent==1} onChange={() => this.onChangeContent(1)}>不开发票</CheckboxItem>
+        <CheckboxItem checked={this.state.invContent==2} onChange={() => this.onChangeContent(2)}>明细</CheckboxItem>
+      </List>
+      <Button type='primary' onClick={this.onClick}>确定</Button>
     </div>
   }
 }

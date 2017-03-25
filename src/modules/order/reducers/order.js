@@ -52,8 +52,16 @@ const order = handleActions({
       ...state,
       ...payload,
       isInit: false
-    };
-  }
+    }
+  },
+  ['invoiceChange'](state, action) {
+    const payload = action.payload
+    return {
+      ...state,
+      invoice: payload,
+      isInit: false
+    }
+  },
 }, {
   selectedAddress: {},
   priceData: {
@@ -70,7 +78,7 @@ const order = handleActions({
   freight: null,
   paytype: 1,
   couponId: null,
-  invoiceId: null,
+  invoice: null,
   addressList: [],
   cartVoList: [],
   couponCount: 0,

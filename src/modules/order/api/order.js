@@ -36,6 +36,10 @@ export function addCouponMember({ cartIds }) {
   });
 }
 
+// 发票信息
+export function addInvoice({ invState, invTitle, invContent }) {
+  return fetch.get('/invoiceapi/addInvoice', { invState, invTitle, invContent });
+}
 
 export function saveorder({
   paytype,
