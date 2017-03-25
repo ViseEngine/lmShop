@@ -45,6 +45,14 @@ const order = handleActions({
       ...state,
       paytype: payload
     };
+  },
+  ['selectCoupon'](state, action) {
+    const payload = action.payload
+    return {
+      ...state,
+      ...payload,
+      isInit: false
+    };
   }
 }, {
   selectedAddress: {},
@@ -67,7 +75,8 @@ const order = handleActions({
   cartVoList: [],
   couponCount: 0,
   couponMemberMap: {},
-  memberAvailable: '0.0'
+  memberAvailable: '0.0',
+  isInit: true
 });
 
 export default order;

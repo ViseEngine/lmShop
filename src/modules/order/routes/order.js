@@ -136,7 +136,7 @@ class Order extends Component {
     if (this.props.order.couponCount == 0) {
       return;
     }
-    this.props.router.push('/coupon');
+    this.props.router.push(`/coupon/${this.cartId}`);
   }
 
   onClickInvoice = () => {
@@ -166,7 +166,10 @@ class Order extends Component {
   }
 
   componentDidMount() {
-    const { isPd, freight, paytype, couponId } = this.props.order;
+    const { isPd, freight, paytype, couponId, isInit } = this.props.order;
+    if (!isInit) {
+      return;
+    }
     orderApi.subToOrder({ cartId: this.cartId }).then(result => {
       if (result.result == 1) {
         const data = result.data[0];
@@ -229,6 +232,10 @@ class Order extends Component {
       isPd,
       paytype
     } = this.props.order;
+    let couponShow = couponCount > 0 ? `${couponCount}张优惠券` : '无可用优惠券';
+    if (priceData.couponPrice != '0.0') {
+      couponShow = `¥${priceData.couponPrice}`
+    }
     return <div className='wx-order'>
       <List>
         <Item onClick={this.onClickSelectedAddress}
@@ -258,7 +265,7 @@ class Order extends Component {
         <Item
           onClick={this.onClickCoupon}  
           arrow="horizontal"
-          extra={ couponCount>0?`${couponCount}张优惠券`:'无可用优惠券'}
+          extra={couponShow}
           >
           优惠券
         </Item>
