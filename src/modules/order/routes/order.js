@@ -20,6 +20,7 @@ import Fee from '../components/Fee';
 import OrderBar from '../components/OrderBar';
 import PasswordInput from '../components/PasswordInput';
 
+const prompt = Modal.prompt;
 const Item = List.Item;
 const Brief = Item.Brief;
 
@@ -92,17 +93,24 @@ class Order extends Component {
 
     // 如果使用余额支付，弹出密码输入框，，否则跳到
     if (isPd == 1) {
-      //TODO:密码组件 Modal.alert('输入密码');
-      const passwd = '123456';
-      orderApi.chkPasswd({ passwd }).then(result => {
-        if (result.result == 1) {
-          // 密码正确，继续提交订单
-          this.submitOrder();
-        } else {
-          Toast.fail(result.msg);
-        }
-      })
-      return;
+      prompt(
+        '请输入支付密码',
+        '', [{
+          text: '提交',
+          onPress: passwd => {
+            orderApi.chkPasswd({ passwd }).then(result => {
+              if (result.result == 1) {
+                // 密码正确，继续提交订单
+                this.submitOrder();
+              } else {
+                Toast.fail(result.msg);
+              }
+            })
+          }
+        }],
+        'secure-text',
+      )
+
     } else {
       // 在线支持 提交订单
       this.submitOrder();
