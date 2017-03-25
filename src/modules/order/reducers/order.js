@@ -38,6 +38,13 @@ const order = handleActions({
       ...state,
       ...payload
     };
+  },
+  ['selectPayType'](state, action) {
+    const payload = action.payload
+    return {
+      ...state,
+      paytype: payload
+    };
   }
 }, {
   selectedAddress: {},

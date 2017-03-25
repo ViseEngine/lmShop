@@ -58,18 +58,28 @@ class Order extends Component {
       isPd,
       activityIds: null
     }).then(result => {
-      console.log(result);
       if (result.result == 1) {
-        // 跳转到收银台
-        // this.props.router.push(`/cashier/${result.data[0].paySn}/${priceData.totalPrice}`);
+        if (paytype == 2) {
+          Toast.success(result.msg, 1, () => {
+            this.props.router.go(-1);
+          });
+        } else {
+          // 跳转到收银台
+          this.props.router.push(`/cashier/${result.data[0].paySn}/${priceData.totalPrice}`);
+        }
       } else {
         Toast.fail(result.msg);
       }
     });
   }
 
+  // 选择支付方式
   selectPayType = (type) => {
-    // this.props.di
+    this.props.dispatch({
+      type: 'selectPayType',
+      payload: type
+    });
+    Popup.hide();
   }
 
   onSelectPayTypeClick = () => {
@@ -179,19 +189,22 @@ class Order extends Component {
       memberAvailable,
       priceData,
       shipData,
-      isPd
+      isPd,
+      paytype
     } = this.props.order;
     return <div className='wx-order'>
-      {
-        selectedAddress && <List>
-          <Item onClick={this.onClickSelectedAddress}
-            arrow="horizontal"
-            multipleLine>
-            {selectedAddress.mobPhone}&nbsp;&nbsp; {selectedAddress.trueName}
-            <Brief>{selectedAddress.address}</Brief>
-          </Item>
-        </List>
-      }
+      <List>
+        <Item onClick={this.onClickSelectedAddress}
+          arrow="horizontal"
+          multipleLine>
+          {
+            selectedAddress ?<div>
+              {selectedAddress.mobPhone}&nbsp;&nbsp; {selectedAddress.trueName}
+              <Brief>{selectedAddress.address}</Brief>
+            </div>: '请选择地址'
+          }
+        </Item>
+      </List>
       {
         cartVoList.map((shop, index) => {
           return <Shop key={index} data={shop}></Shop>
@@ -201,7 +214,7 @@ class Order extends Component {
         <Item
           onClick={this.onSelectPayTypeClick}  
           arrow="horizontal"
-          extra={'在线支付'}
+          extra={paytype==1?'在线支付':'货到付款'}
           >
           支付方式
         </Item>

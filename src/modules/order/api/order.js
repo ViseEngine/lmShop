@@ -29,6 +29,14 @@ export function getPrice({
   });
 }
 
+// 获取优惠券
+export function addCouponMember({ cartIds }) {
+  return fetch.post('/cartapi/addCouponMember', {
+    cartIds
+  });
+}
+
+
 export function saveorder({
   paytype,
   invoiceId,

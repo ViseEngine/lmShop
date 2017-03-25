@@ -7,7 +7,8 @@ import {
   Toast,
   Flex,
   Button,
-  List
+  List,
+  Modal
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import * as orderApi from '../api/order';
@@ -18,7 +19,6 @@ const Item = List.Item;
 class Cashier extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
     // {
     //   "data": [{
     //     "buyerId": "0764fc72e3964c2f89834b65cce18275",
@@ -33,16 +33,14 @@ class Cashier extends Component {
 
   gotoPay = (type) => {
     if (type == 1) {
-
-    } else if (type == 2) {
-
+      Modal.alert('微信支付..开发中');
     } else {
-
+      Modal.alert('银联支付..开发中');
     }
   }
 
   render() {
-    const totalPrice = '4503.0'
+    const totalPrice = this.props.params.totalPrice
     const imgUrl = ['/assets/img/WechatIMG96.png',
       '/assets/img/WechatIMG97.png',
       '/assets/img/WechatIMG98.png'

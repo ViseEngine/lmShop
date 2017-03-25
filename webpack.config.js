@@ -80,6 +80,7 @@ var proxyInterface = ['/floor/api',
   '/loginapi',
   '/cartapi',
   '/orderapi',
+  '/address'
 ];
 var proxy = {};
 proxyInterface.forEach(function(item) {
