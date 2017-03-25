@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Img } from 'commonComponent';
 import { common } from 'common';
-import { List, Flex } from 'antd-mobile';
+import { List, Flex, Toast } from 'antd-mobile';
 import * as goodsDetailApi from '../api/goodsDetail';
 import * as storeApi from 'common/api/store';
 
@@ -14,7 +14,6 @@ class CouponList extends React.PureComponent {
   }
 
   componentDidMount() {
-    console.log(this.props);
     storeApi.couponlist({ storeId: this.props.storeId }).then(result => {
       const data = result.data;
       if (data && data.length > 0) {
@@ -29,8 +28,12 @@ class CouponList extends React.PureComponent {
    * 点击领券
    */
   onSel = (sel) => {
-    // this.setState({ sel });
-    this.props.onClose();
+    goodsDetailApi.receiveCoupon({
+      couponId: sel.id,
+      storeId: sel.shopActivity.storeId
+    }).then(result => {
+      Toast.info(result.msg);
+    })
   };
 
   render() {

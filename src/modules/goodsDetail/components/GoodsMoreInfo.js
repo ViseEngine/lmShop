@@ -36,7 +36,9 @@ export default function({ goodsDetailInfo }) {
       <div dangerouslySetInnerHTML={{ __html: goodsDetailInfo.goodsProperty }}></div>
     </TabPane>
     <TabPane tab="包装售后" key="3">
-      {goodsDetailInfo.afterSale}
+      <div style={{minHeight:'200px'}}>
+        {goodsDetailInfo.afterSale}
+      </div>
     </TabPane>
   </Tabs>
 }

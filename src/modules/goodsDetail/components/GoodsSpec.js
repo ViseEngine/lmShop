@@ -112,12 +112,6 @@ class GoodsSpec extends React.PureComponent {
   }
 
   render() {
-    console.log('GoodsSpec render');
-    // const { goodsDetailInfo } = this.props;
-    // if (!goodsDetailInfo) {
-    //   return null;
-    // }
-
     // 获取规格属性
     const {
       goodsSpecValueAll, // 所有的规格属性
@@ -128,7 +122,6 @@ class GoodsSpec extends React.PureComponent {
     } = this.state;
     // 当前选中的规格
     const { specGoodsSpec } = goodsSpec;
-    console.log(goodsSpec);
 
     return <div style={{ marginBottom: '1.1rem'}}>
       <List renderHeader={() => (this.renderHeader())}>
@@ -163,7 +156,10 @@ class GoodsSpec extends React.PureComponent {
         <List.Item>库存:{goodsSpec.specGoodsStorage}</List.Item>
         
       </List>
-      <CartBar></CartBar>
+      <CartBar
+        gotoBuy={this.props.gotoBuy}
+        addCart={this.props.addCart}
+      ></CartBar>
     </div>
   }
 }

@@ -145,7 +145,6 @@ class GoodsDetail extends Component {
       saveType: 0
     }).then(result => {
       if (result.result == 1) {
-        console.log(result);
         const cartCount = result.data[0].cartCount;
         this.setState({
           cartNum: cartCount
@@ -195,7 +194,7 @@ class GoodsDetail extends Component {
       item.specGoodsStorage = data.num;
       item.specGoodsPrice = data.price;
       item.specGoodsSpec = currentSpecs;
-      item.goodsSpecId = data.goodsSpecId;
+      item.goodsSpecId = data.specId;
       return item;
     })
     // 记录已选的规格ID，加购物车的时候需要
