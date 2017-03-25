@@ -18,7 +18,6 @@ import { common } from 'common';
 import Shop from '../components/Shop';
 import Fee from '../components/Fee';
 import OrderBar from '../components/OrderBar';
-import PasswordInput from '../components/PasswordInput';
 
 const prompt = Modal.prompt;
 const Item = List.Item;
@@ -316,9 +315,6 @@ class Order extends Component {
         </Flex.Item>
       </Flex>
       <OrderBar onSubmitOrder={this.onSubmitOrder} totalPrice={priceData.totalPrice}></OrderBar>
-      {/*<PasswordInput visible={true}
-        onClose={()=>{}}
-        onComplete={() => { }}></PasswordInput>*/}
     </div>
   }
 }
