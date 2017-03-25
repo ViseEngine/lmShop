@@ -20,7 +20,7 @@ const Item = List.Item;
 const Brief = Item.Brief;
 const AgreeItem = Checkbox.AgreeItem;
 
-class AddressForm extends Component {
+class AddressEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,11 +28,10 @@ class AddressForm extends Component {
     }
   }
 
-
   render() {
     const { addressList } = this.state;
     return <div className='wx-addresslist'>
-      地址新增
+      地址更新
     </div>
   }
 }
@@ -41,4 +40,4 @@ function mapStateToProps({ order }) {
   return { order };
 }
 
-export default withRouter(connect(mapStateToProps)(AddressForm));
+export default withRouter(connect(mapStateToProps)(AddressEdit));

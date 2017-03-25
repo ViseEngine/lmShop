@@ -18,6 +18,7 @@ import { common } from 'common';
 import Shop from '../components/Shop';
 import Fee from '../components/Fee';
 import OrderBar from '../components/OrderBar';
+import PasswordInput from '../components/PasswordInput';
 
 const Item = List.Item;
 const Brief = Item.Brief;
@@ -34,9 +35,7 @@ class Order extends Component {
     }
   }
 
-  onSubmitOrder = () => {
-    // TODO:验证数据
-
+  submitOrder = () => {
     // 提交订单
     const {
       selectedAddress,
@@ -47,7 +46,6 @@ class Order extends Component {
       invoiceId,
       priceData
     } = this.props.order;
-
     orderApi.saveorder({
       cartIds: this.cartId,
       addressId: selectedAddress.addressId,
@@ -59,6 +57,7 @@ class Order extends Component {
       activityIds: null
     }).then(result => {
       if (result.result == 1) {
+        // 货到付款，成功后跳转到商品详情页面
         if (paytype == 2) {
           Toast.success(result.msg, 1, () => {
             this.props.router.go(-1);
@@ -71,6 +70,43 @@ class Order extends Component {
         Toast.fail(result.msg);
       }
     });
+  }
+
+  onSubmitOrder = () => {
+
+    // 提交订单
+    const {
+      selectedAddress,
+      paytype,
+      isPd,
+      freight,
+      couponId,
+      invoiceId,
+      priceData
+    } = this.props.order;
+    // 验证数据
+    if (!selectedAddress) {
+      Modal.fail('请先选择收货地址');
+      return;
+    }
+
+    // 如果使用余额支付，弹出密码输入框，，否则跳到
+    if (isPd == 1) {
+      //TODO:密码组件 Modal.alert('输入密码');
+      const passwd = '123456';
+      orderApi.chkPasswd({ passwd }).then(result => {
+        if (result.result == 1) {
+          // 密码正确，继续提交订单
+          this.submitOrder();
+        } else {
+          Toast.fail(result.msg);
+        }
+      })
+      return;
+    } else {
+      // 在线支持 提交订单
+      this.submitOrder();
+    }
   }
 
   // 选择支付方式
@@ -176,7 +212,8 @@ class Order extends Component {
           })
         }
       } else {
-        Toast.fail(result.msg);
+        // Toast.fail(result.msg);
+        this.props.router.go(-1);
       }
     })
   }
@@ -258,6 +295,9 @@ class Order extends Component {
         </Flex.Item>
       </Flex>
       <OrderBar onSubmitOrder={this.onSubmitOrder} totalPrice={priceData.totalPrice}></OrderBar>
+      {/*<PasswordInput visible={true}
+        onClose={()=>{}}
+        onComplete={() => { }}></PasswordInput>*/}
     </div>
   }
 }

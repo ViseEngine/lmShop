@@ -86,7 +86,7 @@ class Address extends Component {
     return <div className='wx-addresslist'>
       {
         addressList.map(address => {
-          return <List>
+          return <List key={address.addressId}>
             <Item multipleLine onClick={()=>this.onSelectAddress(address)}>
               {address.trueName} &nbsp;&nbsp; {address.mobPhone}  <Brief>{address.areaInfo} {address.address}</Brief>
             </Item>

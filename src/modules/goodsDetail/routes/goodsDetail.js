@@ -92,6 +92,8 @@ class GoodsDetail extends Component {
     const goodsDetailInfo = this.state.goodsDetailInfo.toJS();
     Popup.show(
       <GoodsSpec
+        addCart={this.addCart}  
+        gotoBuy={this.gotoBuy}
         buyCount={this.state.buyCount}  
         onChangeSpec={this.onChangeSpec}
         onChangeBuyNum={this.onChangeBuyNum}

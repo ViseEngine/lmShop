@@ -1,39 +1,28 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { Carousel, Modal, SearchBar, WhiteSpace, WingBlank, Toast, Flex } from 'antd-mobile';
-// import * as goodsClassApi from '../api/goods';
-// import GoodsClassMenu from '../components/GoodsClassMenu';
-// import GoodsList from '../components/GoodsList';
+import * as groupBuyApi from '../api/groupBuy';
 
 import './groupBuy.less';
 
-class GoodsClass extends Component {
+class GroupBuy extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      classList: [],
       goodsList: []
     }
   }
 
   componentDidMount() {
-    // Toast.loading();
-    // goodsClassApi.queryClasslist().then(result => {
-    //   // Toast.hide();
-    //   if (result.result != 1) {
-    //     Toast.error(result.msg);
-    //     return;
-    //   }
-
-    //   let data = result.data;
-    //   this.setState({
-    //     classList: data
-    //   });
-
-    //   if (data && data.length > 0) {
-    //     this.onMenuChange(data[0]);
-    //   }
-    // });
+    groupBuyApi.groupPurchaseList({
+      activityClass: 20,
+      pageNo: 1,
+      apKey,
+      activityType: 50,
+      pageSize: 1,
+    }).then(result => {
+      console.log(result);
+    })
   }
 
   render() {
@@ -45,4 +34,4 @@ class GoodsClass extends Component {
   }
 }
 
-export default withRouter(GoodsClass);
+export default withRouter(GroupBuy);

@@ -5,9 +5,14 @@ import { common } from 'common';
 
 class HomePromotionBlock extends React.PureComponent {
 
-  onClick = (el, index) => {
-    Modal.alert("开发中..");
-    // window.location.href = common.getFullUrl(`/goodsDetail.html#/?specId=${el.specId}`);
+  onClick = (el, data) => {
+    console.log(el);
+    console.log(data);
+    if (data.activityName == '团购') {
+      window.location.href = common.getFullUrl(`/groupBuy.html#/${data.activityTypeValue}`);
+    } else if (data.activityName == '限时抢购') {
+      window.location.href = common.getFullUrl(`/timeBuy.html#/${data.activityTypeValue}`);
+    }
   }
 
   renderItem = (dataItem) => {
@@ -38,7 +43,7 @@ class HomePromotionBlock extends React.PureComponent {
     )}>
       <List.Item>
       <Grid data={objectUnionVOList} columnNum={4} hasLine={false}
-        onClick={this.onClick}
+        onClick={(el,index)=>this.onClick(el,data)}
           renderItem={(dataItem,index)=>(this.renderItem(dataItem))}>
         </Grid>
       </List.Item>  

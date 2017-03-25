@@ -64,6 +64,15 @@ export function chkPasswd({ passwd }) {
   });
 }
 
+// 获取支付结果
+export function getOrderPay({ paySn }) {
+  // http://testbbc.leimingtech.com/orderapi/getOrderPay
+  // paySn	P20170325143406611
+  return fetch.post('/orderapi/getOrderPay', {
+    paySn
+  });
+}
+
 // http://testbbc.leimingtech.com/memberapi/chkPasswd
 
 // 银联支付
