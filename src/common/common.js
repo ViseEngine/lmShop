@@ -54,7 +54,7 @@ export function gotoGoodsDetail({ specId }) {
 }
 
 export function gotoOrder({ cartId }) {
-  window.location.href = getFullUrl(`/order.html#/?cartId=${cartId}`);
+  window.location.href = getFullUrl(`/order.html#/order/${cartId}`);
 }
 
 // 获取token

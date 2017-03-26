@@ -12,7 +12,7 @@ import cashier from './cashier';
 import paySuccess from './paySuccess';
 
 const routesConfig = (<Route path="/" component={App}>
-  <IndexRoute component={order} showBottomBar={false} title='确认订单' showTitle={true} />
+  <Route path='/order/:cartId' component={order} title='确认订单'/>
   <Route path='/address' component={address} title='收货地址管理' />
   <Route path='/addressAdd' component={addressAdd} title='添加地址' />
   <Route path='/addressEdit' component={addressEdit} title='编辑地址'/>

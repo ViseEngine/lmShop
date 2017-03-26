@@ -11,7 +11,8 @@ const order = handleActions({
     return {
       ...state,
       ...payload,
-      selectedAddress
+      selectedAddress,
+      cartId: action.cartId
     };
   },
   ['getPrice'](state, action) {
@@ -62,7 +63,16 @@ const order = handleActions({
       isInit: false
     }
   },
+  ['selectAddress'](state, action) {
+    const payload = action.payload
+    return {
+      ...state,
+      selectedAddress: payload,
+      isInit: false
+    }
+  },
 }, {
+  cartId: null,
   selectedAddress: {},
   priceData: {
     conditionPrice: "0.0",

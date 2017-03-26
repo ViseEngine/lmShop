@@ -43,7 +43,11 @@ class Address extends Component {
   }
 
   onSelectAddress = (address) => {
-    // this.props.router.push('/order')
+    this.props.dispatch({
+      type: 'selectAddress',
+      payload: address
+    });
+    this.props.router.replace(`/order/${this.props.order.cartId}`)
   }
 
   gotoAdd = () => {
@@ -51,7 +55,7 @@ class Address extends Component {
   }
 
   gotoEdit = (address) => {
-
+    alert('开发中');
   }
 
   gotoDel = (address) => {

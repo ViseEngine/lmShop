@@ -28,11 +28,6 @@ import './order.less';
 class Order extends Component {
   constructor(props) {
     super(props);
-    if (this.props.location.query) {
-      if (this.props.location.query.cartId) {
-        this.cartId = this.props.location.query.cartId;
-      }
-    }
   }
 
   submitOrder = () => {
@@ -44,10 +39,11 @@ class Order extends Component {
       freight,
       couponId,
       invoice,
-      priceData
+      priceData,
+      cartId
     } = this.props.order;
     orderApi.saveorder({
-      cartIds: this.cartId,
+      cartIds: cartId,
       addressId: selectedAddress.addressId,
       paytype,
       freight,
@@ -57,7 +53,7 @@ class Order extends Component {
       activityIds: null
     }).then(result => {
       if (result.result == 1) {
-        // 货到付款，成功后跳转到商品详情页面
+        // 货到付款，成功后跳转到货到付款提示页面
         if (paytype == 2) {
           Toast.success(result.msg, 1, () => {
             this.props.router.go(-1);
@@ -143,7 +139,7 @@ class Order extends Component {
     if (this.props.order.couponCount == 0) {
       return;
     }
-    this.props.router.push(`/coupon/${this.cartId}`);
+    this.props.router.push(`/coupon/${this.props.params.cartId}`);
   }
 
   onClickInvoice = () => {
@@ -152,10 +148,10 @@ class Order extends Component {
 
   onChangePd = (checked) => {
     // 刷新价格显示
-    const { freight, paytype, couponId, selectedAddress } = this.props.order;
+    const { freight, paytype, couponId, selectedAddress, cartId } = this.props.order;
     const isPd = checked ? 1 : 0;
     orderApi.getPrice({
-      cartIds: this.cartId,
+      cartIds: cartId,
       cityId: selectedAddress.cityId,
       freight,
       couponId,
@@ -177,19 +173,22 @@ class Order extends Component {
     if (!isInit) {
       return;
     }
-    orderApi.subToOrder({ cartId: this.cartId }).then(result => {
+    const cartId = this.props.params.cartId;
+    console.log(cartId);
+    orderApi.subToOrder({ cartId }).then(result => {
       if (result.result == 1) {
         const data = result.data[0];
         // console.log(data);
         this.props.dispatch({
           type: 'init',
-          payload: data
+          payload: data,
+          cartId
         })
 
         if (data.addressList && data.addressList.length > 0) {
           let currentSelectedAddress = data.addressList[0];
           orderApi.addShipping({
-            cartIds: this.cartId,
+            cartIds: cartId,
             cityId: currentSelectedAddress.cityId
           }).then(r => {
             if (result.result == 1) {
@@ -203,7 +202,7 @@ class Order extends Component {
               // const freight = `result.data[0].`
 
               orderApi.getPrice({
-                cartIds: this.cartId,
+                cartIds: cartId,
                 cityId: currentSelectedAddress.cityId,
                 isPd,
                 freight,
@@ -221,9 +220,6 @@ class Order extends Component {
             }
           })
         }
-      } else {
-        // Toast.fail(result.msg);
-        this.props.router.go(-1);
       }
     })
   }
@@ -257,7 +253,7 @@ class Order extends Component {
           {
             selectedAddress ?<div>
               {selectedAddress.mobPhone}&nbsp;&nbsp; {selectedAddress.trueName}
-              <Brief>{selectedAddress.address}</Brief>
+              <Brief>{selectedAddress.areaInfo} {selectedAddress.address}</Brief>
             </div>: '请选择地址'
           }
         </Item>
