@@ -98,8 +98,8 @@ class Address extends Component {
                   </AgreeItem>
                 </Flex.Item>
                 <Flex.Item style={{textAlign:'right'}}>
-                  <Button type='primary' onClick={()=>this.gotoEdit(address)} inline>编辑</Button>
-                  <Button type='primary' onClick={()=>this.gotoDel(address)} inline>删除</Button>
+                  <Button type='primary' size='small' onClick={()=>this.gotoEdit(address)} inline>编辑</Button>&nbsp;
+                  <Button type='primary' size='small' onClick={()=>this.gotoDel(address)} inline>删除</Button>
                 </Flex.Item>
               </Flex>
             </Item>

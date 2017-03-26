@@ -20,50 +20,76 @@ import { createForm } from 'rc-form';
 import './address.less';
 
 const Item = List.Item;
-const Brief = Item.Brief;
-
-// 如果不是使用 List.Item 作为 children
-const CustomChildren = props => (
-  <div
-    onClick={props.onClick}
-    style={{ backgroundColor: '#fff', padding: '0 0.3rem' }}
-  >
-    <div style={{ display: 'flex', height: '0.9rem', lineHeight: '0.9rem' }}>
-      <div style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{props.children}</div>
-      <div style={{ textAlign: 'right', color: '#888' }}>{props.extra}</div>
-    </div>
-  </div>
-);
+// 地区数据
+const district = addressApi.getAreaData();
 
 class AddressAdd extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      address: '',
-      trueName: '',
-      mobPhone: '',
-      areaInfo: '',
-      zipCode: '',
-      areaId: '',
-      provinceId: '',
-      addressId: '',
-      telPhone: '',
-      cityId: '',
-    }
   }
 
-  onChangeArea = () => {
-    alert(111);
+  componentDidMount() {
+
+  }
+
+  onPickerChange = (value) => {
+    console.log(value);
   }
 
   onSubmit = () => {
+    // console.log(this.refs.areaInfo);
+    // 提交地址
+    const fieldsValue = this.props.form.getFieldsValue()
+    // check
+    if (!fieldsValue.trueName || fieldsValue.trueName == '') {
+      Toast.info('收货人姓名不能为空');
+      return;
+    }
+    if (!fieldsValue.mobPhone || fieldsValue.mobPhone.trim() == '') {
+      Toast.info('手机号不能为空');
+      return;
+    }
+    if (!fieldsValue.zipCode || fieldsValue.zipCode == '') {
+      Toast.info('邮政编码不能为空');
+    }
+    if (!fieldsValue.areaInfo || fieldsValue.areaInfo.length == 0) {
+      Toast.info('请选择所在地区');
+      return;
+    }
+    if (!fieldsValue.address || fieldsValue.address == '') {
+      Toast.info('详细地址不能为空');
+      return;
+    }
+
+    const provinceId = fieldsValue.areaInfo[0];
+    const cityId = fieldsValue.areaInfo[1];
+    const areaId = fieldsValue.areaInfo[2];
+
+    const currentProvince = (district.filter(item => item.value == provinceId))[0]
+    const currentCity = (currentProvince.children.filter(item => item.value == cityId))[0]
+    const currentArea = (currentCity.children.filter(item => item.value == areaId))[0]
+    const currentAreaName = [currentProvince.label, currentCity.label, currentArea.label].join(',');
+
+    addressApi.saveAddress({
+      ...fieldsValue,
+      provinceId,
+      cityId,
+      areaId,
+      areaInfo: currentAreaName
+    }).then(result => {
+      if (result.result == 1) {
+        this.props.router.push('/address')
+      } else {
+        Toast.info(result.msg);
+      }
+    })
 
   }
 
   render() {
     const { getFieldProps } = this.props.form;
     return <div className='wx-address-add'>
-      <List className="my-list">
+      <List className="picker-list">
          <InputItem
             {...getFieldProps('trueName')}
             clear
@@ -72,20 +98,21 @@ class AddressAdd extends Component {
         <InputItem
             {...getFieldProps('mobPhone')}
             clear
+            type='number'
             placeholder="请输入手机号"
         >手机号</InputItem>
         <InputItem
             {...getFieldProps('zipCode')}
             clear
+            type='number'
             placeholder="请输入邮政编码">邮政编码</InputItem>
-        <Picker
+        <Picker   
           data={district}
           title="选择地区"
-          extra="请选择(可选)"
-          value={this.state.pickerValue}
-          onChange={v => this.setState({ pickerValue: v })}
+          onPickerChange={this.onPickerChange}
+          {...getFieldProps('areaInfo')}
         >
-          <CustomChildren>选择地区（自定义 children）</CustomChildren>
+          <List.Item arrow="horizontal">所在地区</List.Item>
         </Picker>
         <InputItem
             {...getFieldProps('address')}
@@ -94,6 +121,7 @@ class AddressAdd extends Component {
         <InputItem
             {...getFieldProps('telPhone')}
             clear
+            type='number'
             placeholder="座机电话">座机电话</InputItem>
         <Item>
           <Button onClick={this.onSubmit} type='primary'>保存</Button>
