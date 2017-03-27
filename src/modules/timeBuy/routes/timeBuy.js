@@ -97,7 +97,7 @@ class TimeBuy extends Component {
 
   renderHeader = () => {
     const { qiangClass, defaultActiveClass, scrollAdv, goodsList } = this.state;
-    return <Tabs onChange={this.onTabChange} defaultActiveKey={defaultActiveClass}>
+    return <Tabs swipeable={false} onChange={this.onTabChange} defaultActiveKey={defaultActiveClass}>
       {
         qiangClass.map((item, index) => {
           return <TabPane tab={item.dictionaryName} key={item.dictionaryValue}>
