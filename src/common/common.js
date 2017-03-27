@@ -53,6 +53,10 @@ export function gotoGoodsDetail({ specId }) {
   window.location.href = getFullUrl(`/goodsDetail.html#/?specId=${specId}`);
 }
 
+export function gotoStore({ storeId }) {
+  window.location.href = getFullUrl(`/home.html#/store/${storeId}`);
+}
+
 export function gotoOrder({ cartId }) {
   window.location.href = getFullUrl(`/order.html#/order/${cartId}`);
 }

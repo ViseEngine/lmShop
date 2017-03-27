@@ -7,8 +7,13 @@ import {
   WhiteSpace,
   Button
 } from 'antd-mobile';
+import { common } from 'common';
 import { Img } from 'commonComponent';
 const TabPane = Tabs.TabPane;
+
+const gotoStore = (goodsDetailInfo) => {
+  common.gotoStore({ storeId: goodsDetailInfo.storeId });
+}
 
 /**
  * 商品更多信息
@@ -55,7 +60,7 @@ export default function({ goodsDetailInfo }) {
     <WhiteSpace></WhiteSpace>  
     <Flex>
         <Flex.Item><Button>联系客服</Button></Flex.Item>
-        <Flex.Item><Button>进入店铺</Button></Flex.Item>
+        <Flex.Item><Button onClick={()=>gotoStore(goodsDetailInfo)}>进入店铺</Button></Flex.Item>
     </Flex>  
   </WingBlank>
 }
