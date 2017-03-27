@@ -97,7 +97,7 @@ class GroupBuy extends Component {
     }
     return (
       <div className='wx-group'>
-        <Tabs onChange={this.onTabChange} defaultActiveKey={defaultActiveClass}>
+        <Tabs swipeable={false} onChange={this.onTabChange} defaultActiveKey={defaultActiveClass}>
           {
             qiangClass.map((item,index) => {
               return <TabPane tab={item.dictionaryName} key={item.dictionaryValue}>
