@@ -8,8 +8,8 @@
     "npm": ">3.0.0"
   },
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack --display-error-details --progress --profile --colors"
+    "start": "webpack-dev-server --config webpack.dev.config.js",
+    "build": "webpack --config webpack.pro.config.js --display-error-details --progress --profile --colors"
   },
   "author": "",
   "license": "ISC",
