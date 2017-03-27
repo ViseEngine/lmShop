@@ -55,7 +55,10 @@ class Address extends Component {
   }
 
   gotoEdit = (address) => {
-    alert('开发中');
+    this.props.router.push({
+      pathname: '/addressEdit',
+      state: address
+    });
   }
 
   gotoDel = (address) => {

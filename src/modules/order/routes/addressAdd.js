@@ -12,7 +12,6 @@ import {
   Picker
 } from 'antd-mobile';
 
-import { Img } from 'commonComponent';
 import * as addressApi from '../api/address';
 import { common } from 'common';
 import { createForm } from 'rc-form';
