@@ -7,9 +7,9 @@ class HomePromotionBlock extends React.PureComponent {
 
   onClick = (el, data) => {
     if (data.activityName == '团购') {
-      window.location.href = common.getFullUrl(`/groupBuy.html#/groupBuy/${data.activityTypeValue}`);
+      window.location.href = `/groupBuy.html#/groupBuy/${data.activityTypeValue}`;
     } else if (data.activityName == '限时抢购') {
-      window.location.href = common.getFullUrl(`/timeBuy.html#/timeBuy/${data.activityTypeValue}`);
+      window.location.href = `/timeBuy.html#/timeBuy/${data.activityTypeValue}`;
     }
   }
 

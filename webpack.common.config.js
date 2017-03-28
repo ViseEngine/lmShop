@@ -63,7 +63,7 @@ module.exports = {
   entry: entrys,
   output: {
     path: BUILD_PATH,
-    filename: "[name].[hash].js"
+    filename: "[name].[hash].js",
   },
   module: {
     rules: [{

@@ -11,7 +11,7 @@ const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={home} showBottomBar={true} showTitle={false}/>
   <Route path='/store/:storeId' component={store} showTitle={false} />
   <Route path='/store/detail/:storeId' component={storeDetail} title='店铺详情' showTitle={true} />
-  <Route path='/search' component={goodsSearch} showTitle={false} />
+  <Route path='/search' component={goodsSearch} title='商品搜索' />
 </Route>)
 
 function Routes({ history }) {

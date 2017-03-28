@@ -30,9 +30,9 @@ export function isQQ() {
  */
 export function gotoLogin(callBack) {
   if (callBack) {
-    window.location.href = getFullUrl(`/login.html#/?callBack=${callBack}`);
+    window.location.href = `/login.html#/?callBack=${callBack}`;
   } else {
-    window.location.href = getFullUrl('/login.html');
+    window.location.href = '/login.html';
   }
 }
 
@@ -46,19 +46,19 @@ export function gotoLoginAndBack() {
 }
 
 export function gotoCart() {
-  window.location.href = getFullUrl('/cart.html');
+  window.location.href = 'cart.html';
 }
 
 export function gotoGoodsDetail({ specId }) {
-  window.location.href = getFullUrl(`/goodsDetail.html#/?specId=${specId}`);
+  window.location.href = `/goodsDetail.html#/?specId=${specId}`;
 }
 
 export function gotoStore({ storeId }) {
-  window.location.href = getFullUrl(`/home.html#/store/${storeId}`);
+  window.location.href = `/home.html#/store/${storeId}`;
 }
 
 export function gotoOrder({ cartId }) {
-  window.location.href = getFullUrl(`/order.html#/order/${cartId}`);
+  window.location.href = `/order.html#/order/${cartId}`;
 }
 
 // 获取token

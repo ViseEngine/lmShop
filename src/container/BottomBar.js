@@ -25,13 +25,13 @@ class BottomBar extends React.Component {
 
   changeTab = (type) => {
     if (type == 'home') {
-      window.location.href = common.getFullUrl('home.html');
+      window.location.href = 'home.html';
     } else if (type == 'goodsClass') {
-      window.location.href = common.getFullUrl('goodsClass.html');
+      window.location.href = 'goodsClass.html';
     } else if (type == 'cart') {
-      window.location.href = common.getFullUrl('cart.html');
+      window.location.href = 'cart.html';
     } else if (type == 'my') {
-      window.location.href = common.getFullUrl('my.html');
+      window.location.href = 'my.html';
     }
   }
 

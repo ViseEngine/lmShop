@@ -4,7 +4,7 @@ import { Img } from 'commonComponent';
 import { common } from 'common';
 
 const onClick = (el) => {
-  window.location.href = common.getFullUrl(`/goodsDetail.html#/?specId=${el.specId}`);
+  window.location.href = common.gotoGoodsDetail({ specId: el.specId });
 }
 
 /**图片在上面，文字在下面的布局 */
