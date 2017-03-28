@@ -40,8 +40,12 @@ class Store extends Component {
     });
   }
 
+  onClick = (dataItem) => {
+    common.gotoGoodsDetail({ specId: dataItem.specId })
+  }
+
   renderItem = (dataItem) => {
-    return <Flex direction='column' style={{ padding:'10px'}}>
+    return <Flex direction='column' style={{ padding: '10px' }} >
       <Flex.Item style={{textAlign:'center'}}>
         <Img src={dataItem.goodsImage} style={{ width: '100%' }} />
       </Flex.Item>
@@ -80,7 +84,6 @@ class Store extends Component {
     if (!store) {
       return null;
     }
-    console.log(store);
     const storeBannerShow = `url(${common.IMAGE_DOMAIN}${store.storeBanner}) no-repeat fixed top `;
     return <div className='wx-store'>
       <WingBlank size='sm'>
@@ -128,7 +131,7 @@ class Store extends Component {
         <WhiteSpace></WhiteSpace>
         <div>
           <Grid data={this.state.goodsList} columnNum={2} hasLine={false}
-            onClick={(el,index)=>this.onClick(el,data)}
+            onClick={(el,index)=>this.onClick(el)}
               renderItem={(dataItem,index)=>(this.renderItem(dataItem))}>
           </Grid>
         </div>

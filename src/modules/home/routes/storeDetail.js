@@ -40,20 +40,25 @@ class Store extends Component {
     });
   }
 
-  renderItem = (dataItem) => {
-    return <Flex direction='column' style={{ padding:'10px'}}>
-      <Flex.Item style={{textAlign:'center'}}>
-        <Img src={dataItem.goodsImage} style={{ width: '100%' }} />
-      </Flex.Item>
-      <Flex.Item>
-        <span style={{fontSize:'28px'}}>{dataItem.goodsName}</span> 
-      </Flex.Item>
-      <Flex.Item>
-        <span style={{fontSize:'28px',color:'red'}}>{`¥${dataItem.goodsStorePrice}`}</span>
-      </Flex.Item>
-    </Flex>
-  }
+  storecollection = () => {
+    storeApi.storecollection({
+      storeId: this.props.params.storeId,
+      favType: 2,
+      goodsId: null
+    }).then(result => {
+      if (result.result == 1) {
+        Toast.info(result.msg);
+        const store = {
+          ...this.state.store,
+          isFav: result.isfav
+        };
+        this.setState({
+          store
+        })
+      }
 
+    });
+  }
 
   render() {
     const { store, goodsList } = this.state;
@@ -77,7 +82,11 @@ class Store extends Component {
             <Flex.Item style={{textAlign: 'center'}}>
             </Flex.Item>
             <Flex.Item style={{textAlign: 'left'}}>
-              <Button type='primary' size='small'>关注</Button>
+              <Button type='primary' size='small' onClick={this.storecollection}>
+                {
+                  store.isFav==1?'已关注':'关注'
+                }
+              </Button>
             </Flex.Item>
           </Flex>
         </div>
