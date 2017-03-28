@@ -40,7 +40,7 @@ class Home extends Component {
   }
 
   onSearch = () => {
-    alert('去搜索');
+    this.props.router.push('/search');
   }
 
   render() {

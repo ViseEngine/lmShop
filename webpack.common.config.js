@@ -20,7 +20,7 @@ modules.forEach(module => {
   entrys[module] = `./src/modules/${module}`
 });
 modules.forEach((item, index) => {
-  let chunks = [item];
+  let chunks = ['commons', item];
   //动态生成html插件
   HtmlWebpack[index] = new HtmlWebpackPlugin({
     filename: `./${item}.html`, //生成的html存放路径，相对于 path
@@ -41,6 +41,11 @@ const extractLess = new ExtractTextPlugin({
 
 //公共的插件
 const commonPlugin = [
+  new webpack.optimize.CommonsChunkPlugin({
+    names: "commons",
+    filename: "commons.[hash].js",
+    minChunks: 2
+  }),
   extractLess,
   //拷贝资源插件
   new CopyWebpackPlugin([{
@@ -52,19 +57,6 @@ const commonPlugin = [
 const svgDirs = [
   require.resolve('antd-mobile').replace(/warn\.js$/, ''), // 1. 属于 antd-mobile 内置 svg 文件
   path.resolve(__dirname, 'assets/svg'), // 2. 自己私人的 svg 存放目录
-];
-
-var proxyInterface = ['/floor/api',
-  '/goods/',
-  '/memberapi/',
-  '/storeapi',
-  '/loginapi',
-  '/cartapi',
-  '/orderapi',
-  '/address',
-  '/groupPurchaseApi',
-  '/flashSaleApi',
-  '/invoiceapi'
 ];
 
 module.exports = {

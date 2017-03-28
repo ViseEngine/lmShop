@@ -14,11 +14,6 @@ config.plugins = [
       NODE_ENV: '"production"'
     }
   }),
-  new webpack.optimize.CommonsChunkPlugin({
-    names: "commons",
-    filename: "commons.[hash].js",
-    minChunks: 2,
-  }),
   //每次运行webpack清理上一次的文件夹
   new CleanPlugin([BUILD_PATH]),
   //压缩混淆JS插件,UglifyJsPlugin 将不再支持让 Loaders 最小化文件的模式。debug 选项已经被移除。Loaders 不能从 webpack 的配置中读取到他们的配置项。

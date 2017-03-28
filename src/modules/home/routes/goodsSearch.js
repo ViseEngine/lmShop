@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { Carousel, Modal, SearchBar, WhiteSpace, WingBlank, Toast } from 'antd-mobile';
+import {
+  Carousel,
+  Modal,
+  SearchBar,
+  WhiteSpace,
+  WingBlank,
+  Toast
+} from 'antd-mobile';
 import { queryIndexData } from '../api';
 
 class GoodsSearch extends Component {
@@ -17,7 +24,7 @@ class GoodsSearch extends Component {
   }
 
   componentWillMount() {
-    Toast.loading();
+    // Toast.loading();
     // queryIndexData().then(result => {
     //   Toast.hide();
     //   let data = result.data[0];
@@ -41,7 +48,8 @@ class GoodsSearch extends Component {
     } = this.state;
     return (
       <div>
-       商品搜索
+        <SearchBar placeholder="搜索你想要的商品" ></SearchBar>
+        <WingBlank>历史搜索</WingBlank>
       </div>
     )
   }
