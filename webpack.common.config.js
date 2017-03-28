@@ -24,7 +24,7 @@ modules.forEach((item, index) => {
   //动态生成html插件
   HtmlWebpack[index] = new HtmlWebpackPlugin({
     filename: `./${item}.html`, //生成的html存放路径，相对于 path
-    template: `./src/pages/${item}.html`,
+    template: `./src/pages/temp.html`,
     chunks: chunks,
     inject: true, //允许插件修改哪些内容，包括head与body
     hash: true, //为静态资源生成hash值
