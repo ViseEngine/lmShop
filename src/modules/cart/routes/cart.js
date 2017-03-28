@@ -31,7 +31,7 @@ class Cart extends Component {
   }
 
   gotoLogin = () => {
-    common.gotoLogin();
+    common.gotoLoginAndBack();
   }
 
   render() {
@@ -48,14 +48,6 @@ class Cart extends Component {
         <RecommendGoods data={this.state.relGoodsRecommedlist}></RecommendGoods>
       </div>
     </div>
-    /*<div className="wx-goodsClass">
-      <div className="wx-goodsClass-menu">
-        <GoodsClassMenu data={this.state.classList} onMenuChange={this.onMenuChange}></GoodsClassMenu>
-      </div>
-      <div className="wx-goodsClass-list">
-        <GoodsList data={this.state.goodsList}></GoodsList>
-      </div>
-    </div>*/
   }
 }
 
