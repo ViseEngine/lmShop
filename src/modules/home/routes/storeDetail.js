@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRouter, Link } from 'react-router'
+import { withRouter } from 'react-router'
 import {
   Toast,
   Flex,
@@ -22,7 +22,7 @@ class Store extends Component {
     super(props);
     this.state = {
       goodsList: [],
-      store: null,
+      store: null
     }
   }
 
@@ -54,33 +54,14 @@ class Store extends Component {
     </Flex>
   }
 
-  storecollection = () => {
-    storeApi.storecollection({
-      storeId: this.props.params.storeId,
-      favType: 2,
-      goodsId: null
-    }).then(result => {
-      if (result.result == 1) {
-        Toast.info(result.msg);
-        const store = {
-          ...this.state.store,
-          isFav: result.isfav
-        };
-        // console.log(store);
-        this.setState({
-          store
-        })
-      }
-
-    });
-  }
 
   render() {
     const { store, goodsList } = this.state;
     if (!store) {
       return null;
     }
-    console.log(store);
+
+    const storeCodeShow = <Img src={store.storeCode} />;
     const storeBannerShow = `url(${common.IMAGE_DOMAIN}${store.storeBanner}) no-repeat fixed top `;
     return <div className='wx-store'>
       <WingBlank size='sm'>
@@ -96,11 +77,7 @@ class Store extends Component {
             <Flex.Item style={{textAlign: 'center'}}>
             </Flex.Item>
             <Flex.Item style={{textAlign: 'left'}}>
-              <Button type='primary' size='small' onClick={this.storecollection}>
-                {
-                  store.isFav==1?'已关注':'关注'
-                }
-              </Button>
+              <Button type='primary' size='small'>关注</Button>
             </Flex.Item>
           </Flex>
         </div>
@@ -126,28 +103,24 @@ class Store extends Component {
           </Flex>
         </div>
         <WhiteSpace></WhiteSpace>
-        <div>
-          <Grid data={this.state.goodsList} columnNum={2} hasLine={false}
-            onClick={(el,index)=>this.onClick(el,data)}
-              renderItem={(dataItem,index)=>(this.renderItem(dataItem))}>
-          </Grid>
-        </div>
+        <List>
+          <Item extra={store.storeTel}>
+            商家电话
+          </Item>
+          <Item extra={storeCodeShow}>
+            店铺二维码
+          </Item>
+          <Item>
+            店铺介绍 <span style={{color:'gray'}}> {store.storeName}</span>
+          </Item>
+          <Item>
+            开始时间 <span style={{color:'gray'}}> {store.createTimeStr}</span> 
+          </Item>
+          <Item>
+            授权品牌
+          </Item>
+        </List>
       </WingBlank>
-      
-      <div className='wx-store-bar'>
-        <Flex style={{ width:'100%',textAlign:'center'}} >
-          <Flex.Item>
-            <Link to={`/store/detail/${this.props.params.storeId}`}>店铺详情</Link>
-          </Flex.Item>
-          <Flex.Item onClick={()=> Toast.info('暂无此功能，等待下次开放哦',1)} >
-            热门分类
-          </Flex.Item>
-          <Flex.Item onClick={()=> Toast.info('暂无此功能，等待下次开放哦',1)}>
-            联系卖家
-          </Flex.Item>
-        </Flex>
-      </div>
-      
     </div>
   }
 }

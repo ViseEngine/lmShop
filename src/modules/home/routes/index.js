@@ -4,10 +4,12 @@ import App from 'container/appView';
 
 import home from './home';
 import store from './store';
+import storeDetail from './storeDetail';
 
 const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={home} showBottomBar={true} showTitle={false}/>
-  <Route path='/store/:storeId' component={store} showTitle={false}/>
+  <Route path='/store/:storeId' component={store} showTitle={false} />
+  <Route path='/store/detail/:storeId' component={storeDetail} title='店铺详情' showTitle={true} />
 </Route>)
 
 function Routes({ history }) {
