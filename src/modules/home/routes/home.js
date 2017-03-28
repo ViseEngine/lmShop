@@ -39,6 +39,10 @@ class Home extends Component {
     });
   }
 
+  onSearch = () => {
+    alert('去搜索');
+  }
+
   render() {
     const {
       floorList,
@@ -49,7 +53,7 @@ class Home extends Component {
     } = this.state;
     return (
       <div className='wx-scroll-vertical scroll-vertical'>
-        {/*<SearchBar placeholder="搜索你想要的商品"></SearchBar>*/}
+        <div onClick={this.onSearch}><SearchBar placeholder="搜索你想要的商品" disabled ></SearchBar></div>
         <HomeCarouselBlock data={this.state.advList}></HomeCarouselBlock>
         <HomeFunctionBlock></HomeFunctionBlock>
         {
