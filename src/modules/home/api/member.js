@@ -35,3 +35,14 @@ export function delGoodsBrowse({ browseId }) {
     browseId
   });
 }
+
+// 积分
+export function shopPointsLogList({
+  pageNo,
+  pageSize
+}) {
+  return fetch.get('/memberapi/shopPointsLogList', {
+    pageNo,
+    pageSize
+  });
+}

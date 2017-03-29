@@ -1,47 +1,41 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { Carousel, Modal, SearchBar, WhiteSpace, WingBlank, Toast } from 'antd-mobile';
-import { queryIndexData } from '../api';
+import { WhiteSpace, WingBlank, Toast } from 'antd-mobile';
+import * as memberApi from '../api/member';
 
 class MyIntegral extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // floorList: [],
-      // relGoodsRecommedlist: [],
-      // activityBeenList: [], //
-      // advList: [], // 轮播
-      // navigationList: [],
-      // recommendGoodslist: []
+      shopPointsLogsList: [],
+      pointsNum: 0
     }
   }
 
   componentWillMount() {
-    Toast.loading();
-    // queryIndexData().then(result => {
-    //   Toast.hide();
-    //   let data = result.data[0];
-    //   this.setState({
-    //     advList: data.advPosition.advList,
-    //     activityBeenList: data.activityBeenList,
-    //     recommendGoodslist: data.recommendGoodslist,
-    //     relGoodsRecommedlist: data.relGoodsRecommedlist,
-    //     floorList: data.floorList
-    //   });
-    // });
+    memberApi.shopPointsLogList({
+      pageNo: 1,
+      pageSize: 50
+    }).then(result => {
+      if (result.result == 1) {
+        this.setState({
+          ...result.data
+        })
+      }
+    })
   }
 
   render() {
     const {
-      floorList,
-      relGoodsRecommedlist,
-      activityBeenList,
-      advPosition,
-      recommendGoodslist
+      pointsNum,
+      shopPointsLogsList
     } = this.state;
     return (
       <div>
-       积分
+        <div style={{height:'1rem',padding:'0.5rem 0.3rem'}}>
+          {pointsNum}分<br />
+          积分有多大用，多领一些存起来
+       </div>
       </div>
     )
   }
