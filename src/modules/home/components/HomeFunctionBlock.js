@@ -5,7 +5,6 @@ import { withRouter } from 'react-router'
 import './HomeFunctionBlock.less';
 
 class HomeFunctionBlock extends React.PureComponent {
-
   onClick = (el, index) => {
     switch (index) {
       case 0:
@@ -21,16 +20,16 @@ class HomeFunctionBlock extends React.PureComponent {
         this.props.router.push('/attention/2');
         break;
       case 4:
-        //   
+        this.props.router.push('/goodsViewRecord');
         break;
       case 5:
-        //   
+        this.props.router.push('/returns');
         break;
       case 6:
-        //   
+        this.props.router.push('/myIntegral');
         break;
       case 7:
-        //   
+        this.props.router.push('/coupon');
         break;
       case 8:
         //   

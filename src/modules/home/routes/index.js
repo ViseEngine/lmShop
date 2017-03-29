@@ -13,6 +13,10 @@ import gotoSearch from './gotoSearch';
 import goodsSearch from './goodsSearch';
 
 import attention from './attention';
+import goodsViewRecord from './goodsViewRecord';
+import returns from './returns';
+import myIntegral from './myIntegral';
+import coupon from './coupon';
 
 const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={home} showBottomBar={true} showTitle={false}/>
@@ -27,7 +31,13 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/gotoSearch' component={gotoSearch} showTitle={false}/>
   <Route path='/search/(:goodsName)' component={goodsSearch} title='商品搜索' />
   
-  <Route path='/attention(/:type)' component={attention} title='我的关注'/>
+  <Route path='/attention(/:type)' component={attention} title='我的关注' />
+  <Route path='/goodsViewRecord(/:type)' component={goodsViewRecord} title='浏览记录' />
+  <Route path='/returns' component={returns} title='退换货' />
+  <Route path='/myIntegral' component={myIntegral} title='积分' />
+  <Route path='/coupon' component={coupon} title='优惠券' />
+
+
 </Route>)
 
 function Routes({ history }) {
