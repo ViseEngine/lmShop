@@ -92,9 +92,9 @@ class Store extends Component {
       <Flex>
         <Icon type='left' onClick={()=>this.props.router.goBack()}/>
         <Flex.Item>
-        <SearchBar placeholder="商品名称" onSubmit={value => {
-          this.props.router.push(`/store/${this.props.params.storeId}/goods/${value}`)
-        }}
+          <SearchBar placeholder="商品名称" onSubmit={value => {
+            this.props.router.push(`/store/${this.props.params.storeId}/goods/${value}`)
+          }}
           />
         </Flex.Item>  
       </Flex>

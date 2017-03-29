@@ -9,6 +9,7 @@ import storeGoods from './storeGoods';
 import storeNewGoods from './storeNewGoods';
 import storeCoupon from './storeCoupon';
 
+import gotoSearch from './gotoSearch';
 import goodsSearch from './goodsSearch';
 
 const routesConfig = (<Route path="/" component={App}>
@@ -19,9 +20,10 @@ const routesConfig = (<Route path="/" component={App}>
     <Route path='goods(/:goodsName)' component={storeGoods} title='店铺商品' />
     <Route path='newgoods' component={storeNewGoods} title='上新' />
     <Route path='coupon' component={storeCoupon} title='优惠券' />
-  </Route>  
-  
-  <Route path='/search' component={goodsSearch} title='商品搜索' />
+  </Route>
+
+  <Route path='/gotoSearch' component={gotoSearch} showTitle={false}/>
+  <Route path='/search/(:goodsName)' component={goodsSearch} title='商品搜索'/>
 </Route>)
 
 function Routes({ history }) {
