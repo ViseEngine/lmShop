@@ -14,7 +14,7 @@ export function storedetail({ storeId }) {
   });
 }
 
-// 关注店铺
+// 关注店铺/商品
 export function storecollection({
   favType,
   goodsId,

@@ -16,6 +16,11 @@ export function centRecommendList() {
   return fetch.get('/memberapi/centRecommendList');
 }
 
+
+
+
+// http://testbbc.leimingtech.com/storeapi/storecollection
+
 // 商品
 // http://testbbc.leimingtech.com/memberapi/memberfavotites
 // timestamp	1490782927341
