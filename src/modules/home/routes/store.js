@@ -88,8 +88,8 @@ class Store extends Component {
     const storeBannerShow = `url(${common.IMAGE_DOMAIN}${store.storeBanner}) no-repeat fixed top `;
     return <div className='wx-store'>
       <WingBlank size='sm'>
-        <div style={{ height: '3rem', background: storeBannerShow }}>
-          <Flex style={{ position: 'absolute',top:'2rem',height:'1rem', width:'100%'}}>
+        <div className='wx-store-header' style={{ background: storeBannerShow }}>
+          <Flex className='wx-store-header-left'>
             <Flex.Item style={{textAlign: 'center'}}>
               <Img src={store.storeLogo} style={{width:'100%'}} />
             </Flex.Item>
