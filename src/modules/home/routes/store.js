@@ -8,7 +8,8 @@ import {
   WingBlank,
   WhiteSpace,
   Grid,
-  SearchBar
+  SearchBar,
+  Icon
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import * as storeApi from '../api/store';
@@ -88,10 +89,15 @@ class Store extends Component {
     const { params, router } = this.props;
     const storeBannerShow = `url(${common.IMAGE_DOMAIN}${store.storeBanner}) no-repeat fixed top `;
     return <div className='wx-store'>
-      <SearchBar placeholder="商品名称" onSubmit={value => {
-        this.props.router.push(`/store/${this.props.params.storeId}/goods/${value}`)
-      }}
-      />
+      <Flex>
+        <Icon type='left' onClick={()=>this.props.router.goBack()}/>
+        <Flex.Item>
+        <SearchBar placeholder="商品名称" onSubmit={value => {
+          this.props.router.push(`/store/${this.props.params.storeId}/goods/${value}`)
+        }}
+          />
+        </Flex.Item>  
+      </Flex>
       <WingBlank size='sm'>
         <div className='wx-store-header' style={{ background: storeBannerShow }}>
           <Flex className='wx-store-header-left'>
