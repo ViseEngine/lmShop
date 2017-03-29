@@ -7,6 +7,7 @@ import {
   List,
   WingBlank,
   WhiteSpace,
+  Grid
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import * as storeApi from '../api/store';
@@ -25,33 +26,42 @@ class StoreNewGoods extends Component {
   }
 
   componentDidMount() {
-    // storeApi.storedetail({
-    //   storeId: this.props.params.storeId
-    // }).then(result => {
-    //   if (result.result == 1) {
-    //     const data = result.data;
-    //     this.setState({
-    //       goodsList: data.goodsList,
-    //       store: data.store[0]
-    //     })
-    //   }
-    // });
+    storeApi.storegoods({
+      goodsType: 1,
+      storeId: this.props.params.storeId
+    }).then(result => {
+      if (result.result == 1) {
+        const data = result.data;
+        this.setState({
+          goodsList: data,
+        })
+      }
+    });
   }
 
-  onClick = (dataItem) => {
-    // common.gotoGoodsDetail({ specId: dataItem.specId })
-  }
+  onClick = (dataItem) => {}
 
+  renderItem = (dataItem) => {
+    return <Flex direction='column' style={{ padding: '10px' }} >
+      <Flex.Item style={{textAlign:'center'}}>
+        <Img src={dataItem.goodsImage} style={{ width: '100%' }} />
+      </Flex.Item>
+      <Flex.Item>
+        <span>{dataItem.goodsName}</span> 
+      </Flex.Item>
+      <Flex.Item>
+        <span style={{color:'red'}}>{`¥${dataItem.goodsStorePrice}`}</span>
+      </Flex.Item>
+    </Flex>
+  }
 
   render() {
-    const { store, goodsList } = this.state;
-    if (!store) {
-      return null;
-    }
-    // const storeBannerShow = `url(${common.IMAGE_DOMAIN}${store.storeBanner}) no-repeat fixed top `;
+    const { goodsList } = this.state;
     return <div className='wx-storegoods'>
-      上新
-      
+      <Grid data={this.state.goodsList} columnNum={2} hasLine={false}
+        onClick={(el,index)=>this.onClick(el)}
+          renderItem={(dataItem,index)=>(this.renderItem(dataItem))}>
+      </Grid>
     </div>
   }
 }

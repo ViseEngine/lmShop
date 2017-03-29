@@ -44,7 +44,8 @@ export function storegoods({
   pageNo,
   pageSize,
   storeId,
-  goodsName
+  goodsName,
+  goodsType
 }) {
   return fetch.get('/storeapi/storegoods', {
     order,
@@ -52,7 +53,8 @@ export function storegoods({
     pageSize,
     storeId,
     pageNo,
-    goodsName
+    goodsName,
+    goodsType
   });
 }
 
