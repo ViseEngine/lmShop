@@ -20,7 +20,7 @@ function parseJSON(response) {
   const json = JSON.parse(response);
   // check 通用错误码
   if (json.result == 0) {
-    if (json.code == '99') {
+    if (json.code == '99' || json.msg.includes('您尚未登录或登录时间过长')) {
       Modal.alert('', <div>{json.msg}</div>, [{
         text: '去登录',
         onPress: () => {
