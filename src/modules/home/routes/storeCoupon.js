@@ -17,12 +17,16 @@ class StoreCoupon extends Component {
     storeApi.couponlist({
       storeId: this.props.params.storeId
     }).then(result => {
-      console.log(result);
-
       if (result.result == 1) {
-        this.setState({
-          couponList: result.data
-        })
+        if (result.data) {
+          this.setState({
+            couponList: result.data
+          })
+        } else {
+          Toast.info('暂没有优惠券');
+        }
+      } else {
+        Toast.info(result.msg);
       }
     })
   }
