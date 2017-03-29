@@ -90,16 +90,16 @@ class Store extends Component {
       <WingBlank size='sm'>
         <div className='wx-store-header' style={{ background: storeBannerShow }}>
           <Flex className='wx-store-header-left'>
-            <Flex.Item style={{textAlign: 'center'}}>
+            <Flex.Item>
               <Img src={store.storeLogo} style={{width:'100%'}} />
             </Flex.Item>
-            <Flex.Item style={{textAlign: 'center'}}>
+            <Flex.Item>
               <div>{store.storeName}</div>
               <div>{store.storeCollect}人关注</div>
             </Flex.Item>
-            <Flex.Item style={{textAlign: 'center'}}>
+            <Flex.Item>
             </Flex.Item>
-            <Flex.Item style={{textAlign: 'left'}}>
+            <Flex.Item>
               <Button type='primary' size='small' onClick={this.storecollection}>
                 {
                   store.isFav==1?'已关注':'关注'
@@ -109,32 +109,30 @@ class Store extends Component {
           </Flex>
         </div>
         <WhiteSpace></WhiteSpace>
-        <div>
-          <Flex justify='center'>
-            <Flex.Item style={{ textAlign: 'center' }} onClick={()=>
-              router.push(`/store/${params.storeId}/goods`)
-            }>
-              <div>全部</div>
-              <div>{store.storeGoodsCount}</div>
-            </Flex.Item>
-            <Flex.Item style={{textAlign: 'center'}} onClick={()=>
-              router.push(`/store/${params.storeId}/newgoods`)
-            }>
-              <div>上新</div>
-              <div>{store.newGoodsNum}</div>
-            </Flex.Item>
-            <Flex.Item style={{textAlign: 'center'}} onClick={()=>
-              router.push(`/store/${params.storeId}/coupon`)
-            }>
-              <div>优惠券</div>
-              <div>{store.couponNum}</div>
-            </Flex.Item>
-            <Flex.Item style={{textAlign: 'center'}}>
-              <div>店铺动态</div>
-              <div>0</div>
-            </Flex.Item>
-          </Flex>
-        </div>
+        <Flex style={{textAlign: 'center'}}>
+          <Flex.Item onClick={()=>
+            router.push(`/store/${params.storeId}/goods`)
+          }>
+            <div>全部</div>
+            <div>{store.storeGoodsCount}</div>
+          </Flex.Item>
+          <Flex.Item onClick={()=>
+            router.push(`/store/${params.storeId}/newgoods`)
+          }>
+            <div>上新</div>
+            <div>{store.newGoodsNum}</div>
+          </Flex.Item>
+          <Flex.Item onClick={()=>
+            router.push(`/store/${params.storeId}/coupon`)
+          }>
+            <div>优惠券</div>
+            <div>{store.couponNum}</div>
+          </Flex.Item>
+          <Flex.Item>
+            <div>店铺动态</div>
+            <div>0</div>
+          </Flex.Item>
+        </Flex>
         <WhiteSpace></WhiteSpace>
         <div>
           <Grid data={this.state.goodsList} columnNum={2} hasLine={false}
