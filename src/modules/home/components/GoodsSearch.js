@@ -11,6 +11,7 @@ import {
   Icon
 } from 'antd-mobile';
 import * as storeApi from '../api/store';
+import { common } from 'common';
 
 import './GoodsSearch.less'
 
@@ -38,7 +39,6 @@ class GoodsSearch extends Component {
     }).then(result => {
       if (result.result == 1) {
         const data = result.data;
-        // console.log(data);
         this.setState({
           dataSource: this.ds.cloneWithRows(data),
         })
@@ -47,7 +47,7 @@ class GoodsSearch extends Component {
   }
 
   renderItem = (dataItem) => {
-    return <Flex>
+    return <Flex onClick={() => common.gotoGoodsDetail({specId:dataItem.specId})}>
       <Flex.Item style={{flex:1,paddingLeft:'16px'}}>
         <Img src={dataItem.goodsImage} style={{width:'100%'}}/>
       </Flex.Item>
@@ -79,14 +79,31 @@ class GoodsSearch extends Component {
         <Flex.Item>
           {
             orderField == '' ?
-              <span className=''>综合</span> :
-              <span>综合</span>  
+              <span>综合</span> :<span>综合</span>  
           }
-          <Icon type="up" size='xxs' />
+          <div className="wx-goods-search-order">
+            <Icon className="wx-goods-search-order-up" type="up" size='xxs' />
+            <Icon className="wx-goods-search-order-down" type="down" size='xxs' />
+          </div>
         </Flex.Item>
-        <Flex.Item>销量</Flex.Item>
-        <Flex.Item>价格</Flex.Item>
-        <Flex.Item>上新</Flex.Item>
+        <Flex.Item>销量
+          <div className="wx-goods-search-order">
+            <Icon className="wx-goods-search-order-up" type="up" size='xxs' />
+            <Icon className="wx-goods-search-order-down" type="down" size='xxs' />
+          </div>
+        </Flex.Item>
+        <Flex.Item>价格
+          <div className="wx-goods-search-order">
+            <Icon className="wx-goods-search-order-up" type="up" size='xxs' />
+            <Icon className="wx-goods-search-order-down" type="down" size='xxs' />
+          </div>
+        </Flex.Item>
+        <Flex.Item>上新
+          <div className="wx-goods-search-order">
+            <Icon className="wx-goods-search-order-up" type="up" size='xxs' />
+            <Icon className="wx-goods-search-order-down" type="down" size='xxs' />
+          </div>
+        </Flex.Item>
       </Flex>
       <ListView
         dataSource={this.state.dataSource}

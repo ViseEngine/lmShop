@@ -24,7 +24,8 @@ proxyInterface.forEach(function(item) {
 });
 
 config = Object.assign(config, {
-  devtool: '#eval-source-map',
+  // devtool: '#eval-source-map',  // for debug es6 source
+  devtool: '#cheap-module-eval-source-map',
   devServer: {
     contentBase: path.join(__dirname, "dist"),
     // compress: true,
