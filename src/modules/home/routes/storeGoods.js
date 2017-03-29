@@ -53,8 +53,12 @@ class StoreGoods extends Component {
 
   render() {
     const { goodsList } = this.state;
+    const data = {
+      storeId: this.props.params.storeId,
+      goodsName: this.props.params.goodsName
+    }
     return <div className='wx-storegoods'>
-      <GoodsSearch storeId={this.props.params.storeId}></GoodsSearch>
+      <GoodsSearch data={data}></GoodsSearch>
     </div>
   }
 }

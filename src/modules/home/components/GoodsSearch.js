@@ -34,14 +34,18 @@ class GoodsSearch extends Component {
       orderField: this.state.orderField,
       pageNo: 1,
       pageSize: 20,
-      goodsName: null,
-      storeId: this.props.storeId
+      goodsName: this.props.data.goodsName,
+      storeId: this.props.data.storeId
     }).then(result => {
       if (result.result == 1) {
         const data = result.data;
-        this.setState({
-          dataSource: this.ds.cloneWithRows(data),
-        })
+        if (data) {
+          this.setState({
+            dataSource: this.ds.cloneWithRows(data),
+          })
+        } else {
+          Toast.info(result.msg);
+        }
       }
     });
   }

@@ -14,9 +14,9 @@ import goodsSearch from './goodsSearch';
 const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={home} showBottomBar={true} showTitle={false}/>
   <Route path='store/:storeId/'>
-    <Route path='index' component={store} title='店铺'/>    
+    <Route path='index' component={store} showTitle={false}/>    
     <Route path='detail' component={storeDetail} title='店铺详情'/>
-    <Route path='goods' component={storeGoods} title='店铺商品' />
+    <Route path='goods(/:goodsName)' component={storeGoods} title='店铺商品' />
     <Route path='newgoods' component={storeNewGoods} title='上新' />
     <Route path='coupon' component={storeCoupon} title='优惠券' />
   </Route>  
