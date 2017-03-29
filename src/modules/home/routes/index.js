@@ -12,6 +12,8 @@ import storeCoupon from './storeCoupon';
 import gotoSearch from './gotoSearch';
 import goodsSearch from './goodsSearch';
 
+import attention from './attention';
+
 const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={home} showBottomBar={true} showTitle={false}/>
   <Route path='store/:storeId/'>
@@ -23,7 +25,9 @@ const routesConfig = (<Route path="/" component={App}>
   </Route>
 
   <Route path='/gotoSearch' component={gotoSearch} showTitle={false}/>
-  <Route path='/search/(:goodsName)' component={goodsSearch} title='商品搜索'/>
+  <Route path='/search/(:goodsName)' component={goodsSearch} title='商品搜索' />
+  
+  <Route path='/attention(/:type)' component={attention} title='我的关注'/>
 </Route>)
 
 function Routes({ history }) {

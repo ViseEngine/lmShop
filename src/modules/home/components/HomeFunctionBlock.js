@@ -1,13 +1,44 @@
 import React, { Component } from 'react';
 import { Grid, Flex, WingBlank, WhiteSpace } from 'antd-mobile';
 import { Img } from 'commonComponent';
-
+import { withRouter } from 'react-router'
 import './HomeFunctionBlock.less';
 
 class HomeFunctionBlock extends React.PureComponent {
 
-  jumpHandle = () => {
-
+  onClick = (el, index) => {
+    switch (index) {
+      case 0:
+        window.location.href = 'goodsClass.html'
+        break;
+      case 1:
+        window.location.href = 'cart.html'
+        break;
+      case 2:
+        this.props.router.push('/attention/1');
+        break;
+      case 3:
+        this.props.router.push('/attention/2');
+        break;
+      case 4:
+        //   
+        break;
+      case 5:
+        //   
+        break;
+      case 6:
+        //   
+        break;
+      case 7:
+        //   
+        break;
+      case 8:
+        //   
+        break;
+      case 9:
+        //   
+        break;
+    }
   }
 
   renderItem = (dataItem) => {
@@ -60,9 +91,11 @@ class HomeFunctionBlock extends React.PureComponent {
     ]
 
     return (
-      <Grid data={data} columnNum={4} hasLine={false} renderItem={(dataItem) => (this.renderItem(dataItem))} />
+      <Grid data={data} columnNum={4} hasLine={false}
+        onClick={this.onClick}
+        renderItem={(dataItem) => (this.renderItem(dataItem))} />
     )
   }
 }
 
-export default HomeFunctionBlock;
+export default withRouter(HomeFunctionBlock);
