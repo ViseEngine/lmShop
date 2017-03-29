@@ -35,9 +35,7 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/viewRecord(/:type)' component={viewRecord} title='浏览记录' />
   <Route path='/returns' component={returns} title='退换货' />
   <Route path='/myIntegral' component={myIntegral} title='积分' />
-  <Route path='/coupon' component={coupon} title='优惠券' />
-
-
+  <Route path='/coupon' component={coupon} title='我的优惠券' />
 </Route>)
 
 function Routes({ history }) {
