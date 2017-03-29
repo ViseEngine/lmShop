@@ -7,7 +7,7 @@ class HomeNewGoodsBlock extends React.PureComponent {
 
   onClick = (el, index) => {
     // console.log(el);
-    window.location.href = common.gotoGoodsDetail({ specId: el.specId });
+    common.gotoGoodsDetail({ specId: el.specId });
   }
 
   renderItem = (dataItem) => {
@@ -28,7 +28,7 @@ class HomeNewGoodsBlock extends React.PureComponent {
     const { data } = this.props;
     return <List renderHeader={() => <div>新品上市</div>}>
       <List.Item>
-      <Grid data={data.slice(0,6)} columnNum={3} hasLine={false}
+        <Grid data={data.slice(0,6)} columnNum={3} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(this.renderItem(dataItem))}>
         </Grid>

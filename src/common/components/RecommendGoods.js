@@ -6,7 +6,7 @@ import { common } from 'common';
 class RecommendGoods extends React.PureComponent {
 
   onClick = (el, index) => {
-    window.location.href = common.gotoGoodsDetail({ specId: el.specId });
+    common.gotoGoodsDetail({ specId: el.specId });
   }
 
   renderItem = (dataItem) => {

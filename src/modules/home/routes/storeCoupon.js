@@ -1,35 +1,43 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { Carousel, Modal, SearchBar, WhiteSpace, WingBlank, Toast } from 'antd-mobile';
-import { queryIndexData } from '../api';
+import { WhiteSpace, WingBlank, Toast, Flex, List } from 'antd-mobile';
+import * as storeApi from '../api/store';
+
+const Item = List.Item;
 
 class StoreCoupon extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // floorList: [],
-      // relGoodsRecommedlist: [],
-      // activityBeenList: [], //
-      // advList: [], // 轮播
-      // navigationList: [],
-      // recommendGoodslist: []
+      couponList: []
     }
   }
 
   componentWillMount() {
-    Toast.loading();
-    // queryIndexData().then(result => {
-    //   Toast.hide();
-    //   let data = result.data[0];
-    //   this.setState({
-    //     advList: data.advPosition.advList,
-    //     activityBeenList: data.activityBeenList,
-    //     recommendGoodslist: data.recommendGoodslist,
-    //     relGoodsRecommedlist: data.relGoodsRecommedlist,
-    //     floorList: data.floorList
-    //   });
-    // });
+    storeApi.couponlist({
+      storeId: this.props.params.storeId
+    }).then(result => {
+      console.log(result);
+
+      if (result.result == 1) {
+        this.setState({
+          couponList: result.data
+        })
+      }
+    })
   }
+
+  /**
+   * 点击领券
+   */
+  onSel = (sel) => {
+    storeApi.receiveCoupon({
+      couponId: sel.id,
+      storeId: sel.shopActivity.storeId
+    }).then(result => {
+      Toast.info(result.msg);
+    })
+  };
 
   render() {
     const {
@@ -41,7 +49,27 @@ class StoreCoupon extends Component {
     } = this.state;
     return (
       <div>
-       优惠券
+        <List>
+          {
+            this.state.couponList.map((item,index) => {
+              return <Item key={index}  onClick={() => { this.onSel(item) }}>
+                <Flex>
+                  <Flex.Item>
+                    {item.shopActivity.storeName}<br />
+                    <span style={{color:'red'}}>{`¥${item.couponSource}`}</span>
+                  </Flex.Item>
+                  <Flex.Item>
+                    <div>会员限制:铜牌会员</div>
+                    <div>会员限制:指定商品</div>
+                    <div style={{color:'red'}}>{item.description}</div>
+                    <div>{item.shopActivity.startTimeStr.substr(0,10)} 至 <br/> {item.shopActivity.endTimeStr.substr(0,10)}</div>
+                  </Flex.Item>
+                </Flex>
+                
+              </Item> 
+            })
+          }
+       </List>
       </div>
     )
   }
