@@ -27,8 +27,6 @@ export function storecollection({
   });
 }
 
-// 店铺详情 同首页
-
 // 店铺商品
 // http://testbbc.leimingtech.com/storeapi/storegoods
 // order	desc
@@ -39,6 +37,25 @@ export function storecollection({
 // storeId	73947166753d454d8bc7c6e65a3c7267
 // pageNo	1
 // goodsName
+// 关注店铺
+export function storegoods({
+  order,
+  orderField,
+  pageNo,
+  pageSize,
+  storeId,
+  goodsName
+}) {
+  return fetch.get('/storeapi/storegoods', {
+    order,
+    orderField,
+    pageSize,
+    storeId,
+    pageNo,
+    goodsName
+  });
+}
+
 
 // 上新
 // http://testbbc.leimingtech.com/storeapi/storegoods

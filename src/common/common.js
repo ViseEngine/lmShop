@@ -54,7 +54,7 @@ export function gotoGoodsDetail({ specId }) {
 }
 
 export function gotoStore({ storeId }) {
-  window.location.href = `home.html#/store/${storeId}`;
+  window.location.href = `home.html#/store/${storeId}/index`;
 }
 
 export function gotoOrder({ cartId }) {

@@ -84,6 +84,7 @@ class Store extends Component {
     if (!store) {
       return null;
     }
+    const { params, router } = this.props;
     const storeBannerShow = `url(${common.IMAGE_DOMAIN}${store.storeBanner}) no-repeat fixed top `;
     return <div className='wx-store'>
       <WingBlank size='sm'>
@@ -110,15 +111,21 @@ class Store extends Component {
         <WhiteSpace></WhiteSpace>
         <div>
           <Flex justify='center'>
-            <Flex.Item style={{textAlign: 'center'}}>
+            <Flex.Item style={{ textAlign: 'center' }} onClick={()=>
+              router.push(`/store/${params.storeId}/goods`)
+            }>
               <div>全部</div>
               <div>{store.storeGoodsCount}</div>
             </Flex.Item>
-            <Flex.Item style={{textAlign: 'center'}}>
+            <Flex.Item style={{textAlign: 'center'}} onClick={()=>
+              router.push(`/store/${params.storeId}/newgoods`)
+            }>
               <div>上新</div>
               <div>{store.newGoodsNum}</div>
             </Flex.Item>
-            <Flex.Item style={{textAlign: 'center'}}>
+            <Flex.Item style={{textAlign: 'center'}} onClick={()=>
+              router.push(`/store/${params.storeId}/coupon`)
+            }>
               <div>优惠券</div>
               <div>{store.couponNum}</div>
             </Flex.Item>
@@ -140,7 +147,7 @@ class Store extends Component {
       <div className='wx-store-bar'>
         <Flex style={{ width:'100%',textAlign:'center'}} >
           <Flex.Item>
-            <Link to={`/store/detail/${this.props.params.storeId}`}>店铺详情</Link>
+            <Link to={`/store/${this.props.params.storeId}/detail`}>店铺详情</Link>
           </Flex.Item>
           <Flex.Item onClick={()=> Toast.info('暂无此功能，等待下次开放哦',1)} >
             热门分类

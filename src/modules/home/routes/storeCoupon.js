@@ -3,7 +3,7 @@ import { withRouter } from 'react-router'
 import { Carousel, Modal, SearchBar, WhiteSpace, WingBlank, Toast } from 'antd-mobile';
 import { queryIndexData } from '../api';
 
-class Coupon extends Component {
+class StoreCoupon extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,4 +47,4 @@ class Coupon extends Component {
   }
 }
 
-export default withRouter(Coupon);
+export default withRouter(StoreCoupon);

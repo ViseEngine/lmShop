@@ -96,7 +96,7 @@ class App extends Component {
 
     if (showTitle) {
       return (
-        <NavBar leftContent={leftContent} mode="light"
+        <NavBar className='wx-navbar' leftContent={leftContent} mode="light"
           onLeftClick={() => this.backHandle()}
           rightContent={rightContent}>
           {title}
