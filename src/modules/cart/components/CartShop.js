@@ -28,15 +28,7 @@ class CartShop extends Component {
 
   // 领券  
   getCoupon = (shop) => {
-    Modal.alert('提示', '确定要删除吗', [
-      { text: '取消' },
-      {
-        text: '确定',
-        onPress: () => {
-          this.props.getCoupon(shop);
-        }
-      },
-    ]);
+    this.props.getCoupon(shop);
   }
 
   // 删除店

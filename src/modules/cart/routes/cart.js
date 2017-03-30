@@ -7,14 +7,17 @@ import {
   Toast,
   Flex,
   Button,
-  Checkbox
+  Checkbox,
+  Popup
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import RecommendGoods from 'commonComponent/RecommendGoods';
 import CartShop from '../components/CartShop';
 import * as goodsApi from 'common/api/goods';
 import * as cartApi from '../api/cart';
+import * as storeApi from '../api/store';
 import { common } from 'common';
+import CouponList from '../components/CouponList';
 
 const AgreeItem = Checkbox.AgreeItem;
 
@@ -215,6 +218,27 @@ class Cart extends Component {
     })
   }
 
+  // 领券  
+  getCoupon = (store) => {
+    storeApi.couponlist({
+      storeId: store.storeId
+    }).then(result => {
+      const data = result.data;
+      if (data && data.length > 0) {
+        const onMaskClose = () => {
+          console.log('关闭遮罩');
+        }
+        Popup.show(<CouponList
+          storeId={store.storeId}
+          couponList={data}
+          onClose={() => Popup.hide()} />, { animationType: 'slide-up', onMaskClose });
+      } else {
+        Toast.info('暂无优惠券可领券', 1)
+      }
+    })
+
+  }
+
   render() {
     const isLogin = common.isLogin();
     const { cartList, isInit } = this.state;
@@ -238,6 +262,7 @@ class Cart extends Component {
             updateCart={this.updateCart}
             checkShop={this.checkShop}
             checkGoods={this.checkGoods}
+            getCoupon={this.getCoupon}
           >
           </CartShop>
         })
