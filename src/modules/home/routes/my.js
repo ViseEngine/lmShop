@@ -1,6 +1,16 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { Modal, WhiteSpace, WingBlank, Toast, Flex, List, Grid, Button } from 'antd-mobile';
+import {
+  Modal,
+  Icon,
+  WhiteSpace,
+  WingBlank,
+  Toast,
+  Flex,
+  List,
+  Grid,
+  Button
+} from 'antd-mobile';
 import { Img } from 'commonComponent';
 import { common } from 'common';
 import * as memberApi from '../api/member';
@@ -94,16 +104,24 @@ class My extends Component {
           }}
           >浏览记录<br />({memberDetail.browseCount})</Flex.Item>   
       </Flex>
-      <List renderHeader={() => '我的订单'}>
+      <List renderHeader={
+        <Flex justify='center'>
+          <Flex.Item>我的订单</Flex.Item>
+          <Flex.Item style={{ textAlign: 'right' }}>
+            <span>全部订单</span>
+            <Icon type='right'/>
+          </Flex.Item>
+        </Flex>
+        }>
         <Grid data={orderMenu} columnNum={4} hasLine={false} >
         </Grid>  
       </List>
       <List renderHeader={()=>'我的钱包'}>
-        <Flex align='center' style={{ padding: '50px',fontSize:'24px' }}>
-          <Flex.Item style={{textAlign:'center'}}>可用余额</Flex.Item>
-          <Flex.Item style={{textAlign:'center'}}>积分纪录</Flex.Item>
-          <Flex.Item style={{ textAlign: 'center' }}>锁定余额</Flex.Item>
-          <Flex.Item style={{textAlign:'center'}}>优惠券</Flex.Item>   
+        <Flex alignContent='center' style={{ padding: '50px',fontSize:'24px' }}>
+          <Flex.Item>可用余额</Flex.Item>
+          <Flex.Item>积分纪录</Flex.Item>
+          <Flex.Item>锁定余额</Flex.Item>
+          <Flex.Item>优惠券</Flex.Item>   
         </Flex>
       </List>
       <List renderHeader={()=>'账户管理'}>

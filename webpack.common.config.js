@@ -4,6 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanPlugin = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const pxtorem = require('postcss-pxtorem');
+
 //设置输入和输出根目录
 const ROOT_PATH = path.resolve(__dirname);
 const APP_PATH = path.resolve(ROOT_PATH, 'src');
@@ -47,6 +49,15 @@ const commonPlugin = [
     minChunks: 2
   }),
   extractLess,
+  new webpack.LoaderOptionsPlugin({
+    // test: /\.less$/,
+    options: {
+      postcss: [pxtorem({
+        rootValue: 100,
+        propWhiteList: [],
+      })]
+    }
+  }),
   //拷贝资源插件
   new CopyWebpackPlugin([{
     from: path.resolve(APP_PATH, 'assets'),
@@ -107,5 +118,5 @@ module.exports = {
   externals: {
     // 'react': 'react'
   },
-  plugins: HtmlWebpack.concat(commonPlugin),
+  plugins: HtmlWebpack.concat(commonPlugin)
 }
