@@ -29,7 +29,8 @@ class CouponList extends React.PureComponent {
       return null;
     }
     const { couponList } = this.props;
-    return <List className='wx-CouponList' renderHeader={() => '店铺优惠券'}>
+    return <div className='wx-CouponList'>
+      <List renderHeader={() => '店铺优惠券'}>
       {
         couponList && couponList.map(item => {
           return <List.Item key={item.id} onClick={() => { this.onSel(item); }}>
@@ -45,7 +46,8 @@ class CouponList extends React.PureComponent {
           </List.Item>
         })  
       }  
-    </List>
+      </List>
+    </div>
   }
 }
 
