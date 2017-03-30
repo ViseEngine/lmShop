@@ -1,6 +1,14 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { Carousel, Modal, SearchBar, WhiteSpace, WingBlank, Toast, Flex, Button } from 'antd-mobile';
+import {
+  Modal,
+  WhiteSpace,
+  WingBlank,
+  Toast,
+  Flex,
+  Button,
+  Radio
+} from 'antd-mobile';
 import { Img } from 'commonComponent';
 import RecommendGoods from 'commonComponent/RecommendGoods';
 import CartShop from '../components/CartShop';
@@ -66,6 +74,20 @@ class Cart extends Component {
       <div>
         <RecommendGoods data={this.state.relGoodsRecommedlist}></RecommendGoods>
       </div>
+      <div className='wx-cart-list-bar'>
+        <Flex>
+          <Flex.Item>
+            <Radio className='my-radio'>全选</Radio>
+          </Flex.Item>
+          <Flex.Item>
+            <span>合计：¥0.0</span><br/>
+            <span>共0件</span>
+          </Flex.Item>
+          <Flex.Item style={{textAlign:'right'}}>
+            <Button type='primary' inline>去结算</Button>
+          </Flex.Item>
+        </Flex>
+      </div>  
     </div>
   }
 }

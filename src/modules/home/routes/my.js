@@ -3,42 +3,36 @@ import { withRouter } from 'react-router'
 import { Modal, WhiteSpace, WingBlank, Toast, Flex, List, Grid, Button } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import { common } from 'common';
+import * as memberApi from '../api/member';
 
 import './my.less';
 
 class My extends Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   classList: [],
-    //   goodsList: []
-    // }
+    this.state = {
+      memberDetail: {}
+    }
   }
 
   componentDidMount() {
-    // goodsClassApi.queryClasslist().then(result => {
-    //   // Toast.hide();
-    //   if (result.result != 1) {
-    //     Toast.error(result.msg);
-    //     return;
-    //   }
+    memberApi.memberDetail().then(result => {
+      if (result.result != 1) {
+        Toast.error(result.msg);
+        return;
+      }
 
-    //   let data = result.data;
-    //   this.setState({
-    //     classList: data
-    //   });
-
-    //   if (data && data.length > 0) {
-    //     this.onMenuChange(data[0]);
-    //   }
-    // });
+      let data = result.data;
+      this.setState({
+        memberDetail: data[0]
+      });
+    })
   }
 
 
   gotoLogin = () => {
     common.gotoLogin();
   }
-
 
   render() {
     const url = 'http://bbc.leimingtech.com/'
@@ -66,17 +60,23 @@ class My extends Component {
       text: `售后`,
     }];
 
+    const isLogin = common.isLogin();
+    const { memberDetail } = this.state;
     return <div>
       <Flex style={{padding:'20px'}}>
         <Img style={{width:'100px',height:'100px'}} src={'/upload/img/avatar/01.jpg'}></Img>
         <WingBlank>
-          <Button inline size="small" onClick={this.gotoLogin}>登录</Button>
+          {
+            isLogin && memberDetail ? <div>
+              账户: {memberDetail.memberName}
+            </div> : <Button inline size="small" onClick={this.gotoLogin}>登录</Button>
+          }
         </WingBlank>
       </Flex>
-      <Flex align='center' style={{ padding: '50px',backgroundColor:'red' }}>
-        <Flex.Item style={{textAlign:'center'}}>关注的商品</Flex.Item>
-        <Flex.Item style={{textAlign:'center'}}>关注的店铺</Flex.Item>
-        <Flex.Item style={{textAlign:'center'}}>浏览记录</Flex.Item>   
+      <Flex align='center' style={{ height: '1rem',backgroundColor:'red' }}>
+        <Flex.Item style={{textAlign:'center'}}>关注的商品<br/>({memberDetail.favGoodsCount})</Flex.Item>
+        <Flex.Item style={{textAlign:'center'}}>关注的店铺<br/>({memberDetail.favStoreCount})</Flex.Item>
+        <Flex.Item style={{ textAlign: 'center' }}>浏览记录<br />({memberDetail.browseCount})</Flex.Item>   
       </Flex>
       <List renderHeader={()=>'我的订单'}>
         <Grid data={orderMenu} columnNum={4} hasLine={false} >

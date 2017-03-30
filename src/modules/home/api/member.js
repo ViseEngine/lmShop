@@ -1,5 +1,6 @@
 import { fetch, common } from 'common';
 
+// 会员收藏信息
 export function memberfavotites({
   type,
   pageno,
@@ -12,6 +13,7 @@ export function memberfavotites({
   });
 }
 
+// 商品推荐
 export function centRecommendList() {
   return fetch.get('/memberapi/centRecommendList');
 }
@@ -45,4 +47,9 @@ export function shopPointsLogList({
     pageNo,
     pageSize
   });
+}
+
+// 会员信息
+export function memberDetail() {
+  return fetch.get('/memberapi/memberDetail');
 }

@@ -11,7 +11,7 @@ const BUILD_PATH = path.resolve(ROOT_PATH, 'dist');
 
 //循环生成每个入口文件对应的html
 const HtmlWebpack = [];
-const modules = ['home', 'goodsClass', 'my',
+const modules = ['home', 'goodsClass',
   'cart', 'goodsDetail', 'login', 'order',
   'groupBuy', 'timeBuy'
 ]

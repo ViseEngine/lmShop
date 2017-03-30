@@ -36,7 +36,7 @@ class CartShop extends Component {
       {
         data.list.map((goods,index) => {
           return <Item key={index}>
-            <Flex>
+            <Flex style={{fontSize:'24px'}}>
               <Radio className="my-radio" onChange={e => console.log('checkbox', e)}></Radio>
               <Img src={goods.goodsImages} style={{ height: '1rem', width: '1rem' }} />
               <Flex.Item>
@@ -48,8 +48,9 @@ class CartShop extends Component {
                     <Stepper
                         showNumber max={10} min={1} defaultValue={3}
                     />
-                  </Flex.Item>  
+                  </Flex.Item>
                 </Flex>
+                <div style={{textAlign:'right'}}><Button size='small' inline>删除</Button></div>
               </Flex.Item>
             </Flex>
           </Item>

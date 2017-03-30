@@ -18,6 +18,8 @@ import returns from './returns';
 import myIntegral from './myIntegral';
 import coupon from './coupon';
 
+import my from './my';
+
 const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={home} showBottomBar={true} showTitle={false}/>
   <Route path='store/:storeId/'>
@@ -27,7 +29,7 @@ const routesConfig = (<Route path="/" component={App}>
     <Route path='newgoods' component={storeNewGoods} title='上新' />
     <Route path='coupon' component={storeCoupon} title='优惠券' />
   </Route>
-
+  
   <Route path='/gotoSearch' component={gotoSearch} showTitle={false}/>
   <Route path='/search/(:goodsName)' component={goodsSearch} title='商品搜索' />
   
@@ -36,6 +38,8 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/returns' component={returns} title='退换货' />
   <Route path='/myIntegral' component={myIntegral} title='积分' />
   <Route path='/coupon' component={coupon} title='我的优惠券' />
+
+  <Route path='/my' component={my} title='我的' />
 </Route>)
 
 function Routes({ history }) {
