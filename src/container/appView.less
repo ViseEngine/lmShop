@@ -4,6 +4,11 @@
 
 .wx-navbar {
   height: 0.9rem;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
   .am-navbar-title {
     font-size: .32rem;
     font-weight: bold;
@@ -12,4 +17,11 @@
     width: .44rem;
     height: .44rem;
   }
+}
+
+.text-overflow-hidden {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
 }

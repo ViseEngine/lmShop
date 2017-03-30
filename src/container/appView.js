@@ -107,10 +107,18 @@ class App extends Component {
   }
 
   render() {
+    let { showTitle } = this.props.children.props.route
+    if (showTitle == undefined) {
+      showTitle = true
+    }
     return (
       <div id="container">
         {this.showNavBar()}
-        {this.props.children}
+        {
+          showTitle ? <div style={{ marginTop: '0.9rem' }}>
+            {this.props.children}
+          </div> : this.props.children
+        }
         <WhiteSpace style={{height:'1.2rem'}}></WhiteSpace>
         {this.showBottomBar()}
       </div>

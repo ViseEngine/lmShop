@@ -1,6 +1,17 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { WhiteSpace, WingBlank, Toast, Flex, Button, Radio, List, Icon, Stepper } from 'antd-mobile';
+import {
+  WhiteSpace,
+  WingBlank,
+  Modal,
+  Toast,
+  Flex,
+  Button,
+  Radio,
+  List,
+  Icon,
+  Stepper
+} from 'antd-mobile';
 import { Img } from 'commonComponent';
 import RecommendGoods from 'commonComponent/RecommendGoods';
 import * as cartApi from '../api/cart';
@@ -13,17 +24,81 @@ const RadioItem = Radio.RadioItem;
 class CartShop extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      ...props.data,
+      checked: false
+    }
+  }
+
+  // 领券  
+  getCoupon = (shop) => {
+    Modal.alert('提示', '确定要删除吗', [
+      { text: '取消' },
+      {
+        text: '确定',
+        onPress: () => {
+          this.props.getCoupon(shop);
+        }
+      },
+    ]);
+  }
+
+  // 删除店
+  delShopCart = (shop) => {
+    Modal.alert('提示', '确定要删除吗', [
+      { text: '取消' },
+      {
+        text: '确定',
+        onPress: () => {
+          this.props.delShopCart(shop);
+        }
+      },
+    ]);
+  }
+
+  // 删除购物车商品
+  delCart = (goods) => {
+    Modal.alert('提示', '确定要删除吗', [
+      { text: '取消' },
+      {
+        text: '确定',
+        onPress: () => {
+          this.props.delCart(goods);
+        }
+      },
+    ]);
+  }
+
+  // 更新购物车数量
+  updateCart = (goods) => {
+
+  }
+
+  // 选择购物车
+  checkCart = (goods) => {
+
+  }
+  // 选中店
+  checkShop = (storeId, e) => {
+    // console.log(storeId);
+    // console.log(e);
+
+    this.setState({
+      checked: e.target.checked
+    });
   }
 
   renderHeader = () => {
-    const { data } = this.props;
+    const { checked, storeName, storeId } = this.state;
+    console.log(checked);
     return <Flex>
-      <Radio className="my-radio" onChange={e => console.log('checkbox', e)}>{data.storeName}</Radio>
+      <Radio className="my-radio" checked={checked}
+        onChange={(e)=>this.checkShop(storeId,e)}
+      >{storeName}</Radio>
       <Icon type='right' />
       <Flex.Item style={{ textAlign: 'right' }}>
-        <Button size='small' inline>领券</Button>
-        <Button size='small' inline>删除</Button>
+        <Button size='small' inline onClick={()=>this.getCoupon(storeId)}>领券</Button>
+        <Button size='small' inline onClick={()=>this.delShopCart(storeId)}>删除</Button>
       </Flex.Item>
     </Flex>
   }
@@ -32,7 +107,6 @@ class CartShop extends Component {
 
   render() {
     const { data } = this.props;
-    console.log(data);
     return <List renderHeader={this.renderHeader}>
       {
         data.list.map((goods,index) => {
@@ -46,12 +120,12 @@ class CartShop extends Component {
                 <Flex>
                   <div>{goods.goodsPrice}</div>
                   <Flex.Item style={{textAlign:'right'}}>
-                    <Stepper
-                        showNumber min={1} defaultValue={goods.goodsNum}
-                    />
+                    <Stepper showNumber min={1} defaultValue={goods.goodsNum} />
                   </Flex.Item>
                 </Flex>
-                <div style={{textAlign:'right'}}><Button size='small' inline>删除</Button></div>
+                <div style={{ textAlign: 'right' }}>
+                  <Button size='small' inline onClick={() => this.delCart(goods)}>删除</Button>
+                </div>
               </Flex.Item>
             </Flex>
           </Item>
