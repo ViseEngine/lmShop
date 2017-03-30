@@ -39,7 +39,7 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/myIntegral' component={myIntegral} title='积分' />
   <Route path='/coupon' component={coupon} title='我的优惠券' />
 
-  <Route path='/my' component={my} title='我的' />
+  <Route path='/my' component={my} title='我的' showBottomBar={true}/>
 </Route>)
 
 function Routes({ history }) {
