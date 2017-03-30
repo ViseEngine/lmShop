@@ -7,7 +7,7 @@ import {
   Toast,
   Flex,
   Button,
-  Radio
+  Checkbox
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import RecommendGoods from 'commonComponent/RecommendGoods';
@@ -15,6 +15,8 @@ import CartShop from '../components/CartShop';
 import * as goodsApi from 'common/api/goods';
 import * as cartApi from '../api/cart';
 import { common } from 'common';
+
+const AgreeItem = Checkbox.AgreeItem;
 
 import './cart.less';
 
@@ -24,8 +26,13 @@ class Cart extends Component {
     this.state = {
       relGoodsRecommedlist: [],
       cartList: [],
-      isInit: false
+      isInit: false,
+      checkAll: false
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return true;
   }
 
   componentDidMount() {
@@ -56,6 +63,80 @@ class Cart extends Component {
     common.gotoLoginAndBack();
   }
 
+  // 选择购物车
+  checkGoods = (checkedStore, checkedGoods, checked) => {
+    // 遍历当前店铺的所有商品
+    const mapedList = checkedStore.list.map(goods => {
+      if (checkedGoods.goodsId == goods.goodsId) {
+        goods.checked = checked;
+      }
+      return goods
+    })
+
+    let isAllGoodsChecked = true;
+    // 当前店铺商品 checked 不存在false,
+    if (mapedList.find(item => !item.checked)) {
+      isAllGoodsChecked = false;
+    }
+
+    const cartList = this.state.cartList.map(shop => {
+      if (checkedStore.storeId == shop.storeId) {
+        shop.list = mapedList;
+        shop.checked = isAllGoodsChecked;
+      }
+      return shop;
+    })
+
+    let isCheckAll = true;
+    if (cartList.find(shop => !shop.checked)) {
+      isCheckAll = false;
+    }
+    this.setState({
+      checkAll: isCheckAll,
+      cartList
+    });
+  }
+
+  // 选中店
+  checkShop = (store, checked) => {
+    const cartList = this.state.cartList.map(shop => {
+      if (store.storeId == shop.storeId) {
+        shop.checked = checked;
+        const mapedList = shop.list.map(goods => {
+          goods.checked = checked;
+          return goods;
+        })
+        shop.list = mapedList;
+      }
+      return shop;
+    })
+    let isCheckAll = false;
+    const checkedShopCount = cartList.filter(item => item.checked).length;
+    if (checkedShopCount == cartList.length) {
+      isCheckAll = true;
+    }
+    this.setState({
+      checkAll: isCheckAll,
+      cartList
+    });
+  }
+
+  checkAll = (checked) => {
+    const cartList = this.state.cartList.map(shop => {
+      shop.checked = checked;
+      const mapedList = shop.list.map(goods => {
+        goods.checked = checked;
+        return goods;
+      })
+      shop.list = mapedList;
+      return shop;
+    })
+    this.setState({
+      checkAll: checked,
+      cartList: cartList
+    });
+  }
+
   render() {
     const isLogin = common.isLogin();
     const { cartList, isInit } = this.state;
@@ -70,8 +151,14 @@ class Cart extends Component {
         </WingBlank>
       }
       {
-        cartList && cartList.map((cart,index) => {
-          return <CartShop data={cart} key={index}></CartShop>
+        cartList && cartList.map((shop,index) => {
+          return <CartShop
+            key={index}  
+            data={shop}
+            checkShop={this.checkShop}
+            checkGoods={this.checkGoods}
+          >
+          </CartShop>
         })
       }
       {
@@ -85,10 +172,13 @@ class Cart extends Component {
       <div>
         <RecommendGoods data={this.state.relGoodsRecommedlist}></RecommendGoods>
       </div>
+      
       <div className='wx-cart-list-bar'>
         <Flex>
           <Flex.Item>
-            <Radio className='my-radio'>全选</Radio>
+            <AgreeItem checked={this.state.checkAll}
+              onChange={(e)=>this.checkAll(e.target.checked)}
+              >全选</AgreeItem>
           </Flex.Item>
           <Flex.Item>
             <span>合计：¥0.0</span><br/>
@@ -98,7 +188,7 @@ class Cart extends Component {
             <Button type='primary' inline>去结算</Button>
           </Flex.Item>
         </Flex>
-      </div>  
+      </div>
     </div>
   }
 }

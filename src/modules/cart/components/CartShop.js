@@ -7,7 +7,7 @@ import {
   Toast,
   Flex,
   Button,
-  Radio,
+  Checkbox,
   List,
   Icon,
   Stepper
@@ -19,15 +19,11 @@ import { common } from 'common';
 
 import './CartShop.less';
 const Item = List.Item;
-const RadioItem = Radio.RadioItem;
+const AgreeItem = Checkbox.AgreeItem;
 
 class CartShop extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      ...props.data,
-      checked: false
-    }
   }
 
   // 领券  
@@ -70,40 +66,32 @@ class CartShop extends Component {
   }
 
   // 更新购物车数量
-  updateCart = (goods) => {
-
+  updateCart = (goods, num) => {
+    this.props.updateCart(goods, num);
   }
 
   // 选择购物车
-  checkCart = (goods) => {
-
+  checkGoods = (store, goods, e) => {
+    this.props.checkGoods(store, goods, e.target.checked);
   }
   // 选中店
-  checkShop = (storeId, e) => {
-    // console.log(storeId);
-    // console.log(e);
-
-    this.setState({
-      checked: e.target.checked
-    });
+  checkShop = (store, e) => {
+    this.props.checkShop(store, e.target.checked);
   }
 
   renderHeader = () => {
-    const { checked, storeName, storeId } = this.state;
-    console.log(checked);
+    const { data } = this.props;
     return <Flex>
-      <Radio className="my-radio" checked={checked}
-        onChange={(e)=>this.checkShop(storeId,e)}
-      >{storeName}</Radio>
+      <Checkbox checked={data.checked}
+        onChange={(e)=>this.checkShop(data,e)}
+      >{data.storeName}</Checkbox>
       <Icon type='right' />
       <Flex.Item style={{ textAlign: 'right' }}>
-        <Button size='small' inline onClick={()=>this.getCoupon(storeId)}>领券</Button>
-        <Button size='small' inline onClick={()=>this.delShopCart(storeId)}>删除</Button>
+        <Button size='small' inline onClick={()=>this.getCoupon(data.storeId)}>领券</Button>
+        <Button size='small' inline onClick={()=>this.delShopCart(data.storeId)}>删除</Button>
       </Flex.Item>
     </Flex>
   }
-
-  componentDidMount() {}
 
   render() {
     const { data } = this.props;
@@ -112,7 +100,7 @@ class CartShop extends Component {
         data.list.map((goods,index) => {
           return <Item key={index}>
             <Flex style={{fontSize:'24px'}}>
-              <Radio className="my-radio" onChange={e => console.log('checkbox', e)}></Radio>
+              <Checkbox checked={goods.checked} onChange={e => this.checkGoods(data,goods,e)}></Checkbox>
               <Img src={goods.goodsImages} style={{ height: '1rem', width: '1rem' }} />
               <Flex.Item>
                 <div className='text-overflow-hidden'>{goods.goodsName}</div>
