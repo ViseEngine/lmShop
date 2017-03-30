@@ -23,7 +23,9 @@ class My extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      memberDetail: {}
+      memberDetail: {
+
+      }
     }
   }
 
@@ -74,8 +76,9 @@ class My extends Component {
 
     const isLogin = common.isLogin();
     const { memberDetail } = this.state;
-    return <div>
-      <Flex style={{padding:'20px'}}>
+    // console.log(memberDetail);
+    return <div className='wx-my'>
+      <Flex align='bottom'>
         <Img style={{width:'100px',height:'100px'}} src={'/upload/img/avatar/01.jpg'}></Img>
         <WingBlank>
           {
@@ -85,48 +88,64 @@ class My extends Component {
           }
         </WingBlank>
       </Flex>
-      <Flex style={{ height: '1rem',backgroundColor:'red',textAlign:'center' }}>
+      <Flex className='wx-my-menu1'>
         <Flex.Item
           onClick={() => {
             this.props.router.push('/attention/1')
           }}
           >
-          关注的商品<br />({memberDetail.favGoodsCount})
+          关注的商品<br />({memberDetail && memberDetail.favGoodsCount})
         </Flex.Item>
         <Flex.Item
           onClick={() => {
             this.props.router.push('/attention/2')
           }}
-          >关注的店铺<br />({memberDetail.favStoreCount})</Flex.Item>
+          >关注的店铺<br />({memberDetail && memberDetail.favStoreCount})</Flex.Item>
         <Flex.Item
           onClick={() => {
             this.props.router.push('/viewRecord')
           }}
-          >浏览记录<br />({memberDetail.browseCount})</Flex.Item>   
+          >浏览记录<br />({memberDetail && memberDetail.browseCount})</Flex.Item>   
       </Flex>
       <List renderHeader={
-        <Flex justify='center'>
-          <Flex.Item>我的订单</Flex.Item>
-          <Flex.Item style={{ textAlign: 'right' }}>
-            <span>全部订单</span>
-            <Icon type='right'/>
-          </Flex.Item>
+        <Flex justify='between'>
+          <div>我的订单</div>
+          <Flex>
+            全部订单<Icon type='right'/>
+          </Flex>  
         </Flex>
         }>
         <Grid data={orderMenu} columnNum={4} hasLine={false} >
         </Grid>  
       </List>
-      <List renderHeader={()=>'我的钱包'}>
-        <Flex alignContent='center' style={{ padding: '50px',fontSize:'24px' }}>
-          <Flex.Item>可用余额</Flex.Item>
-          <Flex.Item>积分纪录</Flex.Item>
-          <Flex.Item>锁定余额</Flex.Item>
-          <Flex.Item>优惠券</Flex.Item>   
+      <List className='wx-my-moneybag' renderHeader={()=>'我的钱包'}>
+        <Flex>
+          <Flex.Item>
+            ({memberDetail && memberDetail.availablePredeposit})
+            <br />
+            可用余额</Flex.Item>
+          <Flex.Item>
+            ({memberDetail && memberDetail.memberConsumePoints})
+            <br />
+            积分纪录</Flex.Item>
+          <Flex.Item>
+            ({memberDetail && memberDetail.freezePredeposit})
+            <br />
+            锁定余额</Flex.Item>
+          <Flex.Item>
+            ({memberDetail && memberDetail.couponCount})
+            <br />
+            优惠券</Flex.Item>   
         </Flex>
       </List>
-      <List renderHeader={()=>'账户管理'}>
 
-      </List>
+      <WhiteSpace></WhiteSpace>      
+      <WingBlank style={{color:'#888'}}>
+        <Flex justify='between'>
+          <div>账户管理</div>
+            <Icon type='right'/>
+        </Flex>
+      </WingBlank>  
     </div>
   }
 }

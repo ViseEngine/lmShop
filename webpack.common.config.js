@@ -54,7 +54,7 @@ const commonPlugin = [
     options: {
       postcss: [pxtorem({
         rootValue: 100,
-        propWhiteList: [],
+        propWhiteList: ['font-size'],
       })]
     }
   }),
@@ -112,7 +112,8 @@ module.exports = {
       'commonComponent': path.resolve('./src/common/components'),
       'common': path.resolve('./src/common'),
       'baseComponent': path.resolve(__dirname, './src/base-components'),
-      'assets': path.resolve(__dirname, './src/assets')
+      'assets': path.resolve(__dirname, './src/assets'),
+      'styles': path.resolve(__dirname, './src/styles')
     }
   },
   externals: {
