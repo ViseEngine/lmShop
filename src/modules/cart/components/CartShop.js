@@ -66,8 +66,8 @@ class CartShop extends Component {
   }
 
   // 更新购物车数量
-  updateCart = (goods, num) => {
-    this.props.updateCart(goods, num);
+  updateCart = (store, goods, num) => {
+    this.props.updateCart(store, goods, num);
   }
 
   // 选择购物车
@@ -87,8 +87,8 @@ class CartShop extends Component {
       >{data.storeName}</Checkbox>
       <Icon type='right' />
       <Flex.Item style={{ textAlign: 'right' }}>
-        <Button size='small' inline onClick={()=>this.getCoupon(data.storeId)}>领券</Button>
-        <Button size='small' inline onClick={()=>this.delShopCart(data.storeId)}>删除</Button>
+        <Button size='small' inline onClick={()=>this.getCoupon(data)}>领券</Button>
+        <Button size='small' inline onClick={()=>this.delShopCart(data)}>删除</Button>
       </Flex.Item>
     </Flex>
   }
@@ -108,7 +108,7 @@ class CartShop extends Component {
                 <Flex>
                   <div>{goods.goodsPrice}</div>
                   <Flex.Item style={{textAlign:'right'}}>
-                    <Stepper showNumber min={1} defaultValue={goods.goodsNum} />
+                    <Stepper showNumber min={1} value={goods.goodsNum} onChange={(val)=>this.updateCart(data,goods,val)} />
                   </Flex.Item>
                 </Flex>
                 <div style={{ textAlign: 'right' }}>

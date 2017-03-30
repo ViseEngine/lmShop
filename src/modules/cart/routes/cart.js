@@ -27,12 +27,10 @@ class Cart extends Component {
       relGoodsRecommedlist: [],
       cartList: [],
       isInit: false,
-      checkAll: false
+      checkAll: false,
+      goodsNum: 0,
+      goodsTotalPrice: 0
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return true;
   }
 
   componentDidMount() {
@@ -59,8 +57,66 @@ class Cart extends Component {
     });
   }
 
+  refreshCartList = () => {
+    cartApi.cartList().then(result => {
+      if (result.result == 1) {
+        this.setState({
+          cartList: result.data || []
+        })
+      }
+    })
+  }
+
   gotoLogin = () => {
     common.gotoLoginAndBack();
+  }
+
+  gotoBuy = () => {
+    let cartId = [];
+    this.state.cartList.forEach(shop => {
+      shop.list.forEach(goods => {
+        if (goods.checked) {
+          cartId.push(goods.cartId);
+        }
+      })
+    })
+    if (cartId.length == 0) {
+      Toast.info('请先选择商品', 1)
+      return;
+    }
+    common.gotoOrder({
+      cartId: cartId.join(',')
+    });
+  }
+
+  updateCart = (store, checkedGoods, num) => {
+    cartApi.updateCartCount({
+      cartId: checkedGoods.cartId,
+      count: num
+    }).then(result => {
+      if (result.result == 1) {
+        // 修改商品数量
+        checkedGoods.goodsNum = num;
+        // 选中商品
+        this.checkGoods(store, checkedGoods, true);
+      }
+    });
+  }
+
+  delCart = (goods) => {
+    cartApi.deleteCart({ cartId: goods.cartId }).then(result => {
+      if (result.result == 1) {
+        this.refreshCartList();
+      }
+    })
+  }
+
+  delShopCart = (shop) => {
+    cartApi.deleteCart({ cartId: shop.cartIds }).then(result => {
+      if (result.result == 1) {
+        this.refreshCartList();
+      }
+    })
   }
 
   // 选择购物车
@@ -95,6 +151,7 @@ class Cart extends Component {
       checkAll: isCheckAll,
       cartList
     });
+    this.refreshTotalPriceAndCount(cartList);
   }
 
   // 选中店
@@ -119,6 +176,7 @@ class Cart extends Component {
       checkAll: isCheckAll,
       cartList
     });
+    this.refreshTotalPriceAndCount(cartList);
   }
 
   checkAll = (checked) => {
@@ -135,6 +193,26 @@ class Cart extends Component {
       checkAll: checked,
       cartList: cartList
     });
+    this.refreshTotalPriceAndCount(cartList);
+  }
+
+  // 刷新数量和金额
+  refreshTotalPriceAndCount = (cartList) => {
+    let totalPrice = 0;
+    let goodsNum = 0;
+    cartList.forEach(shop => {
+      shop.list.forEach(goods => {
+        if (goods.checked) {
+          goodsNum += goods.goodsNum
+          totalPrice = parseFloat(totalPrice) + parseFloat(goods.goodsPrice * goods.goodsNum)
+        }
+      })
+    });
+    totalPrice = totalPrice.toFixed(1)
+    this.setState({
+      goodsNum,
+      goodsTotalPrice: totalPrice
+    })
   }
 
   render() {
@@ -155,6 +233,9 @@ class Cart extends Component {
           return <CartShop
             key={index}  
             data={shop}
+            delShopCart={this.delShopCart}
+            delCart={this.delCart}
+            updateCart={this.updateCart}
             checkShop={this.checkShop}
             checkGoods={this.checkGoods}
           >
@@ -181,11 +262,11 @@ class Cart extends Component {
               >全选</AgreeItem>
           </Flex.Item>
           <Flex.Item>
-            <span>合计：¥0.0</span><br/>
-            <span>共0件</span>
+            <span style={{minWidth:'100px'}}>合计:¥{this.state.goodsTotalPrice}</span><br/>
+            <span>共{this.state.goodsNum}件</span>
           </Flex.Item>
           <Flex.Item style={{textAlign:'right'}}>
-            <Button type='primary' inline>去结算</Button>
+            <Button type='primary' inline onClick={this.gotoBuy}>去结算</Button>
           </Flex.Item>
         </Flex>
       </div>
