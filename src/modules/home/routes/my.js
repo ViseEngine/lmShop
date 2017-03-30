@@ -7,6 +7,8 @@ import * as memberApi from '../api/member';
 
 import './my.less';
 
+const Item = List.Item;
+
 class My extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +20,7 @@ class My extends Component {
   componentDidMount() {
     memberApi.memberDetail().then(result => {
       if (result.result != 1) {
-        Toast.error(result.msg);
+        Toast.info(result.msg);
         return;
       }
 
@@ -73,12 +75,26 @@ class My extends Component {
           }
         </WingBlank>
       </Flex>
-      <Flex align='center' style={{ height: '1rem',backgroundColor:'red' }}>
-        <Flex.Item style={{textAlign:'center'}}>关注的商品<br/>({memberDetail.favGoodsCount})</Flex.Item>
-        <Flex.Item style={{textAlign:'center'}}>关注的店铺<br/>({memberDetail.favStoreCount})</Flex.Item>
-        <Flex.Item style={{ textAlign: 'center' }}>浏览记录<br />({memberDetail.browseCount})</Flex.Item>   
+      <Flex style={{ height: '1rem',backgroundColor:'red',textAlign:'center' }}>
+        <Flex.Item
+          onClick={() => {
+            this.props.router.push('/attention/1')
+          }}
+          >
+          关注的商品<br />({memberDetail.favGoodsCount})
+        </Flex.Item>
+        <Flex.Item
+          onClick={() => {
+            this.props.router.push('/attention/2')
+          }}
+          >关注的店铺<br />({memberDetail.favStoreCount})</Flex.Item>
+        <Flex.Item
+          onClick={() => {
+            this.props.router.push('/viewRecord')
+          }}
+          >浏览记录<br />({memberDetail.browseCount})</Flex.Item>   
       </Flex>
-      <List renderHeader={()=>'我的订单'}>
+      <List renderHeader={() => '我的订单'}>
         <Grid data={orderMenu} columnNum={4} hasLine={false} >
         </Grid>  
       </List>
