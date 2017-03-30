@@ -31,15 +31,12 @@ class My extends Component {
 
   componentDidMount() {
     memberApi.memberDetail().then(result => {
-      if (result.result != 1) {
-        Toast.info(result.msg);
-        return;
-      }
-
       let data = result.data;
-      this.setState({
-        memberDetail: data[0]
-      });
+      if (data) {
+        this.setState({
+          memberDetail: data[0]
+        });
+      }
     })
   }
 

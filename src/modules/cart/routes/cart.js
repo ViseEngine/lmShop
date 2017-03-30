@@ -23,16 +23,21 @@ class Cart extends Component {
     super(props);
     this.state = {
       relGoodsRecommedlist: [],
-      cartList: []
+      cartList: [],
+      isInit: false
     }
   }
 
   componentDidMount() {
-
+    Toast.loading();
     cartApi.cartList().then(result => {
-      this.setState({
-        cartList: result.data
-      })
+      Toast.hide();
+      if (result.result == 1) {
+        this.setState({
+          isInit: true,
+          cartList: result.data || []
+        })
+      }
     })
 
     goodsApi.relGoodsRecommedlist().then(result => {
@@ -53,7 +58,10 @@ class Cart extends Component {
 
   render() {
     const isLogin = common.isLogin();
-    const { cartList } = this.state;
+    const { cartList, isInit } = this.state;
+    if (!isInit) {
+      return null;
+    }
     return <div>
       <WhiteSpace></WhiteSpace>
       {
@@ -62,15 +70,18 @@ class Cart extends Component {
         </WingBlank>
       }
       {
-        cartList.map((cart,index) => {
+        cartList && cartList.map((cart,index) => {
           return <CartShop data={cart} key={index}></CartShop>
         })
       }
+      {
+        cartList.length == 0 && 
+          <div style={{ padding:'20px 20px' }}>
+            <img src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/b_3.png`}></img>
+            <span style={{fontSize: '28px',color:'gray'}}>购物车是空的</span>
+          </div>
+      }
       
-      <div style={{ padding:'20px 20px' }}>
-        <img src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/b_3.png`}></img>
-        <span style={{fontSize: '28px',color:'gray'}}>购物车是空的</span>
-      </div>
       <div>
         <RecommendGoods data={this.state.relGoodsRecommedlist}></RecommendGoods>
       </div>

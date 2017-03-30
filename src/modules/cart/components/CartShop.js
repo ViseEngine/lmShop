@@ -32,6 +32,7 @@ class CartShop extends Component {
 
   render() {
     const { data } = this.props;
+    console.log(data);
     return <List renderHeader={this.renderHeader}>
       {
         data.list.map((goods,index) => {
@@ -46,7 +47,7 @@ class CartShop extends Component {
                   <div>{goods.goodsPrice}</div>
                   <Flex.Item style={{textAlign:'right'}}>
                     <Stepper
-                        showNumber max={10} min={1} defaultValue={3}
+                        showNumber min={1} defaultValue={goods.goodsNum}
                     />
                   </Flex.Item>
                 </Flex>
