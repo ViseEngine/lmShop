@@ -20,7 +20,7 @@ class HomeFunctionBlock extends React.PureComponent {
         this.props.router.push('/attention/2');
         break;
       case 4:
-        this.props.router.push('/goodsViewRecord');
+        this.props.router.push('/viewRecord');
         break;
       case 5:
         this.props.router.push('/returns');
