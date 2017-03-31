@@ -2,18 +2,20 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import {
   Modal,
-  SearchBar,
   WhiteSpace,
   WingBlank,
   Toast,
   Flex,
   Icon,
-  ListView
+  ListView,
+  Button,
+  InputItem
 } from 'antd-mobile';
 import GoodsSearchComp from '../components/GoodsSearch';
 import classnames from 'classnames';
 import { common } from 'common';
 import { Img } from 'commonComponent';
+import { createForm } from 'rc-form';
 import * as goodsApi from '../api/goods';
 
 import './goodsSearch.less';
@@ -26,7 +28,9 @@ class GoodsSearch extends Component {
     this.state = {
       dataSource: this.ds.cloneWithRows([]),
       sortField: '',
-      sortOrder: 'asc'
+      sortOrder: 'asc',
+      open: false,
+      specList: []
     }
   }
 
@@ -48,7 +52,25 @@ class GoodsSearch extends Component {
   }
 
   componentWillMount() {
+    // 查询列表
     this.refreshList();
+
+    // 初始化过滤条件
+    goodsApi.goodsfiltermore({
+      keyword: this.props.params.keyword,
+      searchType: 'keywordSearch'
+    }).then(result => {
+      if (result.result == 1) {
+        const data = result.data;
+        if (data && data.length > 0) {
+          const specList = data[0].specList;
+          console.log(specList);
+          this.setState({
+            specList
+          });
+        }
+      }
+    })
   }
 
   renderItem = (dataItem) => {
@@ -85,7 +107,7 @@ class GoodsSearch extends Component {
   }
 
   onClickFilter = () => {
-    alert('筛选');
+    this.setState({ open: !this.state.open });
   }
 
   render() {
@@ -111,7 +133,50 @@ class GoodsSearch extends Component {
       'selected': sortField == 'goodsStorePrice' && sortOrder == 'asc'
     })
 
+    const { getFieldProps } = this.props.form;
+
     return <div className='wx-goods-search-page'>
+      {
+        this.state.open ? <div style={{
+          height: document.documentElement.clientHeight,
+          width: '5rem',
+          backgroundColor: 'white',
+          zIndex: 10000,
+          position: 'fixed',
+          right: 0,
+          overflowY: 'scroll'
+        }}>
+          <Flex direction='column'>
+            <Flex>
+              <InputItem
+                {...getFieldProps('minprice')}
+                clear
+                placeholder="最低价"
+                autoFocus
+              ></InputItem>
+              <InputItem
+                {...getFieldProps('maxprice')}
+                clear
+                placeholder="最高价"
+              ></InputItem>
+            </Flex>
+            {
+              this.state.specList.map(spec => {
+                return <div key={spec.spId}>
+                  <div>{spec.spName}</div>
+                  <Flex wrap="wrap">
+                    {
+                      spec.specValueList.map(value => {
+                        return <Button key={value.spValueId}>{value.spValueName}</Button>
+                      })
+                    }
+                  </Flex>
+                </div>
+              })
+            }
+          </Flex>  
+        </div> : null
+      }
       <Flex className='wx-goods-search-header'>
         <Flex.Item onClick={()=>this.changeOrder('')}>
           {
@@ -154,4 +219,4 @@ class GoodsSearch extends Component {
   }
 }
 
-export default withRouter(GoodsSearch);
+export default withRouter(createForm()(GoodsSearch));
