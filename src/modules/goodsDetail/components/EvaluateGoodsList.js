@@ -12,7 +12,7 @@ import { common } from 'common';
 /**
  * 商品评价
  */
-export default function({ goodsDetailInfo }) {
+export default function({ goodsDetailInfo, gotoEvaluateList, gotoConsultation }) {
 
   const { evaluateGoodsList } = goodsDetailInfo;
 
@@ -61,10 +61,10 @@ export default function({ goodsDetailInfo }) {
     <List.Item>
       <Flex>
         <Flex.Item>
-          <Button>商品晒单 ({goodsDetailInfo.commentnum})</Button>
+          <Button onClick={()=>gotoEvaluateList(goodsDetailInfo)}>商品晒单 ({goodsDetailInfo.commentnum})</Button>
         </Flex.Item>
         <Flex.Item>
-          <Button>购买咨询 ({goodsDetailInfo.consultationNum})</Button>
+          <Button onClick={()=>gotoConsultation(goodsDetailInfo)}>购买咨询 ({goodsDetailInfo.consultationNum})</Button>
         </Flex.Item>
       </Flex>
     </List.Item>

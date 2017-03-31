@@ -45,7 +45,6 @@ class GoodsDetail extends Component {
 
   componentDidMount() {
     Toast.loading();
-    console.log(common.getCartNum());
     this.setState({
       cartNum: common.getCartNum()
     });
@@ -72,6 +71,14 @@ class GoodsDetail extends Component {
         }, 100);
       }
     });
+  }
+
+  gotoEvaluateList = (goodsDetailInfo) => {
+    this.props.router.push(`/evaluteList/${goodsDetailInfo.goodsId}`);
+  }
+
+  gotoConsultation = (goodsDetailInfo) => {
+    this.props.router.push(`/consultList/${goodsDetailInfo.goodsId}`);
   }
 
   /**
@@ -249,7 +256,10 @@ class GoodsDetail extends Component {
             运费：卖家承担运费
           </List.Item>
         </List>
-        <EvaluateGoodsList goodsDetailInfo={goodsDetailInfo}></EvaluateGoodsList>
+        <EvaluateGoodsList
+          gotoEvaluateList={this.gotoEvaluateList}
+          gotoConsultation={this.gotoConsultation}
+          goodsDetailInfo={goodsDetailInfo}></EvaluateGoodsList>
         <WhiteSpace></WhiteSpace>
         <StoreInfo goodsDetailInfo={goodsDetailInfo}></StoreInfo>
         <WhiteSpace></WhiteSpace>
