@@ -91,7 +91,7 @@ class CartShop extends Component {
       {
         data.list.map((goods,index) => {
           return <Item key={index}>
-            <Flex style={{fontSize:'24px'}}>
+            <Flex>
               <Checkbox checked={goods.checked} onChange={e => this.checkGoods(data,goods,e)}></Checkbox>
               <Img src={goods.goodsImages} style={{ height: '1rem', width: '1rem' }} />
               <Flex.Item>

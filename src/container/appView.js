@@ -109,11 +109,14 @@ class App extends Component {
   }
 
   render() {
-    let { showTitle } = this.props.children.props.route
+    let { showTitle, showBottomBar } = this.props.children.props.route
     if (showTitle == undefined) {
       showTitle = true
     }
-    const contentClass = classnames('wx-content', { 'wx-content-hastitle': showTitle })
+    const contentClass = classnames('wx-content', {
+      'wx-content-hastitle': showTitle,
+      'wx-content-hasbottom': showBottomBar
+    })
     return (
       <div id="container">
         {this.showNavBar()}
