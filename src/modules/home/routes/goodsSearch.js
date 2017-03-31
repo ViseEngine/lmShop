@@ -11,6 +11,12 @@ import {
   ListView
 } from 'antd-mobile';
 import GoodsSearchComp from '../components/GoodsSearch';
+import classnames from 'classnames';
+import { common } from 'common';
+import { Img } from 'commonComponent';
+import * as goodsApi from '../api/goods';
+
+import './goodsSearch.less';
 
 class GoodsSearch extends Component {
   constructor(props) {
@@ -19,21 +25,40 @@ class GoodsSearch extends Component {
 
     this.state = {
       dataSource: this.ds.cloneWithRows([]),
-      order: 'desc',
-      orderField: ''
+      sortField: '',
+      sortOrder: 'asc'
     }
   }
 
-  componentWillMount() {}
+  refreshList = () => {
+    goodsApi.goodslist({
+      sortField: this.state.sortField,
+      sortOrder: this.state.sortOrder,
+      keyword: this.props.params.keyword,
+      pageSize: 20,
+      pageNo: 1,
+      searchType: 'keywordSearch',
+    }).then(result => {
+      if (result.result == 1) {
+        this.setState({
+          dataSource: this.ds.cloneWithRows(result.data)
+        })
+      }
+    })
+  }
+
+  componentWillMount() {
+    this.refreshList();
+  }
 
   renderItem = (dataItem) => {
     return <Flex onClick={() => common.gotoGoodsDetail({specId:dataItem.specId})}>
       <Flex.Item style={{flex:1,paddingLeft:'16px'}}>
-        <Img src={dataItem.goodsImage} style={{width:'100%'}}/>
+        <Img src={dataItem.goodsImage} style={{width:'1.5rem',height:'1.5rem'}}/>
       </Flex.Item>
       <Flex.Item style={{flex:3}}>
         <div style={{width:'100%',height:'100%'}}>
-          <div className='text-overflow-hidden'>
+          <div>
             {dataItem.goodsName}
           </div>
           <WhiteSpace></WhiteSpace>
@@ -44,7 +69,6 @@ class GoodsSearch extends Component {
             <Flex.Item style={{color:'red'}}>{dataItem.storeName}</Flex.Item>
             <Flex.Item style={{ minWidth: '200px', paddingRight: '8px' }}>
               {dataItem.commentnum}条评论 销量 {dataItem.salenum}
-              {/*<Button size='small' type='primary' onClick={()=>this.gotoBuy(dataItem)}>马上抢</Button>*/}
             </Flex.Item>
           </Flex>
         </div>  
@@ -52,38 +76,72 @@ class GoodsSearch extends Component {
     </Flex>
   }
 
+  changeOrder = (sortField) => {
+    this.setState({
+      sortField,
+      sortOrder: this.state.sortOrder == 'desc' ? 'asc' : 'desc'
+    })
+    this.refreshList();
+  }
+
+  onClickFilter = () => {
+    alert('筛选');
+  }
 
   render() {
-    const { data, orderField, order } = this.props;
-    return <div className='wx-goods-search'>
+    const { data, sortField, sortOrder } = this.state;
+    const allUpClass = classnames('wx-goods-search-order-up', {
+      'selected': sortField == '' && sortOrder == 'desc'
+    })
+    const allDownClass = classnames('wx-goods-search-order-down', {
+      'selected': sortField == '' && sortOrder == 'asc'
+    })
+
+    const salenumUpClass = classnames('wx-goods-search-order-up', {
+      'selected': sortField == 'salenum' && sortOrder == 'desc'
+    })
+    const salenumDownClass = classnames('wx-goods-search-order-down', {
+      'selected': sortField == 'salenum' && sortOrder == 'asc'
+    })
+
+    const goodsStorePriceUpClass = classnames('wx-goods-search-order-up', {
+      'selected': sortField == 'goodsStorePrice' && sortOrder == 'desc'
+    })
+    const goodsStorePriceDownClass = classnames('wx-goods-search-order-down', {
+      'selected': sortField == 'goodsStorePrice' && sortOrder == 'asc'
+    })
+
+    return <div className='wx-goods-search-page'>
       <Flex className='wx-goods-search-header'>
-        <Flex.Item>
+        <Flex.Item onClick={()=>this.changeOrder('')}>
           {
-            orderField == '' ?
-              <span>综合</span> :<span>综合</span>  
-          }
-          <div className="wx-goods-search-order">
-            <Icon className="wx-goods-search-order-up" type="up" size='xxs' />
-            <Icon className="wx-goods-search-order-down" type="down" size='xxs' />
+            sortField == '' ? <span style={{color:'red'}}>综合</span>:'综合'
+          }  
+          <div className='wx-goods-search-order'>
+            <Icon className={allUpClass} type="up" />
+            <Icon className={allDownClass} type="down" />
           </div>
         </Flex.Item>
-        <Flex.Item>销量
+        <Flex.Item onClick={()=>this.changeOrder('salenum')}>
+          {
+            sortField == 'salenum' ? <span style={{color:'red'}}>销量</span>:'销量'
+          }  
           <div className="wx-goods-search-order">
-            <Icon className="wx-goods-search-order-up" type="up" size='xxs' />
-            <Icon className="wx-goods-search-order-down" type="down" size='xxs' />
+            <Icon className={salenumUpClass} type="up" />
+            <Icon className={salenumDownClass} type="down" />
           </div>
         </Flex.Item>
-        <Flex.Item>价格
+        <Flex.Item onClick={()=>this.changeOrder('goodsStorePrice')}>
+          {
+            sortField == 'goodsStorePrice' ? <span style={{color:'red'}}>价格</span>:'价格'
+          }  
           <div className="wx-goods-search-order">
-            <Icon className="wx-goods-search-order-up" type="up" size='xxs' />
-            <Icon className="wx-goods-search-order-down" type="down" size='xxs' />
+            <Icon className={goodsStorePriceUpClass} type="up"/>
+            <Icon className={goodsStorePriceDownClass} type="down" />
           </div>
         </Flex.Item>
-        <Flex.Item>筛选
-          <div className="wx-goods-search-order">
-            <Icon className="wx-goods-search-order-up" type="up" size='xxs' />
-            <Icon className="wx-goods-search-order-down" type="down" size='xxs' />
-          </div>
+        <Flex.Item onClick={()=>this.onClickFilter()}>
+          筛选<img style={{width:'.2rem',height:'.2rem'}} src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/list_saixuan.png`} />
         </Flex.Item>
       </Flex>
       <ListView
