@@ -89,10 +89,11 @@ class App extends Component {
 
     const leftContent = []
 
-    const rightContent = [
-      // <Icon key="0" type="left" style={{ marginRight: '0.2rem' }} />,
-      // <Icon key="1" type="ellipsis" />
-    ];
+    const rightContent = <div onClick={this.state.actionClick}>
+      {this.state.actionTitle}
+    </div>
+    // <Icon key="0" type="left" style={{ marginRight: '0.2rem' }} />,
+    // <Icon key="1" type="ellipsis" />
 
     if (showTitle) {
       return (
