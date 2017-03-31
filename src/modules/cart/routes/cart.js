@@ -18,12 +18,21 @@ import * as cartApi from '../api/cart';
 import * as storeApi from '../api/store';
 import { common } from 'common';
 import CouponList from '../components/CouponList';
+import CartTopAction from '../components/CartTopAction';
 
 const AgreeItem = Checkbox.AgreeItem;
 
 import './cart.less';
 
+
 class Cart extends Component {
+
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired,
+    initAction: React.PropTypes.func,
+    clearAction: React.PropTypes.func
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -32,11 +41,27 @@ class Cart extends Component {
       isInit: false,
       checkAll: false,
       goodsNum: 0,
-      goodsTotalPrice: 0
+      goodsTotalPrice: 0,
+      editStatus: 0
     }
   }
 
+  onChangeEditStatus = (status) => {
+    this.setState({
+      editStatus: status
+    })
+  }
+
+  componentWillUnmount() {
+    this.context.clearAction();
+  }
+
   componentDidMount() {
+    // 绑定头部事件
+    this.context.initAction({
+      title: <CartTopAction onChange={this.onChangeEditStatus}></CartTopAction>
+    })
+
     Toast.loading();
     cartApi.cartList().then(result => {
       Toast.hide();
@@ -63,9 +88,11 @@ class Cart extends Component {
   refreshCartList = () => {
     cartApi.cartList().then(result => {
       if (result.result == 1) {
+        const cartList = result.data || [];
         this.setState({
-          cartList: result.data || []
+          cartList
         })
+        this.refreshTotalPriceAndCount(cartList);
       }
     })
   }
@@ -117,6 +144,29 @@ class Cart extends Component {
   delShopCart = (shop) => {
     cartApi.deleteCart({ cartId: shop.cartIds }).then(result => {
       if (result.result == 1) {
+        this.refreshCartList();
+      }
+    })
+  }
+
+  delBySelected = () => {
+    let cartId = [];
+    this.state.cartList.forEach(shop => {
+      shop.list.forEach(goods => {
+        if (goods.checked) {
+          cartId.push(goods.cartId);
+        }
+      })
+    })
+    if (cartId.length == 0) {
+      Toast.info('请先选择商品', 1)
+      return;
+    }
+    cartApi.deleteCart({ cartId: cartId.join(',') }).then(result => {
+      if (result.result == 1) {
+        this.setState({
+          editStatus: 0
+        });
         this.refreshCartList();
       }
     })
@@ -241,7 +291,7 @@ class Cart extends Component {
 
   render() {
     const isLogin = common.isLogin();
-    const { cartList, isInit } = this.state;
+    const { cartList, isInit, editStatus } = this.state;
     if (!isInit) {
       return null;
     }
@@ -285,13 +335,23 @@ class Cart extends Component {
               onChange={(e)=>this.checkAll(e.target.checked)}
               >全选</AgreeItem>
           </Flex.Item>
-          <Flex.Item>
-            <span style={{minWidth:'100px'}}>合计:¥{this.state.goodsTotalPrice}</span><br/>
-            <span>共{this.state.goodsNum}件</span>
-          </Flex.Item>
-          <Flex.Item style={{textAlign:'right'}}>
-            <Button type='primary' inline onClick={this.gotoBuy}>去结算</Button>
-          </Flex.Item>
+          {
+            editStatus == 0 ? [
+              <Flex.Item key={1}>
+                <span style={{minWidth:'100px'}}>合计:¥{this.state.goodsTotalPrice}</span><br/>
+                <span>共{this.state.goodsNum}件</span>
+              </Flex.Item>,
+              <Flex.Item key={2} style={{textAlign:'right'}}>
+                <Button type='primary' inline onClick={this.gotoBuy}>去结算</Button>
+              </Flex.Item>    
+             ] : [
+              <Flex.Item key={1}>
+                <Button size='small' inline onClick={this.delBySelected}>删除</Button>    
+              </Flex.Item>,
+              <Flex.Item key={2}>&nbsp;</Flex.Item>  
+             ]
+          }
+          
         </Flex>
       </div>
     </div>
