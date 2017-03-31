@@ -17,12 +17,12 @@ class GoodsList extends Component {
       return null;
     }
 
-    console.log(data);
-
     return <div>
-      <div>
-        <Img src={advPosition.advList[0].resUrl} style={{width:'100%',height:'2rem'}}></Img>
-      </div>
+      {
+        advPosition.advList[0] &&  <div>
+          <Img src={advPosition.advList[0].resUrl} style={{width:'100%',height:'2rem'}}></Img>
+        </div>
+      }
       {
         classCustomList && classCustomList.map(customList => {
           const gridData = customList.classCustomList.map((item) => {
