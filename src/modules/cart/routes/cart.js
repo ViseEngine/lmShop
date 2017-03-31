@@ -246,7 +246,6 @@ class Cart extends Component {
       return null;
     }
     return <div>
-      <WhiteSpace></WhiteSpace>
       {
         !isLogin && <WingBlank>
           <Button inline size="small" onClick={this.gotoLogin}>登录</Button>

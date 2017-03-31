@@ -11,7 +11,6 @@ import './login.less';
 const Item = List.Item;
 
 class Login extends Component {
-
   constructor(props) {
     super(props);
     // 获取URL参数

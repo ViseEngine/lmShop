@@ -6,9 +6,7 @@ import {
   Toast,
   Flex,
   List,
-  Button,
-  Grid,
-  Popup
+  Button
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import { common } from 'common';
@@ -23,12 +21,22 @@ class ConsultList extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props.params.goodsId);
+    goodsDetailApi.goodsConsultList({
+      goodsId: this.props.params.goodsId
+    }).then(result => {
+      console.log(result);
+      if (result.result == 1) {
+        this.setState({
+          consultList: result.data
+        })
+      }
+    })
   }
 
   render() {
     return (
       <div>
+        <List></List>
       </div>
     )
   }

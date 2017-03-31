@@ -19,6 +19,18 @@
   }
 }
 
+.wx-content {
+  /* A绝对定位，进行内部滚动 */
+  position: absolute;
+  top: 1rem;
+  bottom: 0;
+  width: 100%;
+  /* 使之可以滚动 */
+  overflow-y: scroll;
+  /* 为了页面滚动流畅 */
+  -webkit-overflow-scrolling: touch;
+}
+
 .text-overflow-hidden {
   overflow: hidden;
   text-overflow: ellipsis;

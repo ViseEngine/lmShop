@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { common } from 'common';
 import { NavBar, Icon, Flex, WhiteSpace } from 'antd-mobile';
 import BottomBar from './BottomBar';
+import classnames from 'classnames';
 
 import './appView.less';
 
@@ -112,14 +113,11 @@ class App extends Component {
     if (showTitle == undefined) {
       showTitle = true
     }
+    const contentClass = classnames('wx-content', { 'wx-content-hastitle': showTitle })
     return (
       <div id="container">
         {this.showNavBar()}
-        {
-          showTitle ? <div style={{ marginTop: '0.9rem' }}>
-            {this.props.children}
-          </div> : this.props.children
-        }
+        <div className={contentClass}>{this.props.children}</div>
         <WhiteSpace style={{height:'1.2rem'}}></WhiteSpace>
         {this.showBottomBar()}
       </div>
