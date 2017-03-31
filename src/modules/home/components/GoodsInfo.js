@@ -18,21 +18,21 @@ export function ImgGoodsInfo({ dataItem, columnNum }) {
     width = '1rem';
   }
   const styles = {
-    fontSize: '24px',
+    fontSize: '.24rem',
     color: 'gray',
     width: `${width}`
   }
   // console.log(styles);
   // console.log(object);
-  return <Flex direction='column' onClick={()=>onClick(dataItem)}>
-      <Flex.Item style={{textAlign:'center'}}>
-        <Img src={dataItem.goodsImage} style={{width:'100%', height:'100%' }} />
+  return <Flex direction='column' onClick={()=>onClick(dataItem)} style={{textAlign:'center'}}>
+      <Flex.Item>
+        <Img src={dataItem.goodsImage} style={{width:width,height:width }} />
       </Flex.Item>
       <Flex.Item>
       <div style={styles} className='text-overflow-hidden'>{dataItem.goodsName}</div> 
       </Flex.Item>
       <Flex.Item>
-        <div style={{fontSize:'24px',color:'red'}}>{`¥${dataItem.goodsPrice}`}</div>
+        <div style={{fontSize:'.24rem',color:'red'}}>{`¥${dataItem.goodsPrice}`}</div>
       </Flex.Item>
     </Flex>
 }
@@ -48,19 +48,19 @@ export function GoodsImgInfo({ dataItem, columnNum }) {
     width = '1.5rem';
   }
   const styles = {
-    fontSize: '24px',
+    fontSize: '.24rem',
     color: 'gray',
     width: `${width}`
   }
-  return <Flex direction='column'  onClick={()=>onClick(dataItem)}>
+  return <Flex direction='column' style={{textAlign:'center'}} onClick={()=>onClick(dataItem)}>
       <Flex.Item>
-        <div style={{fontSize:'24px'}} className='text-overflow-hidden'> {dataItem.gcName}</div> 
+        <div style={{fontSize:'.24rem'}} className='text-overflow-hidden'> {dataItem.gcName}</div> 
       </Flex.Item>
       <Flex.Item>
         <div style={styles} className='text-overflow-hidden'>{dataItem.goodsName}</div>
       </Flex.Item>
-      <Flex.Item style={{textAlign:'center'}}>
-        <Img src={dataItem.goodsImage} style={{width:'100%', height:'100%' }} />
+      <Flex.Item>
+        <Img src={dataItem.goodsImage} style={{width:width,height:width }} />
       </Flex.Item>
     </Flex>
 }

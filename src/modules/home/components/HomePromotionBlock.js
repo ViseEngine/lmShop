@@ -14,15 +14,15 @@ class HomePromotionBlock extends React.PureComponent {
   }
 
   renderItem = (dataItem) => {
-    return <Flex direction='column' >
-      <Flex.Item style={{textAlign:'center'}}>
-        <Img src={dataItem.goodsImage} style={{ width: '100%', height:'100%' }} />
+    return <Flex direction='column' style={{textAlign:'center'}}>
+      <Flex.Item>
+        <Img src={dataItem.goodsImage} style={{ width: '1.3rem', height:'1.3rem' }} />
       </Flex.Item>
       <Flex.Item>
-        <span style={{fontSize:'24px'}}>{dataItem.price}</span> 
+        <span style={{fontSize:'.24rem',color:'red'}}>{`¥${dataItem.price}`}</span> 
       </Flex.Item>
       <Flex.Item>
-        <span style={{fontSize:'24px',textDecoration:'line-through',color:'gray'}}>{`¥${dataItem.specGoodsPrice}`}</span>
+        <span style={{fontSize:'.24rem',textDecoration:'line-through',color:'gray'}}>{`¥${dataItem.specGoodsPrice}`}</span>
       </Flex.Item>
     </Flex>
   }
@@ -35,7 +35,7 @@ class HomePromotionBlock extends React.PureComponent {
     }
     return <List renderHeader={() => (
         <div>
-        <span style={{color:'red',paddingRight:'20px'}}>{data.activityName}</span>
+        <span style={{color:'red'}}>{data.activityName}</span>
           <span>{data.activityTypeName}</span>
         </div>
     )}>

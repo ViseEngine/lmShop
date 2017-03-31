@@ -80,17 +80,17 @@ class HomeFunctionBlock extends React.PureComponent {
         icon: `${url}/res_v4.0/h5/images/i_8.png`,
         text: `优惠券`,
       },
-      // {
-      //   icon: `${url}/res_v4.0/h5/images/i_8.png`,
-      //   text: `圈子`,
-      // }, {
-      //   icon: `${url}/res_v4.0/h5/images/i_8.png`,
-      //   text: `资讯`,
-      // }
+      {
+        icon: `${url}/res_v4.0/h5/images/i_8.png`,
+        text: `圈子`,
+      }, {
+        icon: `${url}/res_v4.0/h5/images/i_8.png`,
+        text: `资讯`,
+      }
     ]
 
     return (
-      <Grid data={data} columnNum={4} hasLine={false}
+      <Grid data={data} columnNum={5} hasLine={false}
         onClick={this.onClick}
         renderItem={(dataItem) => (this.renderItem(dataItem))} />
     )
