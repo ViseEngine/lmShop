@@ -118,7 +118,6 @@ class App extends Component {
       <div id="container">
         {this.showNavBar()}
         <div className={contentClass}>{this.props.children}</div>
-        <WhiteSpace style={{height:'1.2rem'}}></WhiteSpace>
         {this.showBottomBar()}
       </div>
     )

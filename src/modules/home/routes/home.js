@@ -52,7 +52,7 @@ class Home extends Component {
       recommendGoodslist
     } = this.state;
     return (
-      <div className='wx-scroll-vertical scroll-vertical'>
+      <div>
         <div onClick={this.onSearch}><SearchBar placeholder="搜索你想要的商品" disabled ></SearchBar></div>
         <HomeCarouselBlock data={this.state.advList}></HomeCarouselBlock>
         <HomeFunctionBlock></HomeFunctionBlock>
