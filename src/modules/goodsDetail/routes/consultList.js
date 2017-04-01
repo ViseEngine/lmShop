@@ -24,20 +24,30 @@ class ConsultList extends Component {
     goodsDetailApi.goodsConsultList({
       goodsId: this.props.params.goodsId
     }).then(result => {
-      console.log(result);
       if (result.result == 1) {
         this.setState({
-          consultList: result.data
+          consultList: result.data || []
         })
       }
     })
   }
 
   render() {
+    const { consultList } = this.state;
     return (
-      <div>
-        <List></List>
-      </div>
+      <List>
+        {
+          consultList.map(item => {
+            return <List.Item key={item.consultId}>
+              <Flex justify='between'>
+                <div><Img src={item.memberImg} style={{ width: '.36rem', height: '.36rem' }} /><span>{item.cmemberName}</span></div>
+                <span>{item.createTimeStr}</span>
+              </Flex>
+              <p>咨询:{item.consultContent}</p>
+            </List.Item>    
+          })
+        }
+      </List>
     )
   }
 }

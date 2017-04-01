@@ -99,7 +99,7 @@ class EvaluteList extends Component {
         <List>
         {
             evaluteList && evaluteList.map((item, index) => {
-            const gevalImageShow = item.gevalImage.split(',').map((image, i) => <Img key={i} src={image} style={{width:'1.5rem',height:'1.5rem'}}/>)
+            const gevalImageShow = item.gevalImage && item.gevalImage.split(',').map((image, i) => <Img key={i} src={image} style={{width:'1.5rem',height:'1.5rem'}}/>)
             return <WingBlank key={index}>
               <WhiteSpace></WhiteSpace>
               <Flex justify='between'>
