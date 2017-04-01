@@ -19,6 +19,8 @@ import myIntegral from './myIntegral';
 import coupon from './coupon';
 
 import my from './my';
+import orderList from './orderList';
+import account from './account';
 
 const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={home} showBottomBar={true} showTitle={false}/>
@@ -39,7 +41,9 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/myIntegral' component={myIntegral} title='积分' />
   <Route path='/coupon' component={coupon} title='我的优惠券' />
 
-  <Route path='/my' component={my} title='我的' showBottomBar={true}/>
+  <Route path='/my' component={my} title='我的' showBottomBar={true} />
+  <Route path='/orderList/(:type)' component={orderList} title='订单列表' showBottomBar={true}/>
+  <Route path='/account' component={account} title='账户管理'/>
 </Route>)
 
 function Routes({ history }) {

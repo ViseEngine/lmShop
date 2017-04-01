@@ -30,19 +30,29 @@ class My extends Component {
   }
 
   componentDidMount() {
-    memberApi.memberDetail().then(result => {
-      let data = result.data;
-      if (data) {
-        this.setState({
-          memberDetail: data[0]
-        });
-      }
-    })
+    const isLogin = common.isLogin();
+    if (isLogin) {
+      memberApi.memberDetail().then(result => {
+        let data = result.data;
+        if (data) {
+          this.setState({
+            memberDetail: data[0]
+          });
+        }
+      })
+    }
   }
 
 
   gotoLogin = () => {
     common.gotoLogin();
+  }
+
+  renderItem = (item) => {
+    return <div style={{ textAlign: 'center', height: '1.2rem',paddingTop:'0.3rem'}}>
+      <img src={item.icon} style={{height:'0.5rem'}}/>
+      <div>{item.text}</div>
+    </div>
   }
 
   render() {
@@ -73,16 +83,20 @@ class My extends Component {
 
     const isLogin = common.isLogin();
     const { memberDetail } = this.state;
-    // console.log(memberDetail);
     return <div className='wx-my'>
-      <Flex align='bottom'>
-        <Img style={{width:'100px',height:'100px'}} src={'/upload/img/avatar/01.jpg'}></Img>
+      <Flex style={{ height: '1.5rem' }}>
         <WingBlank>
-          {
-            isLogin && memberDetail ? <div>
-              账户: {memberDetail.memberName}
-            </div> : <Button inline size="small" onClick={this.gotoLogin}>登录</Button>
-          }
+          <Flex>
+            <Img onClick={() => {
+              this.props.router.push('/account')
+              }}
+              style={{ width: '1rem', height: '1rem' }} src={memberDetail.memberAvatar}></Img>
+            {
+              isLogin && memberDetail ? <div>
+                账户: {memberDetail.memberName}
+              </div> : <Button inline size="small" onClick={this.gotoLogin}>登录</Button>
+            }
+          </Flex>  
         </WingBlank>
       </Flex>
       <Flex className='wx-my-menu1'>
@@ -91,18 +105,18 @@ class My extends Component {
             this.props.router.push('/attention/1')
           }}
           >
-          关注的商品<br />({memberDetail && memberDetail.favGoodsCount})
+          关注的商品<br />({memberDetail && memberDetail.favGoodsCount || 0})
         </Flex.Item>
         <Flex.Item
           onClick={() => {
             this.props.router.push('/attention/2')
           }}
-          >关注的店铺<br />({memberDetail && memberDetail.favStoreCount})</Flex.Item>
+          >关注的店铺<br />({memberDetail && memberDetail.favStoreCount || 0})</Flex.Item>
         <Flex.Item
           onClick={() => {
             this.props.router.push('/viewRecord')
           }}
-          >浏览记录<br />({memberDetail && memberDetail.browseCount})</Flex.Item>   
+          >浏览记录<br />({memberDetail && memberDetail.browseCount || 0})</Flex.Item>   
       </Flex>
       <List renderHeader={
         <Flex justify='between'>
@@ -112,25 +126,25 @@ class My extends Component {
           </Flex>  
         </Flex>
         }>
-        <Grid data={orderMenu} columnNum={4} hasLine={false} >
+        <Grid data={orderMenu} columnNum={4} hasLine={false} renderItem={this.renderItem}>
         </Grid>  
       </List>
       <List className='wx-my-moneybag' renderHeader={()=>'我的钱包'}>
-        <Flex>
+        <Flex style={{height:'1.2rem'}}>
           <Flex.Item>
-            ({memberDetail && memberDetail.availablePredeposit})
+            ({memberDetail && memberDetail.availablePredeposit || 0})
             <br />
             可用余额</Flex.Item>
           <Flex.Item>
-            ({memberDetail && memberDetail.memberConsumePoints})
+            ({memberDetail && memberDetail.memberConsumePoints || 0})
             <br />
             积分纪录</Flex.Item>
           <Flex.Item>
-            ({memberDetail && memberDetail.freezePredeposit})
+            ({memberDetail && memberDetail.freezePredeposit || 0})
             <br />
             锁定余额</Flex.Item>
           <Flex.Item>
-            ({memberDetail && memberDetail.couponCount})
+            ({memberDetail && memberDetail.couponCount || 0})
             <br />
             优惠券</Flex.Item>   
         </Flex>

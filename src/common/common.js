@@ -66,6 +66,10 @@ export function getToken() {
   return localStorage.getItem('token');
 }
 
+export function removeToken() {
+  localStorage.removeItem('token');
+}
+
 /**
  * 是否登录
  */

@@ -53,3 +53,8 @@ export function shopPointsLogList({
 export function memberDetail() {
   return fetch.get('/memberapi/memberDetail');
 }
+
+// 
+export function memberAvailable() {
+  return fetch.get('/memberapi/memberAvailable');
+}
