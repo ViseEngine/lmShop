@@ -14,6 +14,8 @@ import {
 import { Img } from 'commonComponent';
 import { common } from 'common';
 import * as memberApi from '../api/member';
+import RecommendGoods from 'commonComponent/RecommendGoods';
+import * as goodsApi from 'common/api/goods';
 
 import './my.less';
 
@@ -25,7 +27,8 @@ class My extends Component {
     this.state = {
       memberDetail: {
 
-      }
+      },
+      relGoodsRecommedlist: []
     }
   }
 
@@ -41,8 +44,17 @@ class My extends Component {
         }
       })
     }
+    goodsApi.relGoodsRecommedlist().then(result => {
+      if (result.result != 1) {
+        Toast.error(result.msg);
+        return;
+      }
+      let data = result.data;
+      this.setState({
+        relGoodsRecommedlist: data
+      });
+    });
   }
-
 
   gotoLogin = () => {
     common.gotoLogin();
@@ -156,7 +168,9 @@ class My extends Component {
           <div>账户管理</div>
             <Icon type='right'/>
         </Flex>
-      </WingBlank>  
+      </WingBlank>
+      
+      <RecommendGoods data={this.state.relGoodsRecommedlist}></RecommendGoods>
     </div>
   }
 }
