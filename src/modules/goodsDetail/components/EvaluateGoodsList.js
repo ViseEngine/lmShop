@@ -18,30 +18,26 @@ export default function({ goodsDetailInfo, gotoEvaluateList, gotoConsultation })
 
   const goodsEvalue = goodsDetailInfo.evaluate / 5;
   const evalue = goodsEvalue.toFixed(2) * 100
-  // console.log(gevalScore);
   return <List>
     <List.Item extra={`${evalue}%好评`} arrow="horizontal">
       &nbsp;
     </List.Item>
     {
       evaluateGoodsList && evaluateGoodsList.map((item, index) => {
-        {/*console.log(item.gevalScore);*/ }
-        const res = [...Array(item.gevalScore)].map((_, i) => {
-          return <img src={`${common.SERVER_DOMAIN}/res_v4.0/js/jquery.raty/img/star-on.png`} style={{ width: '44px' }} />
-        });
-        console.log(res);
+        const gevalImageShow = item.gevalImage.split(',').map((image, i) => <Img key={i} src={image} style={{width:'1.5rem',height:'1.5rem'}}/>)
+        console.log(item.gevalImage);
         return <WingBlank key={index}>
           <WhiteSpace></WhiteSpace>
           <Flex>
             <Flex.Item>
               {
                 [...Array(item.gevalScore)].map((_, i) => {
-                  return <img key={i} src={`${common.SERVER_DOMAIN}/res_v4.0/js/jquery.raty/img/star-on.png`} style={{ width: '44px' }} />
+                  return <img key={i} src={`${common.SERVER_DOMAIN}/res_v4.0/js/jquery.raty/img/star-on.png`} style={{ width: '.36rem',height:'.36rem'  }} />
                 })
               }
               {
                 [...Array(5-item.gevalScore)].map((_, i) => {
-                  return <img key={i} src={`${common.SERVER_DOMAIN}/res_v4.0/js/jquery.raty/img/star-off.png`} style={{ width: '44px' }} />
+                  return <img key={i} src={`${common.SERVER_DOMAIN}/res_v4.0/js/jquery.raty/img/star-off.png`} style={{ width: '.36rem',height:'.36rem' }} />
                 })
               }
             </Flex.Item>
@@ -53,7 +49,7 @@ export default function({ goodsDetailInfo, gotoEvaluateList, gotoConsultation })
           <div>{item.gevalContent}</div>
           <WhiteSpace></WhiteSpace>
           {
-            item.gevalImage && <div><Img src={item.gevalImage} /></div>
+            item.gevalImage && <div>{gevalImageShow}</div>
           }
         </WingBlank>
       })

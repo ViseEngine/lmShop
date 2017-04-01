@@ -161,13 +161,13 @@ class GoodsSearch extends Component {
               ></InputItem>
             </Flex>
             {
-              this.state.specList.map(spec => {
-                return <div key={spec.spId}>
+              this.state.specList.map((spec,index) => {
+                return <div key={index}>
                   <div>{spec.spName}</div>
                   <Flex wrap="wrap">
                     {
-                      spec.specValueList.map(value => {
-                        return <Button key={value.spValueId}>{value.spValueName}</Button>
+                      spec.specValueList.map((value,i) => {
+                        return <Button key={i}>{value.spValueName}</Button>
                       })
                     }
                   </Flex>
