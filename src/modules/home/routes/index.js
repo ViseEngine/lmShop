@@ -21,6 +21,8 @@ import coupon from './coupon';
 import my from './my';
 import orderList from './orderList';
 import account from './account';
+import accountSafe from './accountSafe';
+import recharge from './recharge';
 
 const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={home} showBottomBar={true} showTitle={false}/>
@@ -43,7 +45,10 @@ const routesConfig = (<Route path="/" component={App}>
 
   <Route path='/my' component={my} title='我的' showBottomBar={true} />
   <Route path='/orderList/(:type)' component={orderList} title='订单列表' showBottomBar={true}/>
-  <Route path='/account' component={account} title='账户管理'/>
+  <Route path='/account' component={account} title='账户管理' />
+  <Route path='/accountSafe' component={accountSafe} title='账户安全'/>
+  <Route path='/recharge' component={recharge} title='余额充值'/>
+
 </Route>)
 
 function Routes({ history }) {

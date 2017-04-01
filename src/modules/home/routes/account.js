@@ -16,7 +16,7 @@ import { Img } from 'commonComponent';
 import { common } from 'common';
 import * as memberApi from '../api/member';
 
-// import './my.less';
+import './account.less';
 
 const Item = List.Item;
 
@@ -56,6 +56,10 @@ class Account extends Component {
     ]);
   }
 
+  gotoAddress = () => {
+    console.log('gotoAddress');
+  }
+
   render() {
     const { memberDetail } = this.state;
     if (!memberDetail) {
@@ -69,7 +73,7 @@ class Account extends Component {
 
     const memberBirthdaystr = memberDetail.memberBirthdaystr && memberDetail.memberBirthdaystr.substr(0, 10);
 
-    return <div>
+    return <div className="wx-account">
       <List>
         <Item arrow="horizontal" extra={userIcon}>头像</Item>
         <Item arrow="horizontal" extra={memberDetail.memberTruename}>昵称</Item>
@@ -77,9 +81,11 @@ class Account extends Component {
         <Item arrow="horizontal" extra={memberDetail.memberSex==1?'男':'女'}>性别</Item>
         <Item arrow="horizontal" extra={memberBirthdaystr}>出生日期</Item>
         
-        <Item arrow="horizontal">地址管理</Item>
-        <Item arrow="horizontal">账户安全</Item>
-        <Item arrow="horizontal">余额充值</Item>
+        <Item arrow="horizontal" onClick={() => {
+          this.gotoAddress()
+        }}>地址管理</Item>
+        <Item arrow="horizontal" onClick={()=>this.props.router.push('/accountSafe')}>账户安全</Item>
+        <Item arrow="horizontal" onClick={()=>this.props.router.push('/recharge')}>余额充值</Item>
       </List>
       <WhiteSpace></WhiteSpace>
       <WingBlank>

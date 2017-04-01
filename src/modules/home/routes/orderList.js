@@ -34,7 +34,8 @@ class OrderList extends Component {
     return (
       <div className="wx-orderlist">
         <Tabs swipeable={false} onChange={this.onTabChange} defaultActiveKey={defaultActiveClass}>
-          
+          <TabPane tab=''></TabPane>
+          <TabPane></TabPane>
         </Tabs>
       </div>
     )
