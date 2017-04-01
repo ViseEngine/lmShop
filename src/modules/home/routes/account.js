@@ -67,13 +67,15 @@ class Account extends Component {
         }}
         style={{ width: '1rem', height: '1rem' }} src={memberDetail.memberAvatar}></Img>
 
+    const memberBirthdaystr = memberDetail.memberBirthdaystr && memberDetail.memberBirthdaystr.substr(0, 10);
+
     return <div>
       <List>
         <Item arrow="horizontal" extra={userIcon}>头像</Item>
-        <Item arrow="horizontal" extra={memberDetail.memberName}>昵称</Item>
-        <Item extra={memberDetail.memberTruename}>用户名</Item>
+        <Item arrow="horizontal" extra={memberDetail.memberTruename}>昵称</Item>
+        <Item extra={memberDetail.memberName}>用户名</Item>
         <Item arrow="horizontal" extra={memberDetail.memberSex==1?'男':'女'}>性别</Item>
-        <Item arrow="horizontal">出生日期</Item>
+        <Item arrow="horizontal" extra={memberBirthdaystr}>出生日期</Item>
         
         <Item arrow="horizontal">地址管理</Item>
         <Item arrow="horizontal">账户安全</Item>
