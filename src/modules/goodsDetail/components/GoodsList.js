@@ -29,7 +29,7 @@ const renderItem = (dataItem) => {
  * @param {*} param0 
  */
 export default function({ goodsDetailInfo }) {
-  return <Tabs defaultActiveKey="1">
+  return <Tabs defaultActiveKey="1" swipeable={false}> 
     <TabPane tab="猜你喜欢" key="1">
       {
         goodsDetailInfo.recommendList &&

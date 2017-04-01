@@ -22,6 +22,7 @@ export function goodslist({
   pageNo,
   searchType,
   sortField,
+  specFilter
 }) {
   return fetch.get('/goods/api/goodslist', {
     sortOrder,
@@ -33,6 +34,7 @@ export function goodslist({
     pageNo,
     searchType,
     sortField,
+    specFilter
   });
 }
 
@@ -56,14 +58,12 @@ export function goodslist({
 
 // 规格过滤
 // sortOrder	desc
-// sign	CZkJ0vPvYn+axQlHTZQYvCN2YAaiBzbxW0RrgWx7X/GZB79Aoo9wKIeisHmC20T93deyCK+I5JARxuvOzf0Zmm+jyK+8ws+FWDGntjquvSbt/3u5lYm+VaZr702D86XpnDrvha14E+gfnya8D1Fmc/SsB112WZITg/8UclXEoiI=
 // areaId	
 // maximumPrice	
 // minimumPrice	
 // pageSize	20
 // keyword	一
 // specFilter	acad456bd0e0411e841d223a8aa1ace7,9649f6d978714e10ac42673f117eb647
-// timestamp	1490973053992
 // pageNo	1
 // searchType	keywordSearch
 // sortField

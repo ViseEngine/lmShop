@@ -15,7 +15,9 @@ import GoodsSearchComp from '../components/GoodsSearch';
 import classnames from 'classnames';
 import { common } from 'common';
 import { Img } from 'commonComponent';
-import { createForm } from 'rc-form';
+import GoodsSearchSpecFilter from '../components/GoodsSearchSpecFilter';
+import Immutable from 'immutable';
+
 import * as goodsApi from '../api/goods';
 
 import './goodsSearch.less';
@@ -30,11 +32,23 @@ class GoodsSearch extends Component {
       sortField: '',
       sortOrder: 'asc',
       open: false,
-      specList: []
+      specList: [],
+      maximumPrice: null,
+      minimumPrice: null
     }
   }
 
   refreshList = () => {
+    const specValueIds = [];
+    const mapedList = this.state.specList.forEach(specItem => {
+      specItem.specValueList.forEach(specValue => {
+        if (specValue.checked) {
+          specValueIds.push(specValue.spValueId);
+        }
+      })
+    });
+    console.log(specValueIds);
+
     goodsApi.goodslist({
       sortField: this.state.sortField,
       sortOrder: this.state.sortOrder,
@@ -42,6 +56,9 @@ class GoodsSearch extends Component {
       pageSize: 20,
       pageNo: 1,
       searchType: 'keywordSearch',
+      maximumPrice: this.state.maximumPrice,
+      minimumPrice: this.state.minimumPrice,
+      specFilter: specValueIds.join(',')
     }).then(result => {
       if (result.result == 1) {
         this.setState({
@@ -64,12 +81,73 @@ class GoodsSearch extends Component {
         const data = result.data;
         if (data && data.length > 0) {
           const specList = data[0].specList;
-          console.log(specList);
           this.setState({
             specList
           });
         }
       }
+    })
+  }
+
+  resetSpec = () => {
+    const specList = this.state.specList;
+    const mapedList = specList.map(specItem => {
+      const specValueList = specItem.specValueList.map(specValue => {
+        specValue.checked = false;
+        return specValue;
+      })
+      specItem.specValueList = specValueList;
+      return specItem;
+    });
+    this.setState({
+      specList: mapedList
+    })
+  }
+
+  filterBySpec = () => {
+    this.setState({
+      open: false
+    })
+    this.refreshList();
+  }
+
+  onClickSpValue = (spec, spValue) => {
+    const specList = this.state.specList;
+    let mapedList = null;
+    // 当前选择的规格值是选中状态
+    if (spValue.checked) {
+      mapedList = specList.map(specItem => {
+        if (specItem.spId == spec.spId) {
+          console.log(specItem);
+          const specValueList = specItem.specValueList.map(specValue => {
+            if (specValue.spValueId == spValue.spValueId) {
+              specValue.checked = false;
+            }
+            return specValue;
+          })
+          specItem.specValueList = specValueList;
+        }
+        return specItem;
+      });
+      console.log(mapedList);
+    } else {
+      mapedList = specList.map(specItem => {
+        if (specItem.spId == spec.spId) {
+          const specValueList = specItem.specValueList.map(specValue => {
+            if (specValue.spValueId == spValue.spValueId) {
+              specValue.checked = true;
+            } else {
+              specValue.checked = false;
+            }
+            return specValue;
+          })
+          specItem.specValueList = specValueList;
+        }
+        return specItem;
+      });
+    }
+    this.setState({
+      specList: mapedList
     })
   }
 
@@ -111,7 +189,7 @@ class GoodsSearch extends Component {
   }
 
   render() {
-    const { data, sortField, sortOrder } = this.state;
+    const { data, sortField, sortOrder, specList } = this.state;
     const allUpClass = classnames('wx-goods-search-order-up', {
       'selected': sortField == '' && sortOrder == 'desc'
     })
@@ -133,49 +211,20 @@ class GoodsSearch extends Component {
       'selected': sortField == 'goodsStorePrice' && sortOrder == 'asc'
     })
 
-    const { getFieldProps } = this.props.form;
-
     return <div className='wx-goods-search-page'>
       {
-        this.state.open ? <div style={{
-          height: document.documentElement.clientHeight,
-          width: '5rem',
-          backgroundColor: 'white',
-          zIndex: 10000,
-          position: 'fixed',
-          right: 0,
-          overflowY: 'scroll'
-        }}>
-          <Flex direction='column'>
-            <Flex>
-              <InputItem
-                {...getFieldProps('minprice')}
-                clear
-                placeholder="最低价"
-                autoFocus
-              ></InputItem>
-              <InputItem
-                {...getFieldProps('maxprice')}
-                clear
-                placeholder="最高价"
-              ></InputItem>
-            </Flex>
-            {
-              this.state.specList.map((spec,index) => {
-                return <div key={index}>
-                  <div>{spec.spName}</div>
-                  <Flex wrap="wrap">
-                    {
-                      spec.specValueList.map((value,i) => {
-                        return <Button key={i}>{value.spValueName}</Button>
-                      })
-                    }
-                  </Flex>
-                </div>
-              })
-            }
-          </Flex>  
-        </div> : null
+        this.state.open ? <GoodsSearchSpecFilter
+          onClickSpValue={this.onClickSpValue}
+          resetSpec={this.resetSpec}
+          filterBySpec={this.filterBySpec}
+          maximumPrice={this.state.maximumPrice}
+          minimumPrice={this.state.minimumPrice}
+          specList={specList} /> : null
+      }
+      {
+        this.state.open ? <div onClick={() => this.setState({
+          open:false
+        })} className="am-modal-mask"></div> : null
       }
       <Flex className='wx-goods-search-header'>
         <Flex.Item onClick={()=>this.changeOrder('')}>
@@ -219,4 +268,4 @@ class GoodsSearch extends Component {
   }
 }
 
-export default withRouter(createForm()(GoodsSearch));
+export default withRouter(GoodsSearch);
