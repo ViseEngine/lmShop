@@ -152,7 +152,7 @@ class My extends Component {
 
       <WhiteSpace></WhiteSpace>      
       <WingBlank style={{color:'#888'}}>
-        <Flex justify='between'>
+        <Flex justify='between' onClick={()=>this.props.router.push('/account')}>
           <div>账户管理</div>
             <Icon type='right'/>
         </Flex>
