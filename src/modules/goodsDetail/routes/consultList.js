@@ -12,6 +12,8 @@ import { Img } from 'commonComponent';
 import { common } from 'common';
 import * as goodsDetailApi from '../api/goodsDetail';
 
+import './consultList.less';
+
 class ConsultList extends Component {
   constructor(props) {
     super(props);
@@ -35,6 +37,7 @@ class ConsultList extends Component {
   render() {
     const { consultList } = this.state;
     return (
+      <div className='wx-ConsultList'>
       <List>
         {
           consultList.map(item => {
@@ -48,6 +51,7 @@ class ConsultList extends Component {
           })
         }
       </List>
+      </div>
     )
   }
 }
