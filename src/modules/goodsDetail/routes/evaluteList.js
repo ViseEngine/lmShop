@@ -7,8 +7,7 @@ import {
   Flex,
   List,
   Button,
-  Grid,
-  Popup
+  SegmentedControl
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import { common } from 'common';
@@ -23,15 +22,48 @@ class EvaluteList extends Component {
     super(props);
     this.state = {
       evaluteList: [],
-      countAll: null
+      countAll: null,
+      selectedIndex: 0
     }
   }
 
   componentDidMount() {
+    this.onChange();
+  }
+
+  onChange = (index) => {
+    let gevalScore = null;
+    let gevalImg = 1;
+    switch (index) {
+      case 0:
+        gevalScore = null;
+        break;
+      case 1:
+        gevalScore = 5;
+        break;
+      case 2:
+        gevalScore = 3;
+        break;
+      case 3:
+        gevalScore = 1;
+        break;
+      case 4:
+        gevalScore = '';
+        gevalImg = 0;
+        break;
+      default:
+        break;
+    }
+
+    this.setState({
+      selectedIndex: index
+    })
+
     goodsDetailApi.goodsEvaluteList({
-      goodsId: this.props.params.goodsId
+      goodsId: this.props.params.goodsId,
+      gevalScore,
+      gevalImg
     }).then(result => {
-      console.log(result);
       if (result.result == 1) {
         const data = result.data;
         if (data && data.length > 0) {
@@ -44,18 +76,25 @@ class EvaluteList extends Component {
     })
   }
 
-
   render() {
-    const { evaluteList, countAll } = this.state;
+    const { evaluteList, countAll, selectedIndex } = this.state;
+
+    const tabs = [];
+    if (countAll) {
+      tabs.push(<div>全部评论<div>({countAll.all})</div></div>);
+      tabs.push(<div>好评<div>({countAll.good})</div></div>);
+      tabs.push(<div>中评<div>({countAll.general})</div></div>);
+      tabs.push(<div>差评<div>({countAll.bad})</div></div>);
+      tabs.push(<div>晒图<div>({countAll.ImgCount})</div></div>);
+    }
+
     return (
       <div className="wx-EvaluteList">
         {
-          countAll && <Flex className="wx-EvaluteList-top">
-            <Flex.Item>全部评论<br />{countAll.all}</Flex.Item>
-            <Flex.Item>好评<br />{countAll.good}</Flex.Item>
-            <Flex.Item>中评<br />{countAll.general}</Flex.Item>
-            <Flex.Item>差评<br />{countAll.bad}</Flex.Item>
-          </Flex>
+         countAll && <SegmentedControl tintColor='#a4a9b0' selectedIndex={selectedIndex}
+            style={{ textAlign: 'center', height: '1rem' }} values={tabs}
+            onChange={(e) => this.onChange(e.nativeEvent.selectedSegmentIndex)} >
+          </SegmentedControl>
         }
         <List>
         {
