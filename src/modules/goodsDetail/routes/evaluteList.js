@@ -12,6 +12,7 @@ import {
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import { common } from 'common';
+import Moment from 'moment';
 import * as goodsDetailApi from '../api/goodsDetail';
 import './evaluteList.less'
 
@@ -43,6 +44,7 @@ class EvaluteList extends Component {
     })
   }
 
+
   render() {
     const { evaluteList, countAll } = this.state;
     return (
@@ -57,14 +59,39 @@ class EvaluteList extends Component {
         }
         <List>
         {
-          evaluteList.map(item => {
-            return <Item>
-              <Flex direction='column'>
-                <Flex>
-
-                </Flex>
-              </Flex>  
-            </Item>
+            evaluteList && evaluteList.map((item, index) => {
+            const gevalImageShow = item.gevalImage.split(',').map((image, i) => <Img key={i} src={image} style={{width:'1.5rem',height:'1.5rem'}}/>)
+            return <WingBlank key={index}>
+              <WhiteSpace></WhiteSpace>
+              <Flex justify='between'>
+                <div><Img src={item.gevalFrommemberAvatar} style={{ width: '.36rem',height:'.36rem'}}/><span>{item.gevalFrommembername}</span></div>
+                <div>{Moment(item.gevalAddTime).format('YYYY-MM-DD HH:mm:ss')}</div>
+              </Flex>
+              <WhiteSpace></WhiteSpace>
+              <Flex>
+                <Flex.Item>
+                  {
+                    [...Array(item.gevalScore)].map((_, i) => {
+                      return <img key={i} src={`${common.SERVER_DOMAIN}/res_v4.0/js/jquery.raty/img/star-on.png`} style={{ width: '.36rem',height:'.36rem'  }} />
+                    })
+                  }
+                  {
+                    [...Array(5-item.gevalScore)].map((_, i) => {
+                      return <img key={i} src={`${common.SERVER_DOMAIN}/res_v4.0/js/jquery.raty/img/star-off.png`} style={{ width: '.36rem',height:'.36rem' }} />
+                    })
+                  }
+                </Flex.Item>
+                
+              </Flex>
+              <WhiteSpace></WhiteSpace>
+              <div>{item.gevalContent}</div>
+              <WhiteSpace></WhiteSpace>
+              {
+                item.gevalImage && <div>{gevalImageShow}</div>
+              }
+              <p dangerouslySetInnerHTML={{ __html: item.specInfo }} ></p>
+              <p>购买日期:{Moment(item.orderAddTime).format('YYYY-MM-DD HH:mm:ss')}</p>
+            </WingBlank>
           })
         }  
         </List>  

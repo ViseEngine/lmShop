@@ -25,7 +25,6 @@ export default function({ goodsDetailInfo, gotoEvaluateList, gotoConsultation })
     {
       evaluateGoodsList && evaluateGoodsList.map((item, index) => {
         const gevalImageShow = item.gevalImage.split(',').map((image, i) => <Img key={i} src={image} style={{width:'1.5rem',height:'1.5rem'}}/>)
-        console.log(item.gevalImage);
         return <WingBlank key={index}>
           <WhiteSpace></WhiteSpace>
           <Flex>
