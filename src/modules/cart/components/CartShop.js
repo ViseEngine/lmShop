@@ -93,7 +93,7 @@ class CartShop extends Component {
           return <Item key={index}>
             <Flex>
               <Checkbox checked={goods.checked} onChange={e => this.checkGoods(data,goods,e)}></Checkbox>
-              <Img src={goods.goodsImages} style={{ height: '1rem', width: '1rem' }} />
+              <Img src={goods.goodsImages} style={{ height: '1.5rem', width: '1.5rem' }} />
               <Flex.Item>
                 <div className='text-overflow-hidden'>{goods.goodsName}</div>
                 <p className='text-overflow-hidden' style={{ fontSize: '.24rem',color:'#bbb' }}
