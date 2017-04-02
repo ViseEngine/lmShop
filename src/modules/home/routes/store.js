@@ -49,13 +49,13 @@ class Store extends Component {
   renderItem = (dataItem) => {
     return <Flex direction='column' style={{ padding: '10px' }} >
       <Flex.Item style={{textAlign:'center'}}>
-        <Img src={dataItem.goodsImage} style={{ width: '100%' }} />
+        <Img src={dataItem.goodsImage} style={{ width: '3rem',height:'3rem' }} />
       </Flex.Item>
       <Flex.Item>
-        <span style={{fontSize:'28px'}}>{dataItem.goodsName}</span> 
+        <span style={{fontSize:'.24rem'}}>{dataItem.goodsName}</span> 
       </Flex.Item>
       <Flex.Item>
-        <span style={{fontSize:'28px',color:'red'}}>{`¥${dataItem.goodsStorePrice}`}</span>
+        <span style={{fontSize:'.24rem',color:'red'}}>{`¥${dataItem.goodsStorePrice}`}</span>
       </Flex.Item>
     </Flex>
   }
