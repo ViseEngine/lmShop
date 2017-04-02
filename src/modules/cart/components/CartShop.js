@@ -96,7 +96,9 @@ class CartShop extends Component {
               <Img src={goods.goodsImages} style={{ height: '1rem', width: '1rem' }} />
               <Flex.Item>
                 <div className='text-overflow-hidden'>{goods.goodsName}</div>
-                <div className='text-overflow-hidden'>{goods.specInfo}</div>
+                <p className='text-overflow-hidden' style={{ fontSize: '.24rem',color:'#bbb' }}
+                  dangerouslySetInnerHTML={{ __html: goods.specInfo }}>
+                </p>
                 <Flex>
                   <div>{goods.goodsPrice}</div>
                   <Flex.Item style={{textAlign:'right'}}>
