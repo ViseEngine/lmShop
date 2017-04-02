@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import {
-  Modal,
-  Icon,
   WhiteSpace,
   WingBlank,
   Toast,
   Flex,
   List,
-  Grid,
-  Button
+  Button,
+  ActionSheet,
+  Modal
 } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import { Img } from 'commonComponent';
@@ -60,6 +59,28 @@ class Account extends Component {
     console.log('gotoAddress');
   }
 
+  changeIcon = () => {
+    this.showActionSheet();
+  }
+
+  showActionSheet = () => {
+    const BUTTONS = [<input type='file' className='wx-upload'></input>, '取消'];
+    ActionSheet.showActionSheetWithOptions({
+        options: BUTTONS,
+        cancelButtonIndex: BUTTONS.length - 1,
+        destructiveButtonIndex: BUTTONS.length - 2,
+        // title: '选择头像',
+        // message: '我是描述我是描述',
+        maskClosable: true,
+      },
+      (buttonIndex) => {
+        if (buttonIndex == 0) {
+          alert('上传头像')
+        }
+        // this.setState({ clicked: BUTTONS[buttonIndex] });
+      });
+  }
+
   render() {
     const { memberDetail } = this.state;
     if (!memberDetail) {
@@ -75,7 +96,7 @@ class Account extends Component {
 
     return <div className="wx-account">
       <List>
-        <Item arrow="horizontal" extra={userIcon}>头像</Item>
+        <Item arrow="horizontal" extra={userIcon} onClick={this.changeIcon}>头像</Item>
         <Item arrow="horizontal" extra={memberDetail.memberTruename}>昵称</Item>
         <Item extra={memberDetail.memberName}>用户名</Item>
         <Item arrow="horizontal" extra={memberDetail.memberSex==1?'男':'女'}>性别</Item>
@@ -91,6 +112,7 @@ class Account extends Component {
       <WingBlank>
         <Button type='primary' onClick={this.logout}>退出登录</Button>
       </WingBlank>
+      <input type="file" ref="head" name="image" style={{ display: 'none' }} accept="image/*" onChange={(e) => this.changeFile(e)} />
     </div>
   }
 }

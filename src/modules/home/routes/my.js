@@ -67,6 +67,15 @@ class My extends Component {
     </div>
   }
 
+  onOrderMenuClick = (menu, index) => {
+    // 售后跳售后列表
+    if (index != 3) {
+      this.props.router.push(`/orderList/${index + 1}`);
+    } else {
+
+    }
+  }
+
   render() {
     const url = 'http://bbc.leimingtech.com/'
     const orderMenu = [{
@@ -138,7 +147,10 @@ class My extends Component {
           </Flex>  
         </Flex>
         }>
-        <Grid data={orderMenu} columnNum={4} hasLine={false} renderItem={this.renderItem}>
+        <Grid data={orderMenu}
+          columnNum={4} hasLine={false}
+          onClick={this.onOrderMenuClick}
+          renderItem={this.renderItem}>
         </Grid>  
       </List>
       <List className='wx-my-moneybag' renderHeader={()=>'我的钱包'}>
