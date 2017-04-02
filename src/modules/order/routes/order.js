@@ -90,7 +90,7 @@ class Order extends Component {
     if (isPd == 1) {
       prompt(
         '请输入支付密码',
-        '', [{
+        '', [{ text: '取消' }, {
           text: '提交',
           onPress: passwd => {
             orderApi.chkPasswd({ passwd }).then(result => {
