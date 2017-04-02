@@ -261,7 +261,7 @@ class Cart extends Component {
         }
       })
     });
-    totalPrice = totalPrice.toFixed(1)
+    totalPrice = totalPrice.toFixed(2)
     this.setState({
       goodsNum,
       goodsTotalPrice: totalPrice
