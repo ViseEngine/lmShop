@@ -22,7 +22,7 @@ class TimeBuy extends Component {
   constructor(props) {
     super(props);
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-
+    this.timer = null;
     this.state = {
       qiangClass: [],
       defaultActiveClass: props.params.activityClass,
@@ -59,17 +59,50 @@ class TimeBuy extends Component {
     }).then(result => {
       if (result.result == 1) {
         const data = result.data[0]
+        this.goodsList = data.goodsList;
         this.setState({
           dataSource: this.ds.cloneWithRows(data.goodsList)
         });
+        this.timer = setInterval(this.countdown, 1000, 1000)
       }
     })
   }
 
+  countdown = () => {
+    const goodsList = this.goodsList.map(function(dataItem) {
+      const currentTime = dataItem.currentTime
+      const endTime = dataItem.endTime
+
+      // 秒数
+      let seconds = parseInt((endTime - currentTime) / 1000);
+      // 总的小时数
+      let h = Math.floor(seconds / 60 / 60);
+      // 天数
+      let d = parseInt(h / 24);
+      // 显示的小时数
+      let showHour = Math.floor(h - d * 24);
+      let m = Math.floor((seconds - h * 60 * 60) / 60);
+      let s = Math.floor((seconds - h * 60 * 60 - m * 60));
+
+      if (seconds < 0) {
+        h = '0';
+        m = '00';
+        s = '00';
+        d = '00';
+        showHour = '00';
+      }
+
+      dataItem.currentTime = currentTime + 1000;
+      dataItem.countdown = `${d} 天 ${showHour < 10 ? `0${showHour}` :showHour} 时 ${m<10?`0${m}`:m} 分 ${s<10?`0${s}`:s} 秒 `
+      return dataItem;
+    });
+    this.goodsList = goodsList;
+    this.setState({
+      dataSource: this.ds.cloneWithRows(goodsList)
+    })
+  }
+
   renderItem = (dataItem) => {
-    // 倒计时
-    // setInterval()
-    console.log(dataItem);
     return <Flex>
       <Flex.Item style={{flex:1}}>
         <Img src={dataItem.goodsImage} style={{width:'2rem',height:'2rem'}}/>
@@ -84,9 +117,9 @@ class TimeBuy extends Component {
             <div style={{textDecoration:'line-through'}}>{'¥'+dataItem.specGoodsPrice}</div>
               <Button size='small' inline type='primary' onClick={()=>this.gotoBuy(dataItem)}>马上抢</Button>
           </Flex>
-          {/*<Flex justify='end'>
-            <p>111111</p>
-          </Flex>*/}
+          <Flex justify='end'>
+            <p style={{color:'red'}}>{dataItem.countdown}</p>
+          </Flex>
         </WingBlank>
         
       </Flex.Item>
