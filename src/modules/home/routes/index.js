@@ -20,9 +20,9 @@ import coupon from './coupon';
 
 import my from './my';
 import orderList from './orderList';
-import account from './account';
-import accountSafe from './accountSafe';
-import recharge from './recharge';
+import account from './account/account';
+import accountSafe from './account/accountSafe';
+import recharge from './account/recharge';
 
 const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={home} showBottomBar={true} showTitle={false}/>

@@ -14,7 +14,7 @@ import {
 import { createForm } from 'rc-form';
 import { Img } from 'commonComponent';
 import { common } from 'common';
-import * as memberApi from '../api/member';
+import * as memberApi from '../../api/member';
 
 import './account.less';
 
