@@ -6,9 +6,9 @@ import { ImgGoodsInfo, GoodsImgInfo } from './GoodsInfo';
 class HomeFloorGoods extends React.PureComponent {
 
   renderHeader = (data) => {
-    return <Flex>
-      <Flex.Item>{data.floorName}</Flex.Item>
-      <Flex.Item style={{textAlign:'right'}}><span>更多</span><Icon type='right' size='xs'></Icon></Flex.Item>
+    return <Flex justify='between'>
+      <div>{data.floorName}</div>
+      <Flex>更多<Icon type='right' size='xs'></Icon></Flex>
     </Flex>
   }
 
