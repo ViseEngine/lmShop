@@ -67,24 +67,28 @@ class TimeBuy extends Component {
   }
 
   renderItem = (dataItem) => {
+    // 倒计时
+    // setInterval()
+    console.log(dataItem);
     return <Flex>
-      <Flex.Item style={{flex:1,paddingLeft:'16px'}}>
-        <Img src={dataItem.goodsImage} style={{width:'100%'}}/>
+      <Flex.Item style={{flex:1}}>
+        <Img src={dataItem.goodsImage} style={{width:'2rem',height:'2rem'}}/>
       </Flex.Item>
       <Flex.Item style={{flex:2}}>
-        <div style={{width:'100%',height:'100%'}}>
-          <div>
-            {dataItem.goodsName}
-          </div>
-          <WhiteSpace></WhiteSpace>
-          <Flex>
-            <Flex.Item style={{color:'red'}}>{'¥'+dataItem.price}</Flex.Item>
-            <Flex.Item style={{textDecoration:'line-through'}}>{'¥'+dataItem.specGoodsPrice}</Flex.Item>
-            <Flex.Item style={{ minWidth: '150px', paddingRight: '16px' }}>
-              <Button size='small' type='primary' onClick={()=>this.gotoBuy(dataItem)}>马上抢</Button>
-            </Flex.Item>
+        <p>
+          {dataItem.goodsName}
+        </p>
+        <WingBlank>
+          <Flex justify='between'>
+            <div style={{color:'red'}}>{'¥'+dataItem.price}</div>
+            <div style={{textDecoration:'line-through'}}>{'¥'+dataItem.specGoodsPrice}</div>
+              <Button size='small' inline type='primary' onClick={()=>this.gotoBuy(dataItem)}>马上抢</Button>
           </Flex>
-        </div>  
+          {/*<Flex justify='end'>
+            <p>111111</p>
+          </Flex>*/}
+        </WingBlank>
+        
       </Flex.Item>
     </Flex>
   }
