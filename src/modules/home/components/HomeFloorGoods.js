@@ -46,7 +46,7 @@ class HomeFloorGoods extends React.PureComponent {
           )}>
       </Grid>
 
-      sencondBlock = <Grid data={data.goodsList.slice(4,10)} columnNum={4} hasLine={false}
+      sencondBlock = data.goodsList.length > 4 && <Grid data={data.goodsList.slice(4,10)} columnNum={4} hasLine={false}
         onClick={this.onClick}
           renderItem={(dataItem,index)=>(
             <ImgGoodsInfo dataItem={dataItem} columnNum={4}></ImgGoodsInfo>
@@ -54,14 +54,17 @@ class HomeFloorGoods extends React.PureComponent {
       </Grid>
     }
 
+    let advContent = null
+    if (data.advPosition && data.advPosition.advList && data.advPosition.advList.length > 0) {
+      advContent = <Img src={data.advPosition.advList[0].resUrl} style={{width:'100%'}}/>
+    }
+
     return <List renderHeader={() => this.renderHeader(data) }>
       <List.Item>
         {firstBlock}
       </List.Item>
-      {sencondBlock && <List.Item>
-        {sencondBlock}
-      </List.Item>
-      }
+      { sencondBlock && <List.Item>{sencondBlock}</List.Item> }
+      {advContent}
     </List>
   }
 }
