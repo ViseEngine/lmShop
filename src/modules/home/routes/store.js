@@ -40,6 +40,12 @@ class Store extends Component {
         })
       }
     });
+
+    if (common.isLogin()) {
+      storeApi.storeBrowseSaveOrUpdate({
+        storeId: this.props.params.storeId
+      });
+    }
   }
 
   onClick = (dataItem) => {
