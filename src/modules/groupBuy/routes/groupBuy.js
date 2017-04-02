@@ -70,7 +70,7 @@ class GroupBuy extends Component {
 
   renderItem = (dataItem) => {
     return <div style={{padding:'0 0.1rem'}}>
-      <Img src={dataItem.goodsImage} style={{width:'100%'}}/>
+      <Img src={dataItem.goodsImage} style={{width:'2rem',height:'2rem'}}/>
       <div className='text-overflow-hidden'>{dataItem.goodsName}</div>
       <Flex>
         <Flex.Item>
