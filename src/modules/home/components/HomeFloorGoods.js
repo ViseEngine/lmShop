@@ -56,7 +56,7 @@ class HomeFloorGoods extends React.PureComponent {
 
     let advContent = null
     if (data.advPosition && data.advPosition.advList && data.advPosition.advList.length > 0) {
-      advContent = <Img src={data.advPosition.advList[0].resUrl} style={{width:'100%'}}/>
+      advContent = <a href={data.advPosition.advList[0].advUrl}><Img src={data.advPosition.advList[0].resUrl} style={{width:'100%'}}/></a>
     }
 
     return <List renderHeader={() => this.renderHeader(data) }>
