@@ -14,7 +14,6 @@ import goodsSearch from './goodsSearch';
 
 import attention from './attention';
 import viewRecord from './viewRecord';
-import returns from './returns';
 import myIntegral from './myIntegral';
 import coupon from './coupon';
 
@@ -45,8 +44,7 @@ const routesConfig = (<Route path="/" component={App}>
   
   <Route path='/attention(/:type)' component={attention} title='我的关注' />
   <Route path='/viewRecord(/:type)' component={viewRecord} title='浏览记录' />
-  <Route path='/returns' component={returns} title='退换货' />
-  <Route path='/myIntegral' component={myIntegral} title='积分' />
+  <Route path='/myIntegral' component={myIntegral} title='我的积分' />
   <Route path='/coupon(/:couponIsUser)' component={coupon} title='我的优惠券' />
 
   <Route path='/my' component={my} title='我的' showBottomBar={true} />

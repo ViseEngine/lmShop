@@ -188,22 +188,26 @@ class My extends Component {
       <List className='wx-my-moneybag' renderHeader={()=>'我的钱包'}>
         <Flex style={{height:'1.2rem'}}>
           <Flex.Item onClick={() => {
-            this.props.router.push('/')
-          }}>
+              this.props.router.push('/')
+            }}>
             ({memberDetail && memberDetail.availablePredeposit || 0})
             <br />
             可用余额</Flex.Item>
-          <Flex.Item>
+          <Flex.Item onClick={() => {
+              this.props.router.push('/myIntegral')
+            }}>
             ({memberDetail && memberDetail.memberConsumePoints || 0})
             <br />
             积分纪录</Flex.Item>
-          <Flex.Item>
+          <Flex.Item onClick={() => {
+              this.props.router.push('/myIntegral')
+            }}>
             ({memberDetail && memberDetail.freezePredeposit || 0})
             <br />
             锁定余额</Flex.Item>
           <Flex.Item onClick={() => {
-            this.props.router.push('/coupon')
-          }}>
+              this.props.router.push('/coupon')
+            }}>
             ({memberDetail && memberDetail.couponCount || 0})
             <br />
             优惠券</Flex.Item>   
