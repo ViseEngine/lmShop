@@ -13,6 +13,16 @@ export function orderlist({
   });
 }
 
+// 取消订单
+export function cancleorder({
+  ordersn
+}) {
+  return fetch.get('/orderapi/cancleorder', {
+    ordersn
+  });
+}
+
+
 // 订单
 // orderType	1
 // status	20

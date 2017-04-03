@@ -20,6 +20,8 @@ import coupon from './coupon';
 
 import my from './my';
 import orderList from './orderList';
+import afterSale from './afterSale';
+
 import account from './account/account';
 import accountSafe from './account/accountSafe';
 import recharge from './account/recharge';
@@ -44,7 +46,9 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/coupon' component={coupon} title='我的优惠券' />
 
   <Route path='/my' component={my} title='我的' showBottomBar={true} />
-  <Route path='/orderList/(:type)' component={orderList} title='订单列表' showBottomBar={true}/>
+  <Route path='/orderList/(:type)' component={orderList} title='订单列表'/>
+  <Route path='/afterSale' component={afterSale} title='售后列表'/>
+
   <Route path='/account' component={account} title='账户管理' />
   <Route path='/accountSafe' component={accountSafe} title='账户安全'/>
   <Route path='/recharge' component={recharge} title='余额充值'/>

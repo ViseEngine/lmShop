@@ -9,7 +9,8 @@ import {
   Flex,
   List,
   Grid,
-  Button
+  Button,
+  Badge
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import { common } from 'common';
@@ -60,10 +61,27 @@ class My extends Component {
     common.gotoLogin();
   }
 
-  renderItem = (item) => {
-    return <div style={{ textAlign: 'center', height: '1.2rem',paddingTop:'0.3rem'}}>
+  renderItem = (item, index) => {
+    // console.log(this.props.);
+    const { memberDetail } = this.state;
+    return <div style={{
+        textAlign: 'center',
+        height: '1.2rem',
+        paddingTop: '0.3rem',
+        position: 'relative'
+      }}>
       <img src={item.icon} style={{height:'0.5rem'}}/>
       <div>{item.text}</div>
+      {
+        index == 0 && memberDetail.noPayOrder &&
+        <div style={{
+          position: 'absolute',
+          top: '0.2rem',
+          right:'0.2rem'
+          }}>
+          <Badge text={memberDetail.noPayOrder} />
+        </div>
+      }
     </div>
   }
 

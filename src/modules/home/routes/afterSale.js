@@ -13,48 +13,30 @@ import {
 import { Img } from 'commonComponent';
 import OrderItem from '../components/OrderItem';
 import * as orderApi from '../api/order';
-import './orderList.less';
+import './afterSale.less';
 
 const TabPane = Tabs.TabPane;
-class OrderList extends Component {
+class AfterSale extends Component {
 
   constructor(props) {
     super(props);
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
     this.orderList = []
-    // let status = null;
-    // let orderType = 1;
     this.state = {
-      selectedIndex: parseInt(props.params.type),
       pageNo: 1,
       dataSource: this.ds.cloneWithRows(this.orderList),
       hasMore: false,
       isLoading: false,
       isInit: true
-      // status,
-      // orderType
     }
   }
 
-  refreshList = ({ pageNo, selectedIndex }) => {
-    let status = null;
-    let orderType = 1;
-    switch (selectedIndex) {
-      case 0:
-        status = null;
-        break;
-      case 1:
-        status = 10;
-        break;
-      case 2:
-        status = 40;
-        break;
-      case 3:
-        status = 40;
-        break;
-    }
-
-    orderApi.orderlist({ pageNo, orderType, status }).then(result => {
+  refreshList = ({ pageNo }) => {
+    orderApi.orderlist({
+      pageNo,
+      orderType: 2,
+      status: '20,30,40'
+    }).then(result => {
       this.setState({
         isLoading: false
       });
@@ -80,49 +62,13 @@ class OrderList extends Component {
     })
   }
 
-  // 改变tab
-  onChange = (index) => {
-    this.props.router.replace('/orderList/' + index);
-  }
-
-  // renderItem = (dataItem) => {
-  //   return <OrderItem dataItem={dataItem}></OrderItem>
-  // }
-
-  componentDidUpdate(prevProps, prevState) {
-    // 当前url参数
-    const type = parseInt(this.props.params.type);
-    // 如果变化参数
-    if (type != this.state.selectedIndex) {
-      this.setState({
-        pageNo: 1,
-        selectedIndex: type,
-        isInit: true
-      })
-
-      this.refreshList({
-        pageNo: 1,
-        selectedIndex: type
-      });
-    }
-  }
-
   componentDidMount() {
     this.refreshList({
-      pageNo: 1,
-      selectedIndex: this.state.selectedIndex
-    });
-  }
-
-  cancelOrder = () => {
-    this.refreshList({
-      pageNo: 1,
-      selectedIndex: this.state.selectedIndex
+      pageNo: 1
     });
   }
 
   onEndReached = (event) => {
-    console.log('onEndReached');
     if (this.state.isLoading && !this.state.hasMore) {
       return;
     }
@@ -160,36 +106,30 @@ class OrderList extends Component {
   }
 
   render() {
-    const { selectedIndex, dataSource } = this.state
+    const { dataSource } = this.state
     /*const footer = <div style={{ padding: 30, textAlign: 'center' }}>
       {this.state.isLoading ? '加载中...' : '加载完毕'}
     </div>;*/
     const footer = null;
     return (
-      <div className="wx-orderlist">
-        <SegmentedControl
-          className='orderlist-header'  
-          tintColor={'#ff0000'}
-          onChange={(e) => this.onChange(e.nativeEvent.selectedSegmentIndex)}
-          selectedIndex={selectedIndex}
-          values={['全部订单', '待付款', '待收货', '待评价']} />
-        <div className='orderlist-body'>
-          <ListView
-            style={{
-              height: document.documentElement.clientHeight-200,
-              overflow: 'auto',
-            }}
-            renderFooter={()=>footer}
-            dataSource={this.state.dataSource}
-            renderRow={(dataItem) => (
-              <OrderItem
-                cancelOrder={this.cancelOrder}
-                dataItem={dataItem}></OrderItem>
+      <div className="wx-afterSale">
+        <ListView
+          style={{
+            height: document.documentElement.clientHeight - 200,
+            overflowY: 'auto',
+          }}
+          renderFooter={() => footer}
+          dataSource={this.state.dataSource}
+          renderRow={(dataItem) => (
+            <OrderItem
+              cancelOrder={() => this.refreshList({
+                pageNo:1
+              })}
+              dataItem={dataItem}></OrderItem>
             )}></ListView>
-        </div>
       </div>
     )
   }
 }
 
-export default withRouter(OrderList);
+export default withRouter(AfterSale);

@@ -61,6 +61,10 @@ export function gotoOrder({ cartId }) {
   window.location.href = `order.html#/order/${cartId}`;
 }
 
+export function gotoPay({ cartId }) {
+  // window.location.href = `order.html#/order/${cartId}`;
+}
+
 // 获取token
 export function getToken() {
   return localStorage.getItem('token');
