@@ -90,8 +90,12 @@ class My extends Component {
     if (index != 3) {
       this.props.router.push(`/orderList/${index + 1}`);
     } else {
-
+      this.props.router.push('/afterSale');
     }
+  }
+
+  gotoOrderList = () => {
+    this.props.router.push(`/orderList/0`);
   }
 
   render() {
@@ -160,7 +164,7 @@ class My extends Component {
       <List renderHeader={
         <Flex justify='between'>
           <div>我的订单</div>
-          <Flex>
+          <Flex onClick={this.gotoOrderList}>
             全部订单<Icon type='right'/>
           </Flex>  
         </Flex>
