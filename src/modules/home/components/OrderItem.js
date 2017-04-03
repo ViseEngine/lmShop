@@ -108,6 +108,7 @@ class OrderItem extends Component {
         break;
       case 50:
         orderStatus = '已提交'
+        showCancelBtn = true;
         break;
       case 60:
         orderStatus = '待发货'

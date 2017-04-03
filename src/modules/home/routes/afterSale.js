@@ -11,7 +11,7 @@ import {
   Button
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
-import OrderItem from '../components/OrderItem';
+import AfterSaleOrderItem from '../components/AfterSaleOrderItem';
 import * as orderApi from '../api/order';
 import './afterSale.less';
 
@@ -121,11 +121,11 @@ class AfterSale extends Component {
           renderFooter={() => footer}
           dataSource={this.state.dataSource}
           renderRow={(dataItem) => (
-            <OrderItem
+            <AfterSaleOrderItem
               cancelOrder={() => this.refreshList({
                 pageNo:1
               })}
-              dataItem={dataItem}></OrderItem>
+              dataItem={dataItem}></AfterSaleOrderItem>
             )}></ListView>
       </div>
     )
