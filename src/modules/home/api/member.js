@@ -58,3 +58,12 @@ export function memberDetail() {
 export function memberAvailable() {
   return fetch.get('/memberapi/memberAvailable');
 }
+
+// 充值订单
+export function recharge({
+  amount
+}) {
+  return fetch.get('/predepositApi/recharge', {
+    amount
+  });
+}

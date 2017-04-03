@@ -45,8 +45,14 @@ class Cashier extends Component {
       '/assets/img/WechatIMG97.png',
       '/assets/img/WechatIMG98.png'
     ];
-
-    return <List renderHeader={`当前订单金额为¥${totalPrice}，请立即在线支付!`}>
+    let headerContent = '';
+    // 充值订单
+    if (this.props.params.orderCode.startsWith('R')) {
+      headerContent = `充值金额为¥${totalPrice}，请立即在线支付!`
+    } else {
+      headerContent = `当前订单金额为¥${totalPrice}，请立即在线支付!`
+    }
+    return <List renderHeader={headerContent}>
       <Item thumb={imgUrl[0]} arrow='horizontal' onClick={()=>this.gotoPay(1)}>微信支付</Item>
       {/*<Item thumb={imgUrl[1]} arrow='horizontal' onClick={()=>this.gotoPay(2)}>支付宝支付</Item>*/}
       <Item thumb={imgUrl[2]} arrow='horizontal' onClick={()=>this.gotoPay(3)}>银联支付</Item>
