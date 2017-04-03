@@ -4,132 +4,111 @@ import {
   WhiteSpace,
   WingBlank,
   Toast,
-  Tabs,
   Flex,
-  ListView,
-  SegmentedControl,
-  Button
+  Button,
+  TextareaItem,
+  ImagePicker,
+  Checkbox
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
-import OrderItem from '../components/OrderItem';
-import * as orderApi from '../api/order';
-import './afterSale.less';
+import CommentImg from '../components/CommentImg';
+import { common } from 'common';
+import './comment.less';
 
-const TabPane = Tabs.TabPane;
-class AfterSale extends Component {
+const AgreeItem = Checkbox.AgreeItem;
 
+class Comment extends Component {
   constructor(props) {
     super(props);
-    this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-    this.orderList = []
     this.state = {
-      pageNo: 1,
-      dataSource: this.ds.cloneWithRows(this.orderList),
-      hasMore: false,
-      isLoading: false,
-      isInit: true
+      files: [],
+      isAnonymous: false
     }
   }
 
-  refreshList = ({ pageNo }) => {
-    orderApi.orderlist({
-      pageNo,
-      orderType: 2,
-      status: '20,30,40'
-    }).then(result => {
-      this.setState({
-        isLoading: false
-      });
-      if (result.result == 1) {
-        const data = result.data || [];
-        const pageSize = 10;
-        const dataLength = data.length;
-        let hasMore = true;
-        if (dataLength < pageSize) {
-          hasMore = false;
-        }
-        if (this.state.isInit) {
-          this.orderList = data;
-        } else {
-          this.orderList = { ...this.orderList, ...data };
-        }
-        this.setState({
-          hasMore,
-          pageNo,
-          dataSource: this.ds.cloneWithRows(this.orderList)
-        })
-      }
-    })
-  }
+  componentDidMount() {}
 
-  componentDidMount() {
-    this.refreshList({
-      pageNo: 1
+  onChange = (files, type, index) => {
+    this.setState({
+      files,
     });
   }
 
-  onEndReached = (event) => {
-    if (this.state.isLoading && !this.state.hasMore) {
-      return;
-    }
-    this.setState({ isLoading: true });
-    let pageNo = this.state.pageNo + 1;
-    // orderApi.orderlist({
-    //   pageNo,
-    //   orderType: this.state.orderType,
-    //   status: this.state.status
-    // }).then(result => {
-    //   if (result.result == 1) {
-    //     const data = result.data || [];
-    //     const pageSize = 10;
-    //     const dataLength = data.length;
-    //     let hasMore = true;
-    //     if (dataLength < pageSize) {
-    //       hasMore = false;
-    //     }
-    //     this.orderList = [...this.orderList, ...data];
-    //     this.setState({
-    //       hasMore,
-    //       isLoading: false,
-    //       pageNo,
-    //       dataSource: this.ds.cloneWithRows(this.orderList),
-    //     })
-    //   }
-    // })
-    setTimeout(() => {
-      this.refreshList({
-        pageNo,
-        status: this.state.status,
-        orderType: this.state.orderType,
-      });
-    }, 1000);
-  }
-
   render() {
-    const { dataSource } = this.state
-    /*const footer = <div style={{ padding: 30, textAlign: 'center' }}>
-      {this.state.isLoading ? '加载中...' : '加载完毕'}
-    </div>;*/
-    const footer = null;
+    const { goods } = this.props.location.state;
+    const { files, isAnonymous } = this.state;
+    const starImgPath = `${common.SERVER_DOMAIN}/res_v4.0/h5/images/icon-star.png`
+
+    // const filename = this.props.isFav == 1 ? 'b_1_h_2.png' : 'b_1_h_1.png'
+    const filename = 'b_1_h_1.png'
+    const isFavUrl = `${common.SERVER_DOMAIN}/res_v4.0/h5/images/${filename}`
     return (
-      <div className="wx-afterSale">
-        <ListView
-          style={{
-            height: document.documentElement.clientHeight - 200,
-            overflowY: 'auto',
-          }}
-          renderFooter={() => footer}
-          dataSource={this.state.dataSource}
-          renderRow={(dataItem) => (
-            <OrderItem
-              cancelOrder={() => this.refreshList({
-                pageNo:1
-              })}
-              dataItem={dataItem}></OrderItem>
-            )}></ListView>
+      <div className="wx-comment">
+        <Flex style={{backgroundColor:'white'}}>
+          <Img src={goods.goodsImage} style={{width:'2rem',height:'2rem'}} />
+          <Flex.Item>
+            <p>{goods.goodsName}</p>
+            <p style={{color:'red'}}>{`￥${goods.goodsPrice}`}</p>
+          </Flex.Item>
+        </Flex>
+        <WhiteSpace style={{
+          backgroundColor: '#ebebef',
+          height: '0.2rem'
+        }}></WhiteSpace>
+        <TextareaItem
+            placeholder="请填写您对商品的评价"
+            rows={5}
+        />
+        <WingBlank>
+          <WhiteSpace></WhiteSpace>
+          <Flex>
+            <div>整体评价:</div> 
+            <div className="commstar-mod">
+              <CommentImg/>
+            </div>
+          </Flex>
+          <WhiteSpace></WhiteSpace>
+          <Flex>
+            <div>发货速度:</div> 
+            <div className="commstar-mod">
+              <CommentImg/>
+            </div>
+          </Flex>
+          <WhiteSpace></WhiteSpace>
+          <Flex>
+            <div>服务态度:</div> 
+            <div className="commstar-mod">
+              <CommentImg/>
+            </div>
+          </Flex>
+          <WhiteSpace></WhiteSpace>
+          <Flex>
+            <div>描述相符:</div> 
+            <div className="commstar-mod">
+              <CommentImg/>
+            </div>
+          </Flex>
+          <ImagePicker
+            files={files}
+            onChange={this.onChange}
+            selectable={files.length < 3}
+          />
+        </WingBlank>
+        <Flex justify='between'>
+          <AgreeItem
+            checked={isAnonymous}
+            onChange={e => this.setState({
+              isAnonymous:e.target.checked
+            })}>
+            匿名评价
+          </AgreeItem>
+          <WingBlank>
+            <Button inline type='ghost'>发表</Button>
+          </WingBlank>
+        </Flex>
       </div>
     )
   }
 }
 
-export default withRouter(AfterSale);
+export default withRouter(Comment);

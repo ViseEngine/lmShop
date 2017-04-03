@@ -39,7 +39,16 @@ class CommentList extends Component {
                 <Flex.Item>
                   <p>{goods.goodsName}</p>
                   <Flex justify='end'>
-                    <Button type='ghost' size='small' inline>评价晒单</Button>
+                    <Button type='ghost'
+                      onClick={() => {
+                        this.props.router.push({
+                          pathname: '/comment',
+                          state: {
+                            goods
+                          }
+                        })
+                      }}
+                      size='small' inline>评价晒单</Button>
                   </Flex>
                 </Flex.Item>
               </Flex>

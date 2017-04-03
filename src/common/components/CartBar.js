@@ -29,7 +29,6 @@ class CartBar extends React.Component {
 
   render() {
     const { showCollectionCart } = this.props;
-    console.log(this.props.isFav);
     const filename = this.props.isFav == 1 ? 'b_1_h_2.png' : 'b_1_h_1.png'
     const isFavUrl = `${common.SERVER_DOMAIN}/res_v4.0/h5/images/${filename}`
     return (
@@ -37,7 +36,7 @@ class CartBar extends React.Component {
         <Flex style={{ width:'100%'}}>
           {
             showCollectionCart && <Flex.Item style={{ flex: 1, textAlign: 'center' }} onClick={() => this._storecollection()}>
-              <img src={isFavUrl} style={{width:'44px',height:'44px'}} alt=""/>   
+              <img src={isFavUrl} style={{width:'.44rem',height:'.44rem'}} alt=""/>   
               <div>收藏</div>
             </Flex.Item>
           }
