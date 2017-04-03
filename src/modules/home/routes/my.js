@@ -201,7 +201,9 @@ class My extends Component {
             ({memberDetail && memberDetail.freezePredeposit || 0})
             <br />
             锁定余额</Flex.Item>
-          <Flex.Item>
+          <Flex.Item onClick={() => {
+            this.props.router.push('/coupon')
+          }}>
             ({memberDetail && memberDetail.couponCount || 0})
             <br />
             优惠券</Flex.Item>   
