@@ -13,6 +13,7 @@ import {
 import { Img } from 'commonComponent';
 import CommentImg from '../components/CommentImg';
 import { common } from 'common';
+import * as orderApi from '../api/order';
 import './comment.less';
 
 const AgreeItem = Checkbox.AgreeItem;
@@ -22,7 +23,7 @@ class Comment extends Component {
     super(props);
     this.state = {
       files: [],
-      gevalIsAnonymous: false,
+      gevalIsAnonymous: 0,
       gevalScore: 0,
       gevalContent: '',
       sevalDeliverycredit: 0,
@@ -30,7 +31,6 @@ class Comment extends Component {
       recId: '',
       imgUrl: '',
       sevalServicecredit: 0,
-      // orderSn: 
     }
   }
 
@@ -45,7 +45,29 @@ class Comment extends Component {
   }
 
   postComment = () => {
-    console.log(this.state);
+    const { goods, orderSn } = this.props.location.state;
+    const files = this.state.files;
+    orderApi.filesUpload({
+      images: files.map(item => item.file)
+    }).then(result => {
+      // 上传图片成功
+      if (result.result == 1) {
+        const imgUrl = result.data;
+        orderApi.saveReviews({
+          ...this.state,
+          imgUrl,
+          orderSn,
+          recId: goods.recId,
+        }).then(r => {
+          if (r.result == 1) {
+            Toast.info(r.msg);
+            this.props.router.push('/orderList/3')
+          } else {
+            Toast.info(r.msg);
+          }
+        })
+      }
+    })
   }
 
   // 修改评分
@@ -64,7 +86,7 @@ class Comment extends Component {
   render() {
     const { goods } = this.props.location.state;
     const {
-      files: [],
+      files,
       gevalIsAnonymous,
       gevalContent
     } = this.state;
@@ -131,9 +153,9 @@ class Comment extends Component {
         </WingBlank>
         <Flex justify='between'>
           <AgreeItem
-            checked={isAnonymous}
+            checked={gevalIsAnonymous==1}
             onChange={e => this.setState({
-              isAnonymous:e.target.checked
+              gevalIsAnonymous: e.target.checked ? 1:0
             })}>
             匿名评价
           </AgreeItem>

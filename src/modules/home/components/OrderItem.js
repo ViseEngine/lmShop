@@ -36,10 +36,11 @@ class OrderItem extends Component {
   }
 
   gotoPay = (orderItem) => {
-    // common.
-    // if (this.props.gotPay) {
-    //   this.props.gotPay();
-    // }
+    const { paySn, orderTotalPrice } = orderItem;
+    common.gotoPay({
+      paySn,
+      orderTotalPrice
+    })
   }
 
   gotoComment = (orderItem) => {
@@ -49,6 +50,25 @@ class OrderItem extends Component {
         orderItem
       }
     })
+  }
+
+  // 确认订单
+  finishorder = (orderItem) => {
+    Modal.alert('提示', '是否确认收货', [
+      { text: '取消' },
+      {
+        text: '确定',
+        onPress: () => {
+          orderApi.finishorder({
+            ordersn: orderItem.orderSn
+          }).then(result => {
+            if (result.result == 1) {
+              this.props.finishorder();
+            }
+          })
+        }
+      }
+    ]);
   }
 
   gotoOrderDetail = (orderItem) => {
@@ -61,6 +81,10 @@ class OrderItem extends Component {
     let showCancelBtn = false;
     let showPayBtn = false;
     let showCommentBtn = false;
+    // 确认收货
+    let showCompleteBtn = false;
+    // 查看物流
+    let showViewDeleveryBtn = false;
 
     switch (dataItem.orderState) {
       case 0:
@@ -75,6 +99,8 @@ class OrderItem extends Component {
         break;
       case 30:
         orderStatus = '待收货'
+        showViewDeleveryBtn = true;
+        showCompleteBtn = true;
         break;
       case 40:
         orderStatus = '已完成'
@@ -125,6 +151,16 @@ class OrderItem extends Component {
               showCommentBtn && <Button
                 onClick={(e) => this.gotoComment(dataItem)}
                 style={{ marginLeft: '0.1rem' }} type='ghost' size='small' inline>马上评价</Button>
+            }
+            {
+              showViewDeleveryBtn && <Button
+                onClick={(e) => this.gotoComment(dataItem)}
+                style={{ marginLeft: '0.1rem' }} type='ghost' size='small' inline>查看物流</Button>
+            }
+            {
+              showCompleteBtn && <Button
+                onClick={(e) => this.finishorder(dataItem)}
+                style={{ marginLeft: '0.1rem' }} type='ghost' size='small' inline>确认收货</Button>
             }
           </div>
         </Flex>

@@ -33,22 +33,27 @@ class CommentList extends Component {
         <WhiteSpace></WhiteSpace>
         {
           orderItem.orderGoodsList.map(goods => {
-            return <WingBlank>
+            let showEvaluationBtn = goods.evaluationStatus == 1
+            return <WingBlank key={goods.specId}>
               <Flex>
                 <Img src={goods.goodsImage} style={{width:'2rem',height:'2rem'}} />
                 <Flex.Item>
                   <p>{goods.goodsName}</p>
                   <Flex justify='end'>
-                    <Button type='ghost'
-                      onClick={() => {
-                        this.props.router.push({
-                          pathname: '/comment',
-                          state: {
-                            goods
-                          }
-                        })
-                      }}
-                      size='small' inline>评价晒单</Button>
+                    {
+                      goods.evaluationStatus==0 ? <Button type='ghost'
+                          onClick={() => {
+                            this.props.router.push({
+                              pathname: '/comment',
+                              state: {
+                                goods,
+                                orderSn:orderItem.orderSn
+                              }
+                            })
+                          }}
+                          size='small' inline>评价晒单</Button>
+                      : <span>已评价</span>
+                    }
                   </Flex>
                 </Flex.Item>
               </Flex>

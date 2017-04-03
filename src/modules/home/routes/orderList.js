@@ -114,7 +114,7 @@ class OrderList extends Component {
     });
   }
 
-  cancelOrder = () => {
+  refresh = () => {
     this.refreshList({
       pageNo: 1,
       selectedIndex: this.state.selectedIndex
@@ -183,7 +183,8 @@ class OrderList extends Component {
             dataSource={this.state.dataSource}
             renderRow={(dataItem) => (
               <OrderItem
-                cancelOrder={this.cancelOrder}
+                cancelOrder={this.refresh}
+                finishorder={this.refresh}
                 dataItem={dataItem}></OrderItem>
             )}></ListView>
         </div>

@@ -12,7 +12,8 @@ var proxyInterface = ['/floor/api',
   '/address',
   '/groupPurchaseApi',
   '/flashSaleApi',
-  '/invoiceapi'
+  '/invoiceapi',
+  '/reviews/api'
 ];
 var proxy = {};
 proxyInterface.forEach(function(item) {

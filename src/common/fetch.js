@@ -81,3 +81,34 @@ export function post(requestUrl, params) {
     body: qs.stringify(params),
   }).then(checkStatus).then(parseJSON);
 }
+
+export function upload(requestUrl, data) {
+  const baseParams = {
+    timestamp: new Date().getTime()
+  }
+  const token = localStorage.getItem('token');
+  let formData = new FormData();
+  if (Array.isArray(data.images)) {
+    data.images.forEach(function(element) {
+      formData.append('images', element);
+    });
+  }
+  let url = getFullUrl(requestUrl);
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      token: token,
+    },
+    credentials: 'include',
+    body: formData
+  }).then(checkStatus).then(parseJSON);
+
+  // return fetch(url, {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/x-www-form-urlencoded"
+  //   },
+  //   credentials: 'include',
+  //   body: qs.stringify(params),
+  // }).then(checkStatus).then(parseJSON);
+}

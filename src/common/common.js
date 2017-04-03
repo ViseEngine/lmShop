@@ -61,8 +61,8 @@ export function gotoOrder({ cartId }) {
   window.location.href = `order.html#/order/${cartId}`;
 }
 
-export function gotoPay({ cartId }) {
-  // window.location.href = `order.html#/order/${cartId}`;
+export function gotoPay({ paySn, orderTotalPrice }) {
+  window.location.href = `order.html#/cashier/${paySn}/${orderTotalPrice}`;
 }
 
 // 获取token

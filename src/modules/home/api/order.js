@@ -22,11 +22,21 @@ export function cancleorder({
   });
 }
 
+// 完成订单
+export function finishorder({
+  ordersn
+}) {
+  return fetch.get('/orderapi/finishorder', {
+    ordersn
+  });
+}
+
+
 // 文件上传
 export function filesUpload({
   images
 }) {
-  return fetch.post('/memberapi/filesUpload', {
+  return fetch.upload('/memberapi/filesUpload', {
     images
   });
 }
