@@ -1,9 +1,26 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
-import { WhiteSpace, WingBlank, Toast, Flex, List } from 'antd-mobile';
-import * as storeApi from '../api/store';
+import {
+  WhiteSpace,
+  WingBlank,
+  Toast,
+  Flex,
+  List,
+  SegmentedControl
+} from 'antd-mobile';
+import * as couponApi from '../api/coupon';
+
+import './coupon.less';
 
 const Item = List.Item;
+
+const goodsTypes = {
+  '0': '全部商品',
+  '1': '指定商品分类',
+  '2': '指定商品类型',
+  '3': '指定品牌',
+  '4': '指定商品'
+}
 
 class Coupon extends Component {
   constructor(props) {
@@ -13,22 +30,29 @@ class Coupon extends Component {
     }
   }
 
-  componentWillMount() {
-    storeApi.couponlist({
-      storeId: this.props.params.storeId
+  refreshList = () => {
+    couponApi.couponMemberList({
+      couponIsUser: this.props.params.couponIsUser || 0
     }).then(result => {
       if (result.result == 1) {
-        if (result.data) {
-          this.setState({
-            couponList: result.data
-          })
-        } else {
-          Toast.info('暂没有优惠券');
-        }
+        const data = result.data;
+        this.setState({
+          couponList: data || []
+        })
       } else {
         Toast.info(result.msg);
       }
     })
+  }
+
+  componentDidMount() {
+    this.refreshList();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.params.couponIsUser !== this.props.params.couponIsUser) {
+      this.refreshList();
+    }
   }
 
   /**
@@ -43,37 +67,47 @@ class Coupon extends Component {
     })
   };
 
+  onChange = (index) => {
+    this.props.router.replace('/coupon/' + index);
+  }
+
   render() {
-    const {
-      floorList,
-      relGoodsRecommedlist,
-      activityBeenList,
-      advPosition,
-      recommendGoodslist
-    } = this.state;
+    const { couponList } = this.state;
+    let couponIsUser = this.props.params.couponIsUser
+    couponIsUser = (couponIsUser && parseInt(couponIsUser)) || 0
+    console.log(couponIsUser);
     return (
-      <div>
+      <div className='wx-coupon'>
+        <SegmentedControl
+          selectedIndex={couponIsUser}  
+          onChange={(e)=>this.onChange(e.nativeEvent.selectedSegmentIndex)}
+          style={{ height: '0.8rem' }}  
+          values={['未使用', '已使用', '已过期']}>
+        </SegmentedControl>
         <List>
           {
-            this.state.couponList.map((item,index) => {
+            couponList.map((item, index) => {
+              const { shopActivityPromotionRule } = item 
+              const { shopActivity } = shopActivityPromotionRule
+              const showMemberLimit = shopActivity.shopActivityMembership.memberGradle ? 
+                shopActivity.shopActivityMembership.memberGradle.gradleName : '全部会员'
               return <Item key={index}  onClick={() => { this.onSel(item) }}>
                 <Flex>
                   <Flex.Item>
-                    {item.shopActivity.storeName}<br />
-                    <span style={{color:'red'}}>{`¥${item.couponSource}`}</span>
+                    <p style={{color:'#108ee9'}}>{shopActivity.storeName}</p>
+                    <div style={{color:'red'}}>{`¥${shopActivityPromotionRule.couponSource}`}</div>
                   </Flex.Item>
-                  <Flex.Item>
-                    <div>会员限制:铜牌会员</div>
-                    <div>会员限制:指定商品</div>
-                    <div style={{color:'red'}}>{item.description}</div>
-                    <div>{item.shopActivity.startTimeStr.substr(0,10)} 至 <br/> {item.shopActivity.endTimeStr.substr(0,10)}</div>
-                  </Flex.Item>
+                  <div>
+                    <div>会员限制:{showMemberLimit}</div>
+                    <div>商品限制:{goodsTypes[shopActivity.goodsType]}</div>
+                    <div style={{color:'red'}}>{shopActivityPromotionRule.description}</div>
+                    <div>{shopActivity.startTimeStr.substr(0,10)}至{shopActivity.endTimeStr.substr(0,10)}</div>
+                  </div>
                 </Flex>
-                
               </Item> 
             })
           }
-       </List>
+        </List>
       </div>
     )
   }
