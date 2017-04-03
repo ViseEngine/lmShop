@@ -8,7 +8,7 @@ import {
 } from 'antd-mobile';
 import { common } from 'common';
 
-class CommentImg extends Component {
+class CommentImg extends React.PureComponent {
 
   constructor(props) {
     super(props);
@@ -18,15 +18,24 @@ class CommentImg extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      score: nextProps.score
-    })
+    console.log('componentWillReceiveProps');
+    if (nextProps.score) {
+      this.setState({
+        score: nextProps.score
+      })
+    }
   }
 
   changeScore = (score) => {
+    if (score == this.state.score) {
+      return;
+    }
     this.setState({
       score
     });
+    if (this.props.onChangeScore) {
+      this.props.onChangeScore(score);
+    }
   }
 
   render() {
@@ -37,7 +46,7 @@ class CommentImg extends Component {
           const filename = index < score ? 'b_1_h_2.png':'b_1_h_1.png'
           const imgUrl = `${common.SERVER_DOMAIN}/res_v4.0/h5/images/${filename}`
 
-          return <span style={{margin:'0 0.1rem'}}>
+          return <span key={index} style={{margin:'0 0.1rem'}}>
             <img src={imgUrl} onClick={()=>this.changeScore(index+1)}
               style={{ width: '.32rem', height: '.32rem' }} />
           </span>  

@@ -22,11 +22,21 @@ class Comment extends Component {
     super(props);
     this.state = {
       files: [],
-      isAnonymous: false
+      gevalIsAnonymous: false,
+      gevalScore: 0,
+      gevalContent: '',
+      sevalDeliverycredit: 0,
+      sevalDesccredit: 0,
+      recId: '',
+      imgUrl: '',
+      sevalServicecredit: 0,
+      // orderSn: 
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(this.props);
+  }
 
   onChange = (files, type, index) => {
     this.setState({
@@ -34,14 +44,30 @@ class Comment extends Component {
     });
   }
 
+  postComment = () => {
+    console.log(this.state);
+  }
+
+  // 修改评分
+  onChangeScore = (key, score) => {
+    this.setState({
+      [key]: score
+    })
+  }
+
+  onChangeComment = (value) => {
+    this.setState({
+      gevalContent: value
+    })
+  }
+
   render() {
     const { goods } = this.props.location.state;
-    const { files, isAnonymous } = this.state;
-    const starImgPath = `${common.SERVER_DOMAIN}/res_v4.0/h5/images/icon-star.png`
-
-    // const filename = this.props.isFav == 1 ? 'b_1_h_2.png' : 'b_1_h_1.png'
-    const filename = 'b_1_h_1.png'
-    const isFavUrl = `${common.SERVER_DOMAIN}/res_v4.0/h5/images/${filename}`
+    const {
+      files: [],
+      gevalIsAnonymous,
+      gevalContent
+    } = this.state;
     return (
       <div className="wx-comment">
         <Flex style={{backgroundColor:'white'}}>
@@ -56,6 +82,7 @@ class Comment extends Component {
           height: '0.2rem'
         }}></WhiteSpace>
         <TextareaItem
+          onChange={(value)=>this.onChangeComment(value)}
             placeholder="请填写您对商品的评价"
             rows={5}
         />
@@ -64,28 +91,36 @@ class Comment extends Component {
           <Flex>
             <div>整体评价:</div> 
             <div className="commstar-mod">
-              <CommentImg/>
+              <CommentImg onChangeScore={score => {
+                this.onChangeScore('gevalScore',score)
+              }} />
             </div>
           </Flex>
           <WhiteSpace></WhiteSpace>
           <Flex>
             <div>发货速度:</div> 
             <div className="commstar-mod">
-              <CommentImg/>
+              <CommentImg onChangeScore={(score) => {
+                this.onChangeScore('sevalDeliverycredit',score)
+              }} />
             </div>
           </Flex>
           <WhiteSpace></WhiteSpace>
           <Flex>
             <div>服务态度:</div> 
             <div className="commstar-mod">
-              <CommentImg/>
+              <CommentImg onChangeScore={(score) => {
+                this.onChangeScore('sevalServicecredit',score)
+              }} />
             </div>
           </Flex>
           <WhiteSpace></WhiteSpace>
           <Flex>
             <div>描述相符:</div> 
             <div className="commstar-mod">
-              <CommentImg/>
+              <CommentImg onChangeScore={(score) => {
+                this.onChangeScore('sevalDesccredit',score)
+              }} />
             </div>
           </Flex>
           <ImagePicker
@@ -103,7 +138,7 @@ class Comment extends Component {
             匿名评价
           </AgreeItem>
           <WingBlank>
-            <Button inline type='ghost'>发表</Button>
+            <Button inline type='ghost' onClick={this.postComment}>发表</Button>
           </WingBlank>
         </Flex>
       </div>
