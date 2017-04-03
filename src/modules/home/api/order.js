@@ -13,6 +13,15 @@ export function orderlist({
   });
 }
 
+export function orderdetail({
+  orderid
+}) {
+  return fetch.get('/orderapi/orderdetail', {
+    orderid
+  });
+}
+
+
 // 取消订单
 export function cancleorder({
   ordersn

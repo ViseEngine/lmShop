@@ -71,8 +71,8 @@ class OrderItem extends Component {
     ]);
   }
 
-  gotoOrderDetail = (orderItem) => {
-    console.log(orderItem);
+  gotoOrderDetail = (goods) => {
+    this.props.router.push('/orderDetail/' + goods.orderId)
   }
 
   render() {
@@ -124,7 +124,7 @@ class OrderItem extends Component {
         </Flex>
         {
           dataItem.orderGoodsList.map(goods => {
-            return <Flex key={goods.specId}>
+            return <Flex key={goods.specId} onClick={()=>this.gotoOrderDetail(goods)}>
               <Img src={goods.goodsImage} style={{ width: '1.5rem' }} />
               <div>
                 <p>{goods.goodsName}</p>
