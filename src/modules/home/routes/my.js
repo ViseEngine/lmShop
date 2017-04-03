@@ -82,6 +82,16 @@ class My extends Component {
           <Badge text={memberDetail.noPayOrder} />
         </div>
       }
+      {
+        index == 0 && memberDetail.noPayOrder &&
+        <div style={{
+          position: 'absolute',
+          top: '0.2rem',
+          right:'0.2rem'
+          }}>
+          <Badge text={memberDetail.noPayOrder} />
+        </div>
+      }
     </div>
   }
 
@@ -177,7 +187,9 @@ class My extends Component {
       </List>
       <List className='wx-my-moneybag' renderHeader={()=>'我的钱包'}>
         <Flex style={{height:'1.2rem'}}>
-          <Flex.Item>
+          <Flex.Item onClick={() => {
+            this.props.router.push('/')
+          }}>
             ({memberDetail && memberDetail.availablePredeposit || 0})
             <br />
             可用余额</Flex.Item>

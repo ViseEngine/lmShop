@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Img } from 'commonComponent';
 import { common } from 'common';
 import * as orderApi from '../api/order';
+import { withRouter } from 'react-router'
 import {
   WhiteSpace,
   WingBlank,
@@ -11,7 +12,7 @@ import {
   Modal
 } from 'antd-mobile';
 
-export default class OrderItem extends Component {
+class OrderItem extends Component {
 
   cancelOrder = (orderItem) => {
     Modal.alert('提示', '是否取消订单', [
@@ -41,6 +42,15 @@ export default class OrderItem extends Component {
     // }
   }
 
+  gotoComment = (orderItem) => {
+    this.props.router.push({
+      pathname: '/commentList',
+      state: {
+        orderItem
+      }
+    })
+  }
+
   gotoOrderDetail = (orderItem) => {
     console.log(orderItem);
   }
@@ -50,6 +60,7 @@ export default class OrderItem extends Component {
     let orderStatus = '';
     let showCancelBtn = false;
     let showPayBtn = false;
+    let showCommentBtn = false;
 
     switch (dataItem.orderState) {
       case 0:
@@ -66,7 +77,8 @@ export default class OrderItem extends Component {
         orderStatus = '待收货'
         break;
       case 40:
-        orderStatus = '买家确认收货'
+        orderStatus = '已完成'
+        showCommentBtn = true;
         break;
       case 50:
         orderStatus = '已提交'
@@ -109,6 +121,11 @@ export default class OrderItem extends Component {
                 onClick={(e) => this.gotoPay(dataItem)}
                 style={{ marginLeft: '0.1rem' }} type='ghost' size='small' inline>去支付</Button>
             }
+            {
+              showCommentBtn && <Button
+                onClick={(e) => this.gotoComment(dataItem)}
+                style={{ marginLeft: '0.1rem' }} type='ghost' size='small' inline>马上评价</Button>
+            }
           </div>
         </Flex>
         <WhiteSpace></WhiteSpace>
@@ -117,3 +134,5 @@ export default class OrderItem extends Component {
     </div>
   }
 }
+
+export default withRouter(OrderItem);
