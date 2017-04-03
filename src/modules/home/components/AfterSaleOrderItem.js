@@ -38,7 +38,7 @@ class AfterSaleOrderItem extends Component {
 
   gotoApply = (orderItem) => {
     this.props.router.push({
-      pathname: '/commentList',
+      pathname: '/applyAfterSale',
       state: {
         orderItem
       }

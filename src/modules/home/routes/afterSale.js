@@ -4,10 +4,8 @@ import {
   WhiteSpace,
   WingBlank,
   Toast,
-  Tabs,
   Flex,
   ListView,
-  SegmentedControl,
   Button
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
@@ -15,7 +13,6 @@ import AfterSaleOrderItem from '../components/AfterSaleOrderItem';
 import * as orderApi from '../api/order';
 import './afterSale.less';
 
-const TabPane = Tabs.TabPane;
 class AfterSale extends Component {
 
   constructor(props) {

@@ -41,6 +41,70 @@ export function finishorder({
 }
 
 
+// http://testbbc.leimingtech.com/orderapi/refundOrder
+// refundAmount	158.00
+// sign	aO6ElFJ/XdlU6xra9SuG0EvRQIv2wjPm4cRXW7lR92E/B50xToNCSyUSgEXeqhYGmAntazjdCsAm2GI+nmsL0s/asMEmJSRQpcEbO45JeJlFPCjftrlUAVtkke2zOSOZb4Y9sKjdLvfnK0+QOLkczqEQ0zOGY5a22iDPfkpC2dQ=
+// imgUrl	/upload/img/store/goods/1491245264552.jpg
+// buyerMessage	1111111
+// orderGoodsId	8388de3f7a6f462b8bbff4173f644818
+// orderId	b28c3b687b1541e8a4cdfcfe62671d25
+
+// 退款申请
+export function refundOrder({
+  refundAmount,
+  imgUrl,
+  buyerMessage,
+  orderGoodsId,
+  orderId
+}) {
+  return fetch.post('/orderapi/refundOrder', {
+    refundAmount,
+    imgUrl,
+    buyerMessage,
+    orderGoodsId,
+    orderId
+  });
+}
+
+// 退货
+// imgUrl	/upload/img/store/goods/1491245415292.jpg
+// buyerMessage	11
+// orderGoodsId	c81206ad33d04d9e9d13726b0456b6fd
+// goodsNum	1
+// orderId	9d486d55ae6c438c94da8600c3173076
+export function returnOrder({
+  imgUrl,
+  buyerMessage,
+  orderGoodsId,
+  goodsNum,
+  orderId
+}) {
+  return fetch.post('/orderapi/returnOrder', {
+    imgUrl,
+    buyerMessage,
+    orderGoodsId,
+    goodsNum,
+    orderId
+  });
+}
+
+// 换货
+export function barterOrder({
+  imgUrl,
+  buyerMessage,
+  orderGoodsId,
+  goodsNum,
+  orderId
+}) {
+  return fetch.post('/orderapi/barterOrder', {
+    imgUrl,
+    buyerMessage,
+    orderGoodsId,
+    goodsNum,
+    orderId
+  });
+}
+
 // 文件上传
 export function filesUpload({
   images

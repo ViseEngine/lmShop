@@ -22,6 +22,7 @@ import orderList from './orderList';
 import orderDetail from './orderDetail';
 
 import afterSale from './afterSale';
+import applyAfterSale from './applyAfterSale';
 import commentList from './commentList';
 import comment from './comment';
 
@@ -54,6 +55,7 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/orderDetail/(:id)' component={orderDetail} title='订单详情'/>
 
   <Route path='/afterSale' component={afterSale} title='售后列表' />
+  <Route path='/applyAfterSale' component={applyAfterSale} title='' />
   <Route path='/commentList' component={commentList} title='评价晒单'/>
   <Route path='/comment' component={comment} title='评价晒单'/>
   
