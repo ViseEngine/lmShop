@@ -188,7 +188,7 @@ class My extends Component {
       <List className='wx-my-moneybag' renderHeader={()=>'我的钱包'}>
         <Flex style={{height:'1.2rem'}}>
           <Flex.Item onClick={() => {
-              this.props.router.push('/')
+              this.props.router.push('/balance')
             }}>
             ({memberDetail && memberDetail.availablePredeposit || 0})
             <br />
@@ -200,7 +200,7 @@ class My extends Component {
             <br />
             积分纪录</Flex.Item>
           <Flex.Item onClick={() => {
-              this.props.router.push('/myIntegral')
+              this.props.router.push('/lockBalance')
             }}>
             ({memberDetail && memberDetail.freezePredeposit || 0})
             <br />

@@ -28,6 +28,8 @@ import comment from './comment';
 import account from './account/account';
 import accountSafe from './account/accountSafe';
 import recharge from './account/recharge';
+import balance from './account/balance';
+import lockBalance from './account/lockBalance';
 
 const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={home} showBottomBar={true} showTitle={false}/>
@@ -59,6 +61,9 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/accountSafe' component={accountSafe} title='账户安全'/>
   <Route path='/recharge' component={recharge} title='余额充值'/>
 
+  <Route path='/balance' component={balance} title='可用余额'/>
+  <Route path='/lockBalance' component={lockBalance} title='锁定余额'/>
+  
 </Route>)
 
 function Routes({ history }) {

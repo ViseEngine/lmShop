@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-class Balance extends Component {
+class LockBalance extends Component {
   render() {
     return (
       <div>
-        
+        锁定余额
       </div>
     );
   }
 }
 
-export default Balance;
+export default LockBalance;
