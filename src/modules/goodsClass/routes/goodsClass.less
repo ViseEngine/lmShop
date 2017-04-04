@@ -2,14 +2,26 @@
    display: flex;
    width: 100%;
    .wx-goods-class-menu {
-     width: 30%;
-     min-width: 100px;
+     width: 1.6rem;
+     .am-radio-inner {
+       display: none;
+     }
+     .am-list-content {
+       text-align: center;
+     }
+     .am-list-item {
+       height: 1rem;
+       padding-left: 0;
+       .am-list-line {
+         padding-right: 0;
+       }
+     }
    }
    .wx-goods-class-list {
-     width: 65%;
-     display: block;
+     flex: 1;
      height: 100%;
-     padding-left: 2.5%;
+     overflow-x: hidden;
+     overflow-y: auto;
    }
    .am-menu .am-flexbox .am-flexbox-item .am-list .am-list-item .am-list-line .am-list-content {
      font-size: .28rem;
