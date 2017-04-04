@@ -76,7 +76,7 @@ class GoodsSearch extends Component {
     // 初始化过滤条件
     goodsApi.goodsfiltermore({
       keyword: this.props.params.keyword,
-      searchType: 'keywordSearch'
+      searchType: this.props.params.searchType,
     }).then(result => {
       if (result.result == 1) {
         const data = result.data;
