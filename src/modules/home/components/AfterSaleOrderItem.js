@@ -24,10 +24,11 @@ class AfterSaleOrderItem extends Component {
     })
   }
 
-  gotoApply = (goods) => {
+  gotoApply = (dataItem, goods) => {
     this.props.router.push({
       pathname: '/applyAfterSale',
       state: {
+        orderItem: dataItem,
         goodsItem: goods,
         type: 2 // type 2代表申请售后
       }
@@ -78,7 +79,7 @@ class AfterSaleOrderItem extends Component {
               <Flex justify='end'>
               {
                 showApplyBtn && <Button
-                  onClick={(e) => this.gotoApply(goods)}
+                  onClick={(e) => this.gotoApply(dataItem,goods)}
                   type='ghost' size='small' inline>申请售后</Button>
                 }
               </Flex>  

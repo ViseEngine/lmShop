@@ -13,42 +13,74 @@ import {
 import { Img } from 'commonComponent';
 import CommentImg from '../components/CommentImg';
 import { common } from 'common';
-import { createForm } from 'rc-form';
 import * as orderApi from '../api/order';
 
 import './applyAfterSale.less';
 
+// 商品显示模块
+const GoodsItem = ({ goods }) => {
+  return <Flex style={{ backgroundColor: 'white' }}>
+    <Img src={goods.goodsImage} style={{ width: '2rem', height: '2rem' }} />
+    <Flex.Item>
+      <p>{goods.goodsName}</p>
+      <p style={{ color: 'red' }}>{`￥${goods.goodsPrice}`}</p>
+    </Flex.Item>
+  </Flex>
+}
+
+// 分割线
+const SeparationLine = () => {
+  return <WhiteSpace style={{
+    backgroundColor: '#ebebef',
+    height: '0.2rem'
+  }}></WhiteSpace>
+}
+
+// 申请售后
 class ApplyAfterSale extends Component {
   constructor(props) {
     super(props);
     this.state = {
       files: [],
       selectedAction: 1,
-      // goodsNum: 1,
-      // buyerMessage: '',
-      // refundAmount: 1
-      // gevalIsAnonymous: 0,
-      // gevalScore: 0,
-      // gevalContent: '',
-      // sevalDeliverycredit: 0,
-      // sevalDesccredit: 0,
-      // recId: '',
-      // sevalServicecredit: 0,
+      goodsNum: 1,
+      buyerMessage: ''
     }
   }
 
+  // 修改上传文件  
   onChange = (files, type, index) => {
     this.setState({
       files,
     });
   }
 
+  // 修改售后类型  
+  onChangeAction = (action) => {
+    this.setState({
+      selectedAction: action
+    })
+  }
+
+  // 修改数量
+  onChangeNum = (val) => {
+    this.setState({
+      goodsNum: val
+    })
+  }
+
+  onChangeBuyMessage = (buyerMessage) => {
+    this.setState({
+      buyerMessage
+    })
+  }
+
+  // 提交申请
   submit = () => {
-    const { orderItem, goods, type } = this.props.location.state;
-    const fieldsValue = this.props.form.getFieldsValue();
-    const { files } = this.state;
+    const { orderItem, goodsItem, type } = this.props.location.state;
+    const { files, selectedAction, buyerMessage, goodsNum } = this.state;
     console.log(orderItem);
-    if (!fieldsValue.buyerMessage || fieldsValue.buyerMessage == '') {
+    if (buyerMessage == '') {
       Toast.info('请填写问题描述', 1);
       return;
     }
@@ -62,70 +94,74 @@ class ApplyAfterSale extends Component {
       // 上传图片成功
       if (result.result == 1) {
         const imgUrl = result.data;
-        if (type == 1) {
+        if (selectedAction == 1) {
+          const returnMoney = type == 1 ?
+            orderItem.returnMoney :
+            parseFloat(goodsItem.goodsPayPrice * goodsItem.goodsNum).toFixed(2)
           orderApi.refundOrder({
             imgUrl,
-            refundAmount: orderItem.refundAmount,
-            buyerMessage: fieldsValue.buyerMessage,
-            orderGoodsId: orderItem.goodsId,
-            orderId: orderItem.orderId
+            refundAmount: returnMoney,
+            buyerMessage,
+            orderGoodsId: goodsItem && goodsItem.recId,
+            orderId: orderItem && orderItem.orderId
           }).then(r => {
             if (r.result == 1) {
               Toast.info(r.msg);
-              this.props.router.push('/orderList/3')
+              this.props.router.push('/afterSale')
+            } else {
+              Toast.info(r.msg);
+            }
+          })
+        } else if (selectedAction == 2) { // 选择退货
+          orderApi.returnOrder({
+            imgUrl,
+            buyerMessage,
+            goodsNum,
+            orderGoodsId: goodsItem && goodsItem.recId,
+            orderId: orderItem && orderItem.orderId
+          }).then(r => {
+            if (r.result == 1) {
+              Toast.info(r.msg);
+              this.props.router.push('/afterSale')
             } else {
               Toast.info(r.msg);
             }
           })
         } else {
-
+          // 换货
+          orderApi.barterOrder({
+            imgUrl,
+            buyerMessage,
+            goodsNum,
+            orderGoodsId: goodsItem && goodsItem.recId,
+            orderId: orderItem && orderItem.orderId
+          }).then(r => {
+            if (r.result == 1) {
+              Toast.info(r.msg);
+              this.props.router.push('/afterSale')
+            } else {
+              Toast.info(r.msg);
+            }
+          })
         }
       }
     })
   }
 
-  // 修改评分
-  onChangeScore = (key, score) => {
-    this.setState({
-      [key]: score
-    })
-  }
-
-  onChangeComment = (value) => {
-    this.setState({
-      gevalContent: value
-    })
-  }
-
-  onChangeAction = (action) => {
-    this.setState({
-      selectedAction: action
-    })
-  }
-
-  onChangeNum = (val) => {
-    this.setState({
-      goodsNum: val
-    })
-  }
-
   render() {
     const { orderItem, goodsItem, type } = this.props.location.state;
-    const { getFieldProps } = this.props.form;
-    console.log(goodsItem);
     const {
       files,
       selectedAction,
       goodsNum
     } = this.state;
-    // const orderState = orderItem.orderState;
     const showActions = [<Button
         key={1}
         {...(selectedAction == 1 ? { type: 'ghost' } : {})}
         onClick={()=>this.onChangeAction(1)}  
         style={{marginRight:'.2rem'}}  
         size='small' inline>退款</Button>]
-    if (type == 2) {
+    if (type == 2 && orderItem.orderState == 40) {
       showActions.push(<Button
         key={2}
         {...(selectedAction == 2 ? { type: 'ghost' } : {}) }
@@ -139,10 +175,10 @@ class ApplyAfterSale extends Component {
         style={{ marginRight: '.2rem' }}  
         size='small' inline>换货</Button>)
     }
-    console.log(goodsItem);
-
+    // 退款
     const returnMoney = type == 1 ?
-      orderItem.returnMoney : goodsItem.goodsPayPrice * goodsNum
+      orderItem.returnMoney :
+      parseFloat(goodsItem.goodsPayPrice * goodsItem.goodsNum).toFixed(2)
 
     return (
       <div className="wx-applyafterSale">
@@ -152,31 +188,15 @@ class ApplyAfterSale extends Component {
         }}></WhiteSpace>
         {
           type == 1 && orderItem && orderItem.orderGoodsList.map((goods,index) => {
-            return <Flex key={index} style={{ backgroundColor: 'white' }}>
-              <Img src={goods.goodsImage} style={{width:'2rem',height:'2rem'}} />
-              <Flex.Item>
-                <p>{goods.goodsName}</p>
-                <p style={{color:'red'}}>{`￥${goods.goodsPrice}`}</p>
-              </Flex.Item>
-            </Flex>
+            return <GoodsItem key={index} goods={goods}></GoodsItem>
           })
         }
 
         {
-          type == 2 &&
-            <Flex style={{ backgroundColor: 'white' }}>
-              <Img src={goodsItem.goodsImage} style={{width:'2rem',height:'2rem'}} />
-              <Flex.Item>
-                <p>{goodsItem.goodsName}</p>
-                <p style={{color:'red'}}>{`￥${goodsItem.goodsPrice}`}</p>
-              </Flex.Item>
-            </Flex>
+          type == 2 && <GoodsItem goods={goodsItem}></GoodsItem>
         }
         
-        <WhiteSpace style={{
-          backgroundColor: '#ebebef',
-          height: '0.2rem'
-        }}></WhiteSpace>
+        <SeparationLine></SeparationLine>
 
         <WingBlank>
           <Flex style={{ height: '1rem' }}>
@@ -184,53 +204,45 @@ class ApplyAfterSale extends Component {
           </Flex>    
         </WingBlank>     
         
-        <WhiteSpace style={{
-          backgroundColor: '#ebebef',
-          height: '0.2rem'
-        }}></WhiteSpace>
+        <SeparationLine></SeparationLine>
         
-        <WingBlank>
-          <div style={{height:'1.5rem'}}>
-            <p>退货金额</p> 
-            <p>{`￥${returnMoney}`}</p>
-          </div>
-        </WingBlank>
-
         {
-          type==2 && <WingBlank>
+          selectedAction ==1 &&  <WingBlank>
+              <div style={{height:'1.5rem'}}>
+                <p>退货金额</p> 
+                <p>{`￥${returnMoney}`}</p>
+              </div>
+            </WingBlank>
+        }
+        {
+          type==2 && selectedAction !=1 && <WingBlank>
             <div style={{height:'1.5rem'}}>
               <p>申请数量</p> 
               <Stepper
-                {...getFieldProps('goodsNum')}  
                 showNumber
-                max={10} min={1}
+                onChange={this.onChangeNum}
+                value={this.state.goodsNum}
+                max={goodsItem.goodsNum} min={1}
                 useTouch={false}
               />
             </div>
           </WingBlank>
         }
-        <WhiteSpace style={{
-          backgroundColor: '#ebebef',
-          height: '0.2rem'
-        }}></WhiteSpace>
+        <SeparationLine></SeparationLine>
         
         <WingBlank>
           <WhiteSpace></WhiteSpace>
           <div>问题描述</div> 
            <WhiteSpace></WhiteSpace>
-          <TextareaItem
-            {...getFieldProps('buyerMessage')}
+           <TextareaItem
+            onChange={this.onChangeBuyMessage}
             rows={3}
             placeholder="请填写您对商品的评价"
           />
           <WhiteSpace></WhiteSpace>
         </WingBlank>
 
-        <WhiteSpace style={{
-          backgroundColor: '#ebebef',
-          height: '0.2rem'
-        }}></WhiteSpace>
-        
+        <SeparationLine></SeparationLine>
         <WingBlank>
           <div>
             <p>上传照片</p>
@@ -243,11 +255,11 @@ class ApplyAfterSale extends Component {
         </WingBlank>
         
         <WingBlank>
-          <Button type='primary' onClick={this.submit}>退款提交</Button>
+          <Button type='primary' onClick={this.submit}>提交申请</Button>
         </WingBlank> 
       </div>
     )
   }
 }
 
-export default withRouter(createForm()(ApplyAfterSale));
+export default withRouter(ApplyAfterSale);
