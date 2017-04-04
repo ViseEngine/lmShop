@@ -22,6 +22,16 @@ import './my.less';
 
 const Item = List.Item;
 
+const OrderBadge = ({ num }) => {
+  return <div style={{
+      position: 'absolute',
+      top: '0.2rem',
+      right: '0.2rem'
+    }}>
+    <Badge text={num} />
+  </div>
+}
+
 class My extends Component {
   constructor(props) {
     super(props);
@@ -62,7 +72,6 @@ class My extends Component {
   }
 
   renderItem = (item, index) => {
-    // console.log(this.props.);
     const { memberDetail } = this.state;
     return <div style={{
         textAlign: 'center',
@@ -74,23 +83,15 @@ class My extends Component {
       <div>{item.text}</div>
       {
         index == 0 && memberDetail.noPayOrder &&
-        <div style={{
-          position: 'absolute',
-          top: '0.2rem',
-          right:'0.2rem'
-          }}>
-          <Badge text={memberDetail.noPayOrder} />
-        </div>
+          <OrderBadge num={memberDetail.noPayOrder}></OrderBadge>
       }
       {
-        index == 0 && memberDetail.noPayOrder &&
-        <div style={{
-          position: 'absolute',
-          top: '0.2rem',
-          right:'0.2rem'
-          }}>
-          <Badge text={memberDetail.noPayOrder} />
-        </div>
+        index == 1 && memberDetail.noReceiveOrder &&
+          <OrderBadge num={memberDetail.noReceiveOrder}></OrderBadge>
+      }
+      {
+        index == 2 && memberDetail.finishOrder &&
+          <OrderBadge num={memberDetail.finishOrder}></OrderBadge>
       }
     </div>
   }
