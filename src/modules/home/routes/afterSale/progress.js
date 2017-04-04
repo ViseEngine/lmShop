@@ -6,7 +6,8 @@ import {
   Toast,
   Flex,
   ListView,
-  Button
+  Button,
+  SegmentedControl
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import * as orderApi from '../../api/order';
@@ -29,8 +30,10 @@ class Progress extends Component {
       pageNo: 1,
       pageSize: 10
     }).then(result => {
-      if (result.result == 1) {
-        console.log(result);
+      if (result.result == 1 && result.data) {
+        this.setState({
+          dataSource: this.ds.cloneWithRows(result.data)
+        })
       }
     })
   }
@@ -47,16 +50,25 @@ class Progress extends Component {
 
   render() {
     const { dataSource } = this.state
+    let type = this.props.params.type
+    type = (type && parseInt(type)) || 0
+
     return (
       <div className="wx-progress">
+        <SegmentedControl
+          style={{ height: '0.8rem'}}  
+          tintColor={'#ff0000'}
+          onChange={(e) => this.onChange(e.nativeEvent.selectedSegmentIndex)}
+          selectedIndex={type}
+          values={['退款退货列表', '换货列表']} />
         <ListView
           style={{
-            height: document.documentElement.clientHeight - 200,
+            height: document.documentElement.clientHeight,
             overflowY: 'auto',
           }}
           dataSource={dataSource}
           renderRow={(dataItem) => (
-            <ProgressItem></ProgressItem>
+            <ProgressItem dataItem={dataItem}></ProgressItem>
           )}></ListView>
       </div>
     )

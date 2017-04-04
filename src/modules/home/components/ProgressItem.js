@@ -26,29 +26,35 @@ class ProgressItem extends Component {
   }
 
   render() {
+    const { dataItem } = this.props;
     return <div className='progressItem'>
-      <SegmentedControl
-          className='orderlist-header'  
-          tintColor={'#ff0000'}
-          onChange={(e) => this.onChange(e.nativeEvent.selectedSegmentIndex)}
-          selectedIndex={selectedIndex}
-          values={['退款退货列表', '换货列表']} />
-      <List>
-        <Item>
-          <Flex>
-            <div>1111</div>
-            <Button type='ghost' inline>进度查询</Button>
-          </Flex>
-        </Item>
-        <Item>
-          <p>12212121</p>
-          <p>12212121</p>
-          <p>12212121</p>
-          <Flex justify='end'>
-            <Button inline>退款详情</Button>
-          </Flex>
-        </Item>
-      </List>
+      <WhiteSpace></WhiteSpace>
+      <WingBlank>
+        <Flex justify='between'>
+          <div>{dataItem.refundSn}</div>
+          <div>
+            <Button type='ghost'
+            size='small' inline>进度查询</Button>
+          </div>
+        </Flex>
+        <div>
+          <p>{dataItem.goodsName}</p>
+          <p style={{color:'red'}}>状态: {dataItem.refundState==1?'进行中':''}</p>
+          <p style={{color:'#bbb'}}>申请时间: {dataItem.createTimeStr}</p>
+          <Flex.Item>
+            <Flex justify='end'>
+              <Button size='small'
+                onClick={this.gotoProgressDetail}
+                inline>退款详情</Button>
+            </Flex>
+          </Flex.Item>
+        </div>
+      </WingBlank>
+      <WhiteSpace></WhiteSpace>
+      <WhiteSpace style={{
+        height: '0.2rem',
+        backgroundColor:'#ebebef'
+      }}></WhiteSpace>
     </div>
   }
 }
