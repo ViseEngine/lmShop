@@ -18,7 +18,8 @@ const Item = List.Item;
 class ProgressItem extends Component {
 
   gotoProgressDetail = (orderItem) => {
-
+    // console.log(orderItem);
+    this.props.router.push('/progressDetail/' + orderItem.refundId)
   }
 
   onChange = (index) => {
@@ -34,7 +35,8 @@ class ProgressItem extends Component {
           <div>{dataItem.refundSn}</div>
           <div>
             <Button type='ghost'
-            size='small' inline>进度查询</Button>
+              onClick={()=>this.gotoProgressDetail(dataItem)}
+              size='small' inline>进度查询</Button>
           </div>
         </Flex>
         <div>
@@ -44,7 +46,7 @@ class ProgressItem extends Component {
           <Flex.Item>
             <Flex justify='end'>
               <Button size='small'
-                onClick={this.gotoProgressDetail}
+                onClick={()=>this.gotoProgressDetail(dataItem)}
                 inline>退款详情</Button>
             </Flex>
           </Flex.Item>

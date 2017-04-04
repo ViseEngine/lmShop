@@ -55,21 +55,21 @@ class Progress extends Component {
 
     return (
       <div className="wx-progress">
-        <SegmentedControl
-          style={{ height: '0.8rem'}}  
-          tintColor={'#ff0000'}
-          onChange={(e) => this.onChange(e.nativeEvent.selectedSegmentIndex)}
-          selectedIndex={type}
-          values={['退款退货列表', '换货列表']} />
-        <ListView
-          style={{
-            height: document.documentElement.clientHeight,
-            overflowY: 'auto',
-          }}
-          dataSource={dataSource}
-          renderRow={(dataItem) => (
-            <ProgressItem dataItem={dataItem}></ProgressItem>
-          )}></ListView>
+          <SegmentedControl
+            style={{ height: '0.8rem',width:'100%'}}  
+            tintColor={'#ff0000'}
+            onChange={(e) => this.onChange(e.nativeEvent.selectedSegmentIndex)}
+            selectedIndex={type}
+            values={['退款退货列表', '换货列表']} />
+            <ListView
+              style={{
+                height: '100%',
+                overflowY: 'auto',
+              }}
+              dataSource={dataSource}
+              renderRow={(dataItem) => (
+                <ProgressItem dataItem={dataItem}></ProgressItem>
+              )}></ListView>
       </div>
     )
   }
