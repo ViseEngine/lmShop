@@ -115,22 +115,12 @@ class My extends Component {
       text: `待付款`,
     }, {
       icon: `${url}/res_v4.0/h5/images/car.png`,
-      text: `已发货`,
+      text: `待收货`,
     }, {
       icon: `${url}/res_v4.0/h5/images/tlist.png`,
       text: `待评价`,
     }, {
       icon: `${url}/res_v4.0/h5/images/fool.png`,
-      text: `售后`,
-    }];
-
-    const moneyMenu = [{
-      text: `待付款`,
-    }, {
-      text: `已发货`,
-    }, {
-      text: `待评价`,
-    }, {
       text: `售后`,
     }];
 
