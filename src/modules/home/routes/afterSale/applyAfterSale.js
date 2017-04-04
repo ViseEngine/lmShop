@@ -11,9 +11,9 @@ import {
   Stepper
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
-import CommentImg from '../components/CommentImg';
 import { common } from 'common';
-import * as orderApi from '../api/order';
+import CommentImg from '../../components/CommentImg';
+import * as orderApi from '../../api/order';
 
 import './applyAfterSale.less';
 

@@ -21,8 +21,8 @@ import my from './my';
 import orderList from './orderList';
 import orderDetail from './orderDetail';
 
-import afterSale from './afterSale';
-import applyAfterSale from './applyAfterSale';
+import afterSale from './afterSale/afterSale';
+import applyAfterSale from './afterSale/applyAfterSale';
 import commentList from './commentList';
 import comment from './comment';
 

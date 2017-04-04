@@ -9,8 +9,8 @@ import {
   Button
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
-import AfterSaleOrderItem from '../components/AfterSaleOrderItem';
-import * as orderApi from '../api/order';
+import AfterSaleOrderItem from '../../components/AfterSaleOrderItem';
+import * as orderApi from '../../api/order';
 import './afterSale.less';
 
 class AfterSale extends Component {
