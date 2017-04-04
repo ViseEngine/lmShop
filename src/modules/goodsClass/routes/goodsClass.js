@@ -44,6 +44,11 @@ class GoodsClass extends Component {
     });
   }
 
+  onGoodsClassClick = (item) => {
+    let url = `home.html#/search/gcIdSearch/${item.gcId}`
+    window.location.href = url;
+  }
+
   render() {
     return (
       <div className='wx-goods-class'>
@@ -51,7 +56,9 @@ class GoodsClass extends Component {
           <GoodsClassMenu data={this.state.classList} onMenuChange={this.onMenuChange}></GoodsClassMenu>
         </div>
         <div className='wx-goods-class-list'>
-          <GoodsList data={this.state.goodsList}></GoodsList>
+          <GoodsList
+            onGoodsClassClick={this.onGoodsClassClick}
+            data={this.state.goodsList}></GoodsList>
         </div>
       </div>
     )

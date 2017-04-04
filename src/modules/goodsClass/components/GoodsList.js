@@ -5,8 +5,8 @@ import { common } from 'common';
 
 class GoodsList extends Component {
 
-  onMenuChange = (item) => {
-    alert(item);
+  onClick = (item) => {
+    this.props.onGoodsClassClick(item);
   }
 
   render() {
@@ -28,11 +28,14 @@ class GoodsList extends Component {
           const gridData = customList.classCustomList.map((item) => {
             return {
               icon: `${common.IMAGE_DOMAIN}${item.gcPic}`,
-              text:item.gcName
+              text: item.gcName,
+              ...item
             }
           });
           return <List key={customList.gcId} renderHeader={() => customList.gcName}>
-            <Grid data={gridData} columnNum={3} hasLine={false} />
+            <Grid data={gridData}
+              onClick={this.onClick}
+              columnNum={3} hasLine={false} />
           </List> 
         })
       }

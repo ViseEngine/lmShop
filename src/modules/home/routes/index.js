@@ -47,7 +47,7 @@ const routesConfig = (<Route path="/" component={App}>
   </Route>
   
   <Route path='/gotoSearch' component={gotoSearch} showTitle={false}/>
-  <Route path='/search/(:keyword)' component={goodsSearch} title='商品搜索' />
+  <Route path='/search/:searchType/:keyword' component={goodsSearch} title='商品搜索' />
   
   <Route path='/attention(/:type)' component={attention} title='我的关注' />
   <Route path='/viewRecord(/:type)' component={viewRecord} title='浏览记录' />

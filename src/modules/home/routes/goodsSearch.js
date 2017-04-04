@@ -55,7 +55,8 @@ class GoodsSearch extends Component {
       keyword: this.props.params.keyword,
       pageSize: 20,
       pageNo: 1,
-      searchType: 'keywordSearch',
+      // 'keywordSearch'
+      searchType: this.props.params.searchType,
       maximumPrice: this.state.maximumPrice,
       minimumPrice: this.state.minimumPrice,
       specFilter: specValueIds.join(',')

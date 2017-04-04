@@ -22,7 +22,7 @@ class GoodsGotoSearch extends Component {
           <Icon type='left' onClick={()=>this.props.router.goBack()}/>
           <Flex.Item>
             <SearchBar placeholder="商品名称" onSubmit={value => {
-              this.props.router.push(`/search/${value}`)
+              this.props.router.push(`/search/keywordSearch/${value}`)
             }}
             />
           </Flex.Item>  
