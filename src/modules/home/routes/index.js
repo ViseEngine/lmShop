@@ -60,8 +60,8 @@ const routesConfig = (<Route path="/" component={App}>
 
   <Route path='/afterSale' component={afterSale} title='售后列表' />
   <Route path='/applyAfterSale' component={applyAfterSale} title='申请售后' />
-  <Route path='/progress' component={progress} title='进度查询' />
-  <Route path='/progressDetail/:refundId' component={progressDetail} title='进度详情' />
+  <Route path='/progress(/:type)' component={progress} title='进度查询' />
+  <Route path='/progressDetail/:type/:refundId' component={progressDetail} title='进度详情' />
   <Route path='/returnDetail/:refundId' component={returnDetail} title='退款详情' />
 
   <Route path='/commentList' component={commentList} title='评价晒单' />

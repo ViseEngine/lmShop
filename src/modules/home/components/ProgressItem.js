@@ -18,24 +18,31 @@ const Item = List.Item;
 class ProgressItem extends Component {
 
   gotoProgressDetail = (orderItem) => {
-    this.props.router.push('/progressDetail/' + orderItem.refundId)
+    if (this.props.type == 0) {
+      this.props.router.push(`/progressDetail/${this.props.type}/${orderItem.refundId}`)
+    } else {
+      this.props.router.push(`/progressDetail/${this.props.type}/${orderItem.barterId}`)
+    }
   }
 
   gotoReturnDetail = (orderItem) => {
     this.props.router.push('/returnDetail/' + orderItem.refundId)
   }
 
-  onChange = (index) => {
-
-  }
-
   render() {
-    const { dataItem } = this.props;
+    const { dataItem, type } = this.props;
+
+    let statusShow = '';
+    if (type == 0) {
+      statusShow = dataItem.refundState == 1 ? '进行中' : ''
+    } else {
+      statusShow = '进行中'
+    }
     return <div className='progressItem'>
       <WhiteSpace></WhiteSpace>
       <WingBlank>
         <Flex justify='between'>
-          <div>{dataItem.refundSn}</div>
+          <div>{type==0?dataItem.refundSn:dataItem.barterSn}</div>
           <div>
             <Button type='ghost'
               onClick={()=>this.gotoProgressDetail(dataItem)}
@@ -44,15 +51,17 @@ class ProgressItem extends Component {
         </Flex>
         <div>
           <p>{dataItem.goodsName}</p>
-          <p style={{color:'red'}}>状态: {dataItem.refundState==1?'进行中':''}</p>
+          <p style={{color:'red'}}>状态: {statusShow}</p>
           <p style={{color:'#bbb'}}>申请时间: {dataItem.createTimeStr}</p>
-          <Flex.Item>
-            <Flex justify='end'>
-              <Button size='small'
-                onClick={()=>this.gotoReturnDetail(dataItem)}
-                inline>退款详情</Button>
-            </Flex>
-          </Flex.Item>
+          {
+            type ==0 && <Flex.Item>
+              <Flex justify='end'>
+                <Button size='small'
+                  onClick={()=>this.gotoReturnDetail(dataItem)}
+                  inline>退款详情</Button>
+              </Flex>
+            </Flex.Item>
+          }
         </div>
       </WingBlank>
       <WhiteSpace></WhiteSpace>

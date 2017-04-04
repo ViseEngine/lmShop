@@ -26,16 +26,29 @@ class Progress extends Component {
   }
 
   refreshList = () => {
-    orderApi.returnList({
-      pageNo: 1,
-      pageSize: 10
-    }).then(result => {
-      if (result.result == 1 && result.data) {
-        this.setState({
-          dataSource: this.ds.cloneWithRows(result.data)
-        })
-      }
-    })
+    if (this.props.params.type == 0) {
+      orderApi.returnList({
+        pageNo: 1,
+        pageSize: 10
+      }).then(result => {
+        if (result.result == 1 && result.data) {
+          this.setState({
+            dataSource: this.ds.cloneWithRows(result.data)
+          })
+        }
+      })
+    } else {
+      orderApi.barterList({
+        pageNo: 1,
+        pageSize: 15
+      }).then(result => {
+        if (result.result == 1 && result.data) {
+          this.setState({
+            dataSource: this.ds.cloneWithRows(result.data)
+          })
+        }
+      })
+    }
   }
 
   componentDidMount() {
@@ -43,9 +56,13 @@ class Progress extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.params.selectedIndex !== this.props.params.selectedIndex) {
+    if (prevProps.params.type !== this.props.params.type) {
       this.refreshList();
     }
+  }
+
+  onChange = (index) => {
+    this.props.router.replace('/progress/' + index);
   }
 
   render() {
@@ -68,7 +85,9 @@ class Progress extends Component {
               }}
               dataSource={dataSource}
               renderRow={(dataItem) => (
-                <ProgressItem dataItem={dataItem}></ProgressItem>
+              <ProgressItem
+                type={type}
+                dataItem={dataItem}></ProgressItem>
               )}></ListView>
       </div>
     )

@@ -25,15 +25,29 @@ class ProgressDetail extends Component {
 
   componentDidMount() {
     const refundId = this.props.params.refundId;
-    orderApi.returnDetail({
-      refundId
-    }).then(result => {
-      if (result.result == 1) {
-        this.setState({
-          progressDetail: result.data[0]
-        })
-      }
-    })
+    const type = this.props.params.type;
+    if (type == 0) {
+      orderApi.returnDetail({
+        refundId
+      }).then(result => {
+        if (result.result == 1) {
+          this.setState({
+            progressDetail: result.data[0]
+          })
+        }
+      })
+    } else {
+      orderApi.barterDetail({
+        barterId: refundId
+      }).then(result => {
+        if (result.result == 1) {
+          this.setState({
+            progressDetail: result.data[0]
+          })
+        }
+      })
+    }
+
   }
 
   render() {
@@ -41,6 +55,9 @@ class ProgressDetail extends Component {
     if (!progressDetail) {
       return null;
     }
+    const type = this.props.params.type;
+
+    const list = type == 0 ? progressDetail.returnLogList : progressDetail.shopBarterLogList;
     return (
       <div className="wx-progress-detail">
         <List>
@@ -56,8 +73,8 @@ class ProgressDetail extends Component {
           <Item>
             <Steps current={1}>
               {
-                progressDetail.returnLogList.map(log => {
-                  return <Step title={log.createTimeStr}
+                list.map((log,index) => {
+                  return <Step key={index} title={log.createTimeStr}
                     description={log.stateInfo}
                      />
                 })
