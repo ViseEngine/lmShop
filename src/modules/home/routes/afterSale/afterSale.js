@@ -125,6 +125,9 @@ class AfterSale extends Component {
               dataItem={dataItem}></AfterSaleOrderItem>
           )}></ListView>
         <Button className='progressquery'
+          onClick={() => {
+            this.props.router.push('/progress')
+          }}  
           type='primary'>进度查询</Button>
       </div>
     )

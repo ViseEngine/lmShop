@@ -55,18 +55,6 @@ class Coupon extends Component {
     }
   }
 
-  /**
-   * 点击领券
-   */
-  onSel = (sel) => {
-    storeApi.receiveCoupon({
-      couponId: sel.id,
-      storeId: sel.shopActivity.storeId
-    }).then(result => {
-      Toast.info(result.msg);
-    })
-  };
-
   onChange = (index) => {
     this.props.router.replace('/coupon/' + index);
   }
@@ -91,7 +79,7 @@ class Coupon extends Component {
               const { shopActivity } = shopActivityPromotionRule
               const showMemberLimit = shopActivity.shopActivityMembership.memberGradle ? 
                 shopActivity.shopActivityMembership.memberGradle.gradleName : '全部会员'
-              return <Item key={index}  onClick={() => { this.onSel(item) }}>
+              return <Item key={index}>
                 <Flex>
                   <Flex.Item>
                     <p style={{color:'#108ee9'}}>{shopActivity.storeName}</p>
