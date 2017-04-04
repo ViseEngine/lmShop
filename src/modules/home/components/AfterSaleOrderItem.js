@@ -15,32 +15,21 @@ import {
 class AfterSaleOrderItem extends Component {
 
   cancelOrder = (orderItem) => {
-    console.log(orderItem);
-    // Modal.alert('提示', '是否取消订单', [
-    //   { text: '取消' },
-    //   {
-    //     text: '确定',
-    //     onPress: () => {
-    //       orderApi.cancleorder({
-    //         ordersn: orderItem.orderSn
-    //       }).then(result => {
-    //         if (result.result == 1) {
-    //           // 取消成功
-    //           if (this.props.cancelOrder) {
-    //             this.props.cancelOrder();
-    //           }
-    //         }
-    //       })
-    //     }
-    //   },
-    // ]);
-  }
-
-  gotoApply = (orderItem) => {
     this.props.router.push({
       pathname: '/applyAfterSale',
       state: {
-        orderItem
+        orderItem,
+        type: 1 // type 1代表取消订单
+      }
+    })
+  }
+
+  gotoApply = (goods) => {
+    this.props.router.push({
+      pathname: '/applyAfterSale',
+      state: {
+        goodsItem: goods,
+        type: 2 // type 2代表申请售后
       }
     })
   }
@@ -78,13 +67,22 @@ class AfterSaleOrderItem extends Component {
         </Flex>
         {
           dataItem.orderGoodsList.map(goods => {
-            return <Flex key={goods.specId} onClick={()=>this.gotoOrderDetail(goods)}>
-              <Img src={goods.goodsImage} style={{ width: '1.5rem' }} />
-              <div>
-                <p>{goods.goodsName}</p>
-                <p dangerouslySetInnerHTML={{ __html: goods.specInfo }}></p>
-              </div>
-            </Flex>
+            return <div key={goods.specId} >
+              <Flex onClick={() => this.gotoOrderDetail(goods)}>
+                <Img src={goods.goodsImage} style={{ width: '1.5rem' }} />
+                <div>
+                  <p>{goods.goodsName}</p>
+                  <p dangerouslySetInnerHTML={{ __html: goods.specInfo }}></p>
+                </div>
+              </Flex>
+              <Flex justify='end'>
+              {
+                showApplyBtn && <Button
+                  onClick={(e) => this.gotoApply(goods)}
+                  type='ghost' size='small' inline>申请售后</Button>
+                }
+              </Flex>  
+            </div>  
           })
         }
         <WhiteSpace></WhiteSpace>
@@ -95,11 +93,6 @@ class AfterSaleOrderItem extends Component {
               showCancelBtn && <Button
                 onClick={(e) => this.cancelOrder(dataItem)}
                 type='ghost' size='small' inline>取消订单</Button>
-            }
-            {
-              showApplyBtn && <Button
-                onClick={(e) => this.gotoApply(dataItem)}
-                style={{ marginLeft: '0.1rem' }} type='ghost' size='small' inline>申请售后</Button>
             }
           </div>
         </Flex>

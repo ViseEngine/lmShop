@@ -123,7 +123,9 @@ class AfterSale extends Component {
                 pageNo:1
               })}
               dataItem={dataItem}></AfterSaleOrderItem>
-            )}></ListView>
+          )}></ListView>
+        <Button className='progressquery'
+          type='primary'>进度查询</Button>
       </div>
     )
   }
