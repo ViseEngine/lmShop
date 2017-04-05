@@ -76,7 +76,7 @@ class AddressAdd extends Component {
       areaInfo: currentAreaName
     }).then(result => {
       if (result.result == 1) {
-        this.props.router.push('/address')
+        this.props.router.replace('/address')
       } else {
         Toast.info(result.msg);
       }
