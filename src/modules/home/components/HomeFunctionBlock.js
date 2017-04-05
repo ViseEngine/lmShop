@@ -32,10 +32,10 @@ class HomeFunctionBlock extends React.PureComponent {
         this.props.router.push('/coupon');
         break;
       case 8:
-        //   
+        window.location.href = 'circle.html'
         break;
       case 9:
-        //   
+        window.location.href = 'content.html'
         break;
     }
   }

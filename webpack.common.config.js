@@ -15,7 +15,7 @@ const BUILD_PATH = path.resolve(ROOT_PATH, 'dist');
 const HtmlWebpack = [];
 const modules = ['home', 'goodsClass',
   'cart', 'goodsDetail', 'login', 'order',
-  'groupBuy', 'timeBuy'
+  'groupBuy', 'timeBuy', 'content', 'circle'
 ]
 let entrys = {};
 modules.forEach(module => {
