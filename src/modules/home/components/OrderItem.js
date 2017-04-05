@@ -75,6 +75,11 @@ class OrderItem extends Component {
     this.props.router.push('/orderDetail/' + goods.orderId)
   }
 
+  gotoDelivery = (dataItem) => {
+    const orderSn = dataItem.orderSn;
+    window.location.href = `http://m.kuaidi100.com/autonumber/auto?num=${orderSn}`
+  }
+
   render() {
     const { dataItem } = this.props;
     let orderStatus = '';
@@ -157,7 +162,7 @@ class OrderItem extends Component {
             }
             {
               showViewDeleveryBtn && <Button
-                onClick={(e) => this.gotoComment(dataItem)}
+                onClick={(e) => this.gotoDelivery(dataItem)}
                 style={{ marginLeft: '0.1rem' }} type='ghost' size='small' inline>查看物流</Button>
             }
             {
