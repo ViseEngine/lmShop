@@ -59,6 +59,13 @@ export function memberAvailable() {
   return fetch.get('/memberapi/memberAvailable');
 }
 
+// 修改会员信息
+export function updateMemberInfo({
+  nichen
+}) {
+  return fetch.get('/memberapi/updateMemberInfo', { nichen });
+}
+
 // 充值订单
 export function recharge({
   amount

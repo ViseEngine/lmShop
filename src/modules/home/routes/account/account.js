@@ -97,7 +97,16 @@ class Account extends Component {
     return <div className="wx-account">
       <List>
         <Item arrow="horizontal" extra={userIcon} onClick={this.changeIcon}>头像</Item>
-        <Item arrow="horizontal" extra={memberDetail.memberTruename}>昵称</Item>
+        <Item arrow="horizontal"
+          onClick={() => {
+            this.props.router.push({
+              pathname: '/updateNickName',
+              state: {
+                nickname:memberDetail.memberTruename
+              }
+            })
+          }}
+          extra={memberDetail.memberTruename}>昵称</Item>
         <Item extra={memberDetail.memberName}>用户名</Item>
         <Item arrow="horizontal" extra={memberDetail.memberSex==1?'男':'女'}>性别</Item>
         <Item arrow="horizontal" extra={memberBirthdaystr}>出生日期</Item>
