@@ -1,12 +1,11 @@
 import { fetch, common } from 'common';
 
-// export function queryClasslist() {
-//   return fetch.get('goods/api/classlist');
-// }
+// 资讯首页
+export function index() {
+  return fetch.get('/contentExhibitionApi/index');
+}
 
-// export function getGoodsClass({ advid, pId }) {
-//   return fetch.get('/goods/api/getGoodsClass', {
-//     advid,
-//     pId
-//   });
-// }
+// 文字列表
+export function articleList({ acId }) {
+  return fetch.get('/contentExhibitionApi/articleList', { acId });
+}
