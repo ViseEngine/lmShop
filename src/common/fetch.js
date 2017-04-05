@@ -92,6 +92,8 @@ export function upload(requestUrl, data) {
     data.images.forEach(function(element) {
       formData.append('images', element);
     });
+  } else {
+    formData.append('images', data.images)
   }
   let url = getFullUrl(requestUrl);
   return fetch(url, {

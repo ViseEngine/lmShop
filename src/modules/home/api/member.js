@@ -63,12 +63,14 @@ export function memberAvailable() {
 export function updateMemberInfo({
   nichen,
   birthday,
-  sex
+  sex,
+  imgUrl,
 }) {
   return fetch.get('/memberapi/updateMemberInfo', {
     nichen,
     birthday,
-    sex
+    sex,
+    imgUrl,
   });
 }
 
@@ -78,5 +80,14 @@ export function recharge({
 }) {
   return fetch.get('/predepositApi/recharge', {
     amount
+  });
+}
+
+// 文件上传
+export function filesUpload({
+  images
+}) {
+  return fetch.upload('/memberapi/filesUpload', {
+    images
   });
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { ReactDOM, Component } from 'react'
 import { withRouter } from 'react-router'
 import {
   WhiteSpace,
@@ -80,6 +80,7 @@ class Account extends Component {
       birthday: dateStr
     }).then(r => {
       Toast.info(r.msg, 1)
+      this.getMember();
     })
   }
 
@@ -101,21 +102,36 @@ class Account extends Component {
   }
 
   showActionSheet = () => {
-    const BUTTONS = [<input type='file' className='wx-upload'></input>, '取消'];
+    const BUTTONS = ['上传头像', '取消'];
     ActionSheet.showActionSheetWithOptions({
         options: BUTTONS,
         cancelButtonIndex: BUTTONS.length - 1,
-        destructiveButtonIndex: BUTTONS.length - 2,
-        // title: '选择头像',
-        // message: '我是描述我是描述',
         maskClosable: true,
       },
       (buttonIndex) => {
         if (buttonIndex == 0) {
-          alert('上传头像')
+          console.log(this.refs.head);
+          this.refs.head.click();
         }
-        // this.setState({ clicked: BUTTONS[buttonIndex] });
       });
+  }
+
+  changeFile = (e) => {
+
+    const files = this.refs.head.files[0];
+    memberApi.filesUpload({
+      images: files
+    }).then(result => {
+      if (result.result == 1) {
+        const imgUrl = result.data;
+        memberApi.updateMemberInfo({
+          imgUrl
+        }).then(r => {
+          Toast.info(r.msg, 1)
+          this.getMember();
+        })
+      }
+    });
   }
 
   render() {
@@ -168,7 +184,8 @@ class Account extends Component {
       <WingBlank>
         <Button type='primary' onClick={this.logout}>退出登录</Button>
       </WingBlank>
-      <input type="file" ref="head" name="image" style={{ display: 'none' }} accept="image/*" onChange={(e) => this.changeFile(e)} />
+      <input type="file" ref="head" name="image" style={{ display: 'none' }}
+        accept="image/*" onChange={(e) => this.changeFile(e)} />
     </div>
   }
 }
