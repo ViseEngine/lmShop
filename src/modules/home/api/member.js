@@ -61,9 +61,15 @@ export function memberAvailable() {
 
 // 修改会员信息
 export function updateMemberInfo({
-  nichen
+  nichen,
+  birthday,
+  sex
 }) {
-  return fetch.get('/memberapi/updateMemberInfo', { nichen });
+  return fetch.get('/memberapi/updateMemberInfo', {
+    nichen,
+    birthday,
+    sex
+  });
 }
 
 // 充值订单

@@ -8,16 +8,23 @@ import {
   List,
   Button,
   ActionSheet,
-  Modal
+  Modal,
+  DatePicker
 } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import { Img } from 'commonComponent';
 import { common } from 'common';
+import moment from 'moment';
 import * as memberApi from '../../api/member';
 
 import './account.less';
 
 const Item = List.Item;
+const sexs = {
+  '1': '男',
+  '2': '女',
+  '3': '默认',
+}
 
 class Account extends Component {
   constructor(props) {
@@ -27,7 +34,7 @@ class Account extends Component {
     }
   }
 
-  componentDidMount() {
+  getMember = () => {
     memberApi.memberDetail().then(result => {
       let data = result.data;
       if (data) {
@@ -36,6 +43,10 @@ class Account extends Component {
         });
       }
     })
+  }
+
+  componentDidMount() {
+    this.getMember();
   }
 
   gotoLogin = () => {
@@ -61,6 +72,32 @@ class Account extends Component {
 
   changeIcon = () => {
     this.showActionSheet();
+  }
+
+  onChangeBirthday = (date) => {
+    const dateStr = date.format('YYYY-MM-DD');
+    memberApi.updateMemberInfo({
+      birthday: dateStr
+    }).then(r => {
+      Toast.info(r.msg, 1)
+    })
+  }
+
+  showSexSheet = () => {
+    const BUTTONS = ['男', '女', '默认', '取消'];
+    ActionSheet.showActionSheetWithOptions({
+        options: BUTTONS,
+        cancelButtonIndex: BUTTONS.length - 1,
+        maskClosable: true,
+      },
+      (buttonIndex) => {
+        memberApi.updateMemberInfo({
+          sex: buttonIndex + 1
+        }).then(result => {
+          Toast.info(result.msg, 1)
+          this.getMember();
+        })
+      });
   }
 
   showActionSheet = () => {
@@ -92,8 +129,10 @@ class Account extends Component {
         }}
         style={{ width: '1rem', height: '1rem' }} src={memberDetail.memberAvatar}></Img>
 
-    const memberBirthdaystr = memberDetail.memberBirthdaystr && memberDetail.memberBirthdaystr.substr(0, 10);
+    const memberBirthday = memberDetail.memberBirthdaystr && moment(memberDetail.memberBirthdaystr).utcOffset(8);
+    const { getFieldProps } = this.props.form;
 
+    const maxDate = moment().utcOffset(8);
     return <div className="wx-account">
       <List>
         <Item arrow="horizontal" extra={userIcon} onClick={this.changeIcon}>头像</Item>
@@ -108,9 +147,17 @@ class Account extends Component {
           }}
           extra={memberDetail.memberTruename}>昵称</Item>
         <Item extra={memberDetail.memberName}>用户名</Item>
-        <Item arrow="horizontal" extra={memberDetail.memberSex==1?'男':'女'}>性别</Item>
-        <Item arrow="horizontal" extra={memberBirthdaystr}>出生日期</Item>
-        
+        <Item arrow="horizontal" onClick={this.showSexSheet} extra={sexs[memberDetail.memberSex]}>性别</Item>
+        <DatePicker
+          mode="date"
+          title="选择日期"
+          {...getFieldProps('memberBirthday', {
+            initialValue: memberBirthday
+          }) }
+          onChange={(date)=>this.onChangeBirthday(date)}
+          maxDate={maxDate}>
+          <Item arrow="horizontal">出生日期</Item>
+        </DatePicker>
         <Item arrow="horizontal" onClick={() => {
           this.gotoAddress()
         }}>地址管理</Item>
@@ -126,4 +173,4 @@ class Account extends Component {
   }
 }
 
-export default withRouter(Account);
+export default withRouter(createForm()(Account));
