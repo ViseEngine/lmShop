@@ -91,3 +91,14 @@ export function filesUpload({
     images
   });
 }
+
+// 修改密码
+export function updatePassword({
+  newpassword,
+  password
+}) {
+  return fetch.post('/memberapi/updatePassword', {
+    newpassword,
+    password
+  });
+}

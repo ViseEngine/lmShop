@@ -29,11 +29,19 @@ class AccountSafe extends Component {
 
   componentDidMount() {}
 
+  gotoUpdatePassword = () => {
+    this.props.router.push('/updatePassword')
+  }
+
+  payPasswordSet = () => {
+    window.location.href = 'login.html#/forgetPassword'
+  }
+
   render() {
     return <div className="wx-accountSafe">
       <List>
-        <Item arrow="horizontal">修改密码</Item>
-        <Item arrow="horizontal">支付密码设置</Item>
+        <Item arrow="horizontal" onClick={this.gotoUpdatePassword}>修改密码</Item>
+        <Item arrow="horizontal" onClick={this.payPasswordSet}>支付密码设置</Item>
       </List>
     </div>
   }

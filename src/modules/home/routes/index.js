@@ -36,6 +36,7 @@ import recharge from './account/recharge';
 import balance from './account/balance';
 import lockBalance from './account/lockBalance';
 import updateNickName from './account/updateNickName';
+import updatePassword from './account/updatePassword';
 
 const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={home} showBottomBar={true} showTitle={false}/>
@@ -72,6 +73,7 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/accountSafe' component={accountSafe} title='账户安全'/>
   <Route path='/recharge' component={recharge} title='余额充值' />
   <Route path='/updateNickName' component={updateNickName} title='账户管理'/>
+  <Route path='/updatePassword' component={updatePassword} title='修改密码'/>
 
   <Route path='/balance' component={balance} title='可用余额'/>
   <Route path='/lockBalance' component={lockBalance} title='锁定余额'/>
