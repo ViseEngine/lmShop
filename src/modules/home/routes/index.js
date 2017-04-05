@@ -38,6 +38,10 @@ import lockBalance from './account/lockBalance';
 import updateNickName from './account/updateNickName';
 import updatePassword from './account/updatePassword';
 
+import address from './address/address';
+import addressAdd from './address/addressAdd';
+import addressEdit from './address/addressEdit';
+
 const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={home} showBottomBar={true} showTitle={false}/>
   <Route path='store/:storeId/'>
@@ -76,7 +80,11 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/updatePassword' component={updatePassword} title='修改密码'/>
 
   <Route path='/balance' component={balance} title='可用余额'/>
-  <Route path='/lockBalance' component={lockBalance} title='锁定余额'/>
+  <Route path='/lockBalance' component={lockBalance} title='锁定余额' />
+  
+  <Route path='/address' component={address} title='地址管理' />
+  <Route path='/addressAdd' component={addressAdd} title='添加地址' />
+  <Route path='/addressEdit' component={addressEdit} title='编辑地址'/>
   
 </Route>)
 

@@ -67,7 +67,7 @@ class Account extends Component {
   }
 
   gotoAddress = () => {
-    console.log('gotoAddress');
+    this.props.router.push('/address')
   }
 
   changeIcon = () => {
