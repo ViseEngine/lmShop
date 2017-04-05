@@ -92,10 +92,12 @@ class OrderItem extends Component {
         break;
       case 10:
         orderStatus = '待支付'
+        showCancelBtn = true;
         showPayBtn = true;
         break;
       case 20:
         orderStatus = '等待发货'
+        showCancelBtn = true;
         break;
       case 30:
         orderStatus = '待收货'
