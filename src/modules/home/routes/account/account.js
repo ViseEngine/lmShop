@@ -92,6 +92,9 @@ class Account extends Component {
         maskClosable: true,
       },
       (buttonIndex) => {
+        if (buttonIndex == 3) {
+          return;
+        }
         memberApi.updateMemberInfo({
           sex: buttonIndex + 1
         }).then(result => {
