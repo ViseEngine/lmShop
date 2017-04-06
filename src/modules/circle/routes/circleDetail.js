@@ -10,6 +10,7 @@ import {
   Flex,
   Button
 } from 'antd-mobile';
+import { common } from 'common';
 import { Img } from 'commonComponent';
 import * as circleApi from '../api/circle';
 
@@ -19,9 +20,10 @@ class CircleDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hotpostings: [],
-      hotCircle: [],
-      myCircle: []
+      memberImg: '',
+      memberName: '',
+      circle: null,
+      postingsList: []
     }
   }
 
@@ -30,7 +32,7 @@ class CircleDetail extends Component {
     circleApi.circleDetail({
       pageNo: 1,
       circleId: this.props.params.circleId,
-      pageSize: 10,
+      pageSize: 20,
     }).then(result => {
       Toast.hide();
       if (result.result != 1) {
@@ -38,10 +40,10 @@ class CircleDetail extends Component {
         return;
       }
       console.log(result);
-      // let data = result.data[0];
-      // this.setState({
-      //   ...data
-      // });
+      let data = result.data[0];
+      this.setState({
+        ...data
+      });
     });
   }
 
@@ -63,52 +65,80 @@ class CircleDetail extends Component {
     }
   }
 
+  favorites = (circle) => {
+    circleApi.circleFavorites({
+      circleId: circle.circleId
+    }).then(result => {
+      console.log(result);
+      if (result.result == 1) {
+        this.setState({
+          circle: {
+            ...this.state.circle,
+            isFavorites: this.state.circle.isFavorites == 1 ? 0 : 1
+          }
+        })
+      }
+    })
+  }
+
   render() {
-    const { hotCircle, hotpostings } = this.state;
+    const {
+      memberImg,
+      memberName,
+      circle,
+      postingsList,
+    } = this.state;
+    if (!circle) {
+      return null;
+    }
+    const bannerShow = `url(${common.IMAGE_DOMAIN}${circle.circlePhoto}) 100% 100% no-repeat fixed top `;
+    const favShow = circle.isFavorites == 1 ? '已关注' : '+关注'
     return (
       <div>
+        <div style={{height:'2rem',background:bannerShow}}>
+          <WingBlank>
+            <Flex>
+              <Img src={memberImg} style={{
+                height: '1rem',
+                width: '1rem',
+                borderRadius: '.5rem'
+              }} />
+              <Flex.Item>
+                <p>{circle.circleName}</p>
+                <div className='text-overflow-hidden'>{circle.circleDescription}</div>
+                <p>人气：{circle.concerns}</p>
+              </Flex.Item>
+              <Button
+                onClick={()=>this.favorites(circle)}
+                type='primary' size='small' inline>{favShow}</Button>
+            </Flex>
+          </WingBlank>
+        </div>
         <List>
-          <Item>热门圈子</Item>  
           {
-            hotCircle.slice(0,4).map(circle => {
-              return <Item key={circle.circleId} onClick={()=>this.gotoDetail(circle)}>
-                <Flex>
-                  <div>
-                    <Img src={circle.circlePhoto} style={{width:'1.5rem',height:'1.5rem',borderRadius: '.75rem'}}/>
-                  </div>
-                  <Flex.Item>
-                    <p>{circle.circleName}</p>
-                    <div className='text-overflow-hidden'>{circle.circleDescription}</div>
-                    <p>{circle.concerns}</p>
-                  </Flex.Item>
-                  <div>
-                    <Button inline size='small' type='primary'>
-                    {
-                      circle.isFavorites==1?'已关注':'+关注'
-                    }
-                    </Button>
-                  </div>
-                </Flex>
-              </Item>
-            })
-          }
-          <Item><div style={{ textAlign: 'center' }} onClick={()=>this.moreList(1)}>更多</div></Item>  
-        </List>
-        <List>
-          <Item>热门帖子</Item>  
-          {
-            hotpostings.slice(0,4).map(postings => {
+            postingsList.map(postings => {
               return <Item key={postings.postingsId} onClick={()=>this.gotoPostingsDetail(postings)}>
                 <Flex>
-                  <Img src={postings.memberImg} style={{width:'1.5rem',height:'1.5rem',borderRadius: '.75rem'}}/>
+                  <Img src={postings.memberImg} style={{
+                    width: '1rem',
+                    height: '1rem',
+                    borderRadius: '.5rem'
+                  }} />
                   <Flex.Item>
-                    <p>{postings.postingsName}</p>
+                    <Flex justify='between'>
+                      <p>{postings.postingsName}</p>
+                      <p>{postings.createTimeStr}</p>
+                    </Flex>
                   </Flex.Item>
                 </Flex>
+                <p dangerouslySetInnerHTML={{ __html: postings.postingsContent }}></p>
+                <div>
+                  <span>{postings.riokin}</span>
+                  <span>{postings.commentsNum}</span>
+                </div>
               </Item>
             })
           }
-          <Item><div style={{textAlign:'center'}} onClick={()=>this.moreList(2)}>更多</div></Item>  
         </List>
       </div>
     )
