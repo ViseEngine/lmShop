@@ -15,7 +15,7 @@ import * as circleApi from '../api/circle';
 
 import './circle.less';
 const Item = List.Item;
-class Circle extends Component {
+class CircleDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,22 +27,27 @@ class Circle extends Component {
 
   componentDidMount() {
     Toast.loading();
-    circleApi.myCircle().then(result => {
+    circleApi.circleDetail({
+      pageNo: 1,
+      circleId: this.props.params.circleId,
+      pageSize: 10,
+    }).then(result => {
       Toast.hide();
       if (result.result != 1) {
         Toast.error(result.msg);
         return;
       }
-
-      let data = result.data[0];
-      this.setState({
-        ...data
-      });
+      console.log(result);
+      // let data = result.data[0];
+      // this.setState({
+      //   ...data
+      // });
     });
   }
 
   gotoCircleDetail = (circle) => {
-    this.props.router.push('/circleDetail/' + circle.circleId)
+    console.log(circle);
+    alert('去详情');
   }
 
   gotoPostingsDetail = (postings) => {
@@ -66,7 +71,7 @@ class Circle extends Component {
           <Item>热门圈子</Item>  
           {
             hotCircle.slice(0,4).map(circle => {
-              return <Item key={circle.circleId} onClick={()=>this.gotoCircleDetail(circle)}>
+              return <Item key={circle.circleId} onClick={()=>this.gotoDetail(circle)}>
                 <Flex>
                   <div>
                     <Img src={circle.circlePhoto} style={{width:'1.5rem',height:'1.5rem',borderRadius: '.75rem'}}/>
@@ -110,4 +115,4 @@ class Circle extends Component {
   }
 }
 
-export default withRouter(Circle);
+export default withRouter(CircleDetail);
