@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { withRouter } from 'react-router'
 import {
   Carousel,
@@ -16,6 +16,12 @@ import * as circleApi from '../api/circle';
 import './circle.less';
 const Item = List.Item;
 class Circle extends Component {
+
+  static contextTypes = {
+    initAction: PropTypes.func,
+    clearAction: PropTypes.func,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -23,6 +29,20 @@ class Circle extends Component {
       hotCircle: [],
       myCircle: []
     }
+  }
+
+
+  componentWillMount() {
+    this.context.initAction({
+      title: '创建',
+      action: () => {
+        this.props.router.push('/circleCreate')
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.context.clearAction();
   }
 
   componentDidMount() {

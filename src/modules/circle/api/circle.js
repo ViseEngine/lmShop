@@ -167,3 +167,12 @@ export function saveComments({
 }) {
   return fetch.get('circleApi/findReplysList', { postingsId, comments });
 }
+
+// 文件上传
+export function filesUpload({
+  images
+}) {
+  return fetch.upload('/memberapi/filesUpload', {
+    images
+  });
+}
