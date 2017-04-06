@@ -6,7 +6,8 @@ import {
   WingBlank,
   Toast,
   Flex,
-  Button
+  Button,
+  InputItem
 } from 'antd-mobile';
 import { common } from 'common';
 import { Img } from 'commonComponent';
@@ -20,7 +21,8 @@ class Postings extends Component {
     super(props);
     this.state = {
       postings: null,
-      commentsList: []
+      commentsList: [],
+      postContent: ''
     }
   }
 
@@ -76,16 +78,39 @@ class Postings extends Component {
     </Flex>
   }
 
+  postContentChange = (val) => {
+    this.setState({
+      postContent: val
+    })
+  }
+
+  saveComment = () => {
+    const postContent = this.state.postContent
+    if (postContent == '') {
+      Toast.info('请输入评论内容', 1)
+      return;
+    }
+    circleApi.saveComments({
+      postingsId: this.props.params.postingsId,
+      comments: postContent
+    }).then(result => {
+      Toast.info(result.msg, 1, () => {
+        this.refresh();
+      });
+    })
+  }
+
   render() {
     const {
       postings,
-      commentsList
+      commentsList,
+      postContent
     } = this.state;
     if (!postings) {
       return null;
     }
     return (
-      <div>
+      <div className='wx-postings'>
         <List>
           <Item>
             <Flex>
@@ -110,7 +135,7 @@ class Postings extends Component {
         <List renderHeader={this.renderHeader(postings)}>
           {
             commentsList.map(comments => {
-              return <Item key={comments.postingsId} onClick={()=>this.gotoCommentsDetail(comments)}>
+              return <Item key={comments.commentId} onClick={()=>this.gotoCommentsDetail(comments)}>
                 <Flex>
                   <Img src={comments.memberAvatar} style={{
                     width: '1rem',
@@ -129,8 +154,8 @@ class Postings extends Component {
                 </Flex>
                 <WingBlank>
                 {
-                  comments.postCommentsVos.map(postComment => {
-                    return <Flex>
+                  comments.postCommentsVos.map((postComment,index) => {
+                      return <Flex key={index}>
                       <Img src={postComment.memberAvatar} style={{
                         width: '1rem',
                         height: '1rem',
@@ -151,6 +176,21 @@ class Postings extends Component {
             })
           }
         </List>
+        <div className='postings-bottom'>
+          <Flex justify='between'>
+            <Flex.Item>
+              <InputItem
+                value={postContent}
+                onChange={this.postContentChange}
+                placeholder="发表下你的评论"
+                ></InputItem>
+            </Flex.Item>  
+            <Button type='primary'
+              onClick={this.saveComment}  
+              className='postings-bottom-btn'
+              inline>发布</Button>  
+          </Flex>
+        </div>
       </div>
     )
   }

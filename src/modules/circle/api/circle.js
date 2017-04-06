@@ -165,7 +165,7 @@ export function saveComments({
   postingsId,
   comments
 }) {
-  return fetch.get('circleApi/findReplysList', { postingsId, comments });
+  return fetch.get('circleApi/saveComments', { postingsId, comments });
 }
 
 // 文件上传
