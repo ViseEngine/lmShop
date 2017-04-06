@@ -46,7 +46,7 @@ class CircleDetail extends Component {
     this.context.clearAction();
   }
 
-  componentDidMount() {
+  refresh = () => {
     Toast.loading();
     circleApi.circleDetail({
       pageNo: 1,
@@ -66,9 +66,8 @@ class CircleDetail extends Component {
     });
   }
 
-  gotoCircleDetail = (circle) => {
-    console.log(circle);
-    alert('去详情');
+  componentDidMount() {
+    this.refresh();
   }
 
   gotoPostingsDetail = (postings) => {
@@ -98,6 +97,20 @@ class CircleDetail extends Component {
         })
       }
     })
+  }
+
+  riokin = (postings) => {
+    circleApi.clickGoods({
+      postingsId: postings.postingsId
+    }).then(result => {
+      Toast.info(result.msg, 1, () => {
+        this.refresh();
+      });
+    })
+  }
+
+  postings = (postings) => {
+    this.props.router.push('/postings/' + postings.postingsId);
   }
 
   render() {
@@ -152,8 +165,9 @@ class CircleDetail extends Component {
                 </Flex>
                 <p dangerouslySetInnerHTML={{ __html: postings.postingsContent }}></p>
                 <div>
-                  <span>{postings.riokin}</span>
-                  <span>{postings.commentsNum}</span>
+                  <span onClick={()=>this.riokin(postings)}>点赞{postings.riokin}</span>
+                  <span onClick={() => this.postings(postings)}>
+                    评论{postings.commentsNum}</span>
                 </div>
               </Item>
             })
