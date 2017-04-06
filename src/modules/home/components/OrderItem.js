@@ -76,8 +76,11 @@ class OrderItem extends Component {
   }
 
   gotoDelivery = (dataItem) => {
-    const orderSn = dataItem.orderSn;
-    window.location.href = `http://m.kuaidi100.com/autonumber/auto?num=${orderSn}`
+    const shippingCode = dataItem.shippingCode;
+    const timestamp = new Date().getTime();
+    const shippingExpressCode = dataItem.shippingExpressCode;
+    const url = `http://wap.kuaidi100.com/wap_result.jsp?rand=${timestamp}&id=${shippingExpressCode}&fromWeb=null&postid=${shippingCode}`
+    window.location.href = url
   }
 
   render() {
