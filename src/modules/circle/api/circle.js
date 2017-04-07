@@ -190,3 +190,15 @@ export function circleSearch({
     keyword
   });
 }
+
+export function postingSearch({
+  searchType,
+  pageNo,
+  keyword,
+}) {
+  return fetch.get('/circleApi/postingSearch', {
+    searchType,
+    pageNo,
+    keyword,
+  });
+}

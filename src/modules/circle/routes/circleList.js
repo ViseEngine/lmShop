@@ -17,7 +17,7 @@ import * as circleApi from '../api/circle';
 
 import './circle.less';
 const Item = List.Item;
-class MyCircle extends Component {
+class CircleList extends Component {
 
   constructor(props) {
     super(props);
@@ -91,4 +91,4 @@ class MyCircle extends Component {
   }
 }
 
-export default withRouter(MyCircle);
+export default withRouter(CircleList);

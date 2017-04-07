@@ -163,7 +163,7 @@ class Postings extends Component {
                       }} />
                       <div>
                         <span>{postComment.memberTruename}:</span>
-                        <span>  {postComment.comments}</span>
+                        <p dangerouslySetInnerHTML={{ __html: postComment.comments }}></p>
                       </div>
                     </Flex>
                   })  

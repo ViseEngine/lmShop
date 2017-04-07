@@ -72,9 +72,9 @@ class Circle extends Component {
   moreList = (type) => {
     // 1圈子 2帖子
     if (type == 1) {
-      this.props.router.push('/myCircle')
+      this.props.router.push('/circleList')
     } else {
-      // this.props.router.push('/myCircle')
+      this.props.router.push('/postingsList')
     }
   }
 
