@@ -66,7 +66,7 @@ class Circle extends Component {
   }
 
   gotoPostingsDetail = (postings) => {
-    console.log(postings);
+    this.props.router.push('/postings/' + postings.postingsId)
   }
 
   moreList = (type) => {
