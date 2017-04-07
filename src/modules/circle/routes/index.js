@@ -12,6 +12,7 @@ import postingsSearch from './postingsSearch';
 import postings from './postings';
 import comments from './comments';
 import replys from './replys';
+import my from './my';
 
 const routesConfig = (<Route path="/" component={App}>
   <IndexRoute component={circle} title='圈子' />
@@ -24,6 +25,7 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/postingsSearch/:keyword' component={postingsSearch} title='搜索结果' />
   <Route path='/comments/:postingsId' component={comments} title='评论列表' />
   <Route path='/replys/:commentId' component={replys} title='回复列表' />
+  <Route path='/my' component={my} showTitle={false} />
 </Route>)
 
 function Routes({ history }) {

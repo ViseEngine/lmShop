@@ -69,6 +69,10 @@ class Circle extends Component {
     this.props.router.push('/postings/' + postings.postingsId)
   }
 
+  goMy = () => {
+    this.props.router.push('/my');
+  }
+
   moreList = (type) => {
     // 1圈子 2帖子
     if (type == 1) {
@@ -81,7 +85,7 @@ class Circle extends Component {
   render() {
     const { hotCircle, hotpostings } = this.state;
     return (
-      <div>
+      <div className='wx-circle'>
         <List>
           <Item>热门圈子</Item>  
           {
@@ -125,6 +129,9 @@ class Circle extends Component {
           }
           <Item><div style={{textAlign:'center'}} onClick={()=>this.moreList(2)}>更多</div></Item>  
         </List>
+        <div className='circle-bottom' onClick={this.goMy}>
+          进入我的
+        </div>
       </div>
     )
   }
