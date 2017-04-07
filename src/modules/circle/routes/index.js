@@ -25,7 +25,7 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/postingsSearch/:keyword' component={postingsSearch} title='搜索结果' />
   <Route path='/comments/:postingsId' component={comments} title='评论列表' />
   <Route path='/replys/:commentId' component={replys} title='回复列表' />
-  <Route path='/my' component={my} showTitle={false} />
+  <Route path='/my' component={my} showTitle={true} />
 </Route>)
 
 function Routes({ history }) {

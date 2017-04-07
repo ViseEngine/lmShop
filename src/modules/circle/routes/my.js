@@ -7,7 +7,8 @@ import {
   Flex,
   Tabs,
   Grid,
-  Icon
+  Icon,
+  Modal
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import * as circleApi from '../api/circle';
@@ -21,7 +22,9 @@ class My extends Component {
     super(props);
     this.state = {
       postingsList: [],
-      myCircleList: []
+      myCircleList: [],
+      activeKey: "1",
+      memberDetail: null
     }
   }
 
@@ -57,11 +60,21 @@ class My extends Component {
   }
 
   componentDidMount() {
-    this.onChange(1);
+    circleApi.memberDetail().then(result => {
+      if (result.result == 1) {
+        this.setState({
+          memberDetail: result.data[0]
+        })
+      }
+    })
+    this.onChange("1");
   }
 
   onChange = (key) => {
-    if (key == 1) {
+    this.setState({
+      activeKey: key
+    })
+    if (key == "1") {
       this.initCircle();
     } else {
       this.initPostings();
@@ -80,38 +93,79 @@ class My extends Component {
     </Flex>
   }
 
+  gotoCircleDetail = (circle) => {
+    this.props.router.push('/circleDetail/' + circle.circleId)
+  }
+
+  gotoPositingsDetail = (postings) => {
+    this.props.router.push('/postings/' + postings.postingsId)
+  }
+
+  deletePostings = (postings) => {
+    Modal.alert('提醒', '是否删除该帖子', [{
+      text: '取消'
+    }, {
+      text: '确定',
+      onPress: () => {
+        circleApi.deletePosting({
+          postingsId: postings.postingsId
+        }).then(result => {
+          Toast.info(result.msg, 1, () => {
+            this.onChange(this.state.activeKey)
+          })
+        })
+      }
+    }]);
+    return false;
+  }
+
   render() {
-    const { postingsList, myCircleList } = this.state;
+    const { postingsList, myCircleList, activeKey, memberDetail } = this.state;
     return (
       <div className='wx-circle-my'>
-        <div className='my-header'>
-        </div>
+        <Flex className='my-header' justify='center'>
+          <div>
+            <div>
+              <Img src={memberDetail && memberDetail.memberAvatar} style={{
+              width: '1rem',
+              height: '1rem',
+              borderRadius: '.5rem'
+            }} />
+            </div>  
+            <span>{memberDetail && memberDetail.memberName}</span>
+          </div>
+        </Flex>
         <div>
-          <Tabs defaultActiveKey="1" onChange={this.onChange} swipeable={false}>
+          <Tabs activeKey={activeKey} onChange={this.onChange} swipeable={false}>
             <TabPane tab="我的圈子" key="1">
               <WhiteSpace></WhiteSpace>
               <Grid data={myCircleList}
+                onClick={(data)=>this.gotoCircleDetail(data)}  
                 renderItem={this.renderItem}  
                 columnNum={4} hasLine={false} />
             </TabPane>
             <TabPane tab="我的帖子" key="2">
-              <WingBlank>
+              <WhiteSpace></WhiteSpace>
+              <WingBlank style={{backgoundColor:'white'}}>
               {
                 postingsList.map(postings => {
-                  return <div key={postings.postingsId}>
-                    <Flex justify='between'>
-                      <div>{postings.createTimeStr}</div>
-                      <div>
-                        <Icon type={deleteIcon} />
-                      </div>
-                    </Flex>
-                    <p>{postings.postingsContent}</p>
-                    <Flex>
-                      <span>喜欢</span>
-                      <span>评论</span>
-                    </Flex>
-                    <WhiteSpace></WhiteSpace>
-                  </div>
+                    return <div onClick={() => {
+                    this.gotoPositingsDetail(postings)
+                  }} key={postings.postingsId}>
+                  <Flex justify='between'>
+                    <div>{postings.createTimeStr}</div>
+                    <Icon type={deleteIcon} onClick={(e) => {
+                      e.stopPropagation();
+                      this.deletePostings(postings)
+                    }} />
+                  </Flex>
+                  <p dangerouslySetInnerHTML={{ __html: postings.postingsContent }}></p>
+                  <Flex>
+                    <span>喜欢</span>
+                    <span>评论</span>
+                  </Flex>
+                  <WhiteSpace></WhiteSpace>
+                </div>
                 })
               }
               </WingBlank>  

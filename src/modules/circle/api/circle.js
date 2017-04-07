@@ -202,3 +202,8 @@ export function postingSearch({
     keyword,
   });
 }
+
+// 会员信息
+export function memberDetail() {
+  return fetch.get('/memberapi/memberDetail');
+}
