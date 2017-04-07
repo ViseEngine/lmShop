@@ -52,13 +52,16 @@ class Content extends Component {
       activeKey: acId
     })
     contentApi.articleList({ acId }).then(result => {
-      console.log(result);
       const data = result.data
       this.setState({
         conList: data.conList,
         advlist: data.advlist,
       })
     })
+  }
+
+  gotoDetail = (detail) => {
+    this.props.router.push('/contentDetail/' + detail.id)
   }
 
   render() {
@@ -87,25 +90,24 @@ class Content extends Component {
                       return <Img key={adv.id} src={adv.thumb} style={{width:'100%',height:'2rem'}}/>
                     })
                   }  
-                  
                 </Carousel>
                 <div>
                 {
                   conList && conList.map((con,i) => {
-                      return <WingBlank>
-                        <WhiteSpace></WhiteSpace>
-                        <Flex key={i} style={{ height: '2.4rem' }}>
-                          <Img src='' style={{ width: '2rem', height: '2rem' }} />
-                          <Flex.Item>
-                            <p>
-                              <Button size='small' inline>{con.catName}</Button>
-                              <span>发布时间: {con.publishedStr.substr(0,10)}</span>
-                            </p>
-                            <div className='text-overflow-hidden'>{con.title}</div>
-                            <p style={{height:'1rem'}}>{con.digest}</p>
-                          </Flex.Item>
-                        </Flex>
-                        <WhiteSpace></WhiteSpace>
+                    return <WingBlank key={i}>
+                      <WhiteSpace></WhiteSpace>
+                      <Flex onClick={()=>this.gotoDetail(con)} style={{ height: '2.4rem' }}>
+                        <Img src={con.thumb} style={{ width: '2rem', height: '2rem' }} />
+                        <Flex.Item>
+                          <Flex justify='between'>
+                            <Button size='small' inline>{con.catName}</Button>
+                            <span>发布时间: {con.publishedStr.substr(0,10)}</span>
+                          </Flex>
+                          <div className='text-overflow-hidden'>{con.title}</div>
+                          <p style={{height:'1rem'}}>{con.digest}</p>
+                        </Flex.Item>
+                      </Flex>
+                      <WhiteSpace></WhiteSpace>
                     </WingBlank>    
                   })
                 }  

@@ -1,119 +1,141 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import {
-  Carousel,
   Modal,
-  Tabs,
   WhiteSpace,
   WingBlank,
   Toast,
   Flex,
-  Button
+  Button,
+  List,
+  InputItem
 } from 'antd-mobile';
 import * as contentApi from '../api/content';
 import { Img } from 'commonComponent';
 import './content.less';
 
-const TabPane = Tabs.TabPane;
+const Item = List.Item;
 
 class ContentDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      classList: [],
-      advlist: [],
-      conList: [],
-      activeKey: null
+      contentEntity: null,
+      commentList: [],
+      postContent: '',
     }
   }
 
-  componentDidMount() {
+  refresh = () => {
     Toast.loading();
-    contentApi.index().then(result => {
+    contentApi.detailed({
+      contentId: this.props.params.id
+    }).then(result => {
       Toast.hide();
-      let data = result.data;
-      const classList = data.classList;
-      let currentClass;
-      if (classList.length > 0) {
-        currentClass = classList[0]
+      if (result.result == 1) {
+        let data = result.data;
+        this.setState({
+          contentEntity: data.contentEntity[0],
+          commentList: data.commentList
+        })
       }
-      const activeKey = currentClass.acId
-      this.setState({
-        classList,
-        activeKey
-      });
-
-      this.onChangeTab(activeKey);
     });
   }
 
-  onChangeTab = (acId) => {
+  componentDidMount() {
+    this.refresh();
+  }
+
+  postContentChange = (val) => {
     this.setState({
-      activeKey: acId
+      postContent: val
     })
-    contentApi.articleList({ acId }).then(result => {
-      console.log(result);
-      const data = result.data
-      this.setState({
-        conList: data.conList,
-        advlist: data.advlist,
-      })
+  }
+
+  saveComment = () => {
+    const postContent = this.state.postContent
+    if (postContent == '') {
+      Toast.info('请输入评论内容', 1)
+      return;
+    }
+
+    contentApi.saveComment({
+      contentId: this.props.params.id,
+      contentComment: postContent
+    }).then(result => {
+      Toast.info(result.msg, 1, () => {
+        this.refresh();
+      });
     })
+  }
+
+  renderHeader = (contentEntity) => {
+    return <Flex justify='between'>
+      <div>评论({contentEntity.commentNum})</div>
+      <div onClick={() => {
+        this.props.router.push('/comments/' + this.props.params.id)
+      }}>更多</div>
+    </Flex>
   }
 
   render() {
     const {
-      classList,
-      advlist,
-      activeKey,
-      conList
+      contentEntity,
+      commentList,
+      postContent
     } = this.state;
-    if (!activeKey) {
+    if (!contentEntity) {
       return null;
     }
     return (
       <div>
-        <Tabs activeKey={activeKey}
-          swipeable={false}
-          onChange={this.onChangeTab}>
+        <Flex direction='column' justify='center'>
+          <div style={{ textAlign: 'center' }}>
+            <h4>{contentEntity.title}</h4>
+          </div>
+          <div style={{
+            color:'gray'
+          }}>文章来源: {contentEntity.source} 作者: {contentEntity.author} 发布时间: {contentEntity.publishedStr.substr(0,10)} </div>
+          
+          <div dangerouslySetInnerHTML={{ __html: contentEntity.content }}></div>
+        </Flex>
+        <List renderHeader={this.renderHeader(contentEntity)}>
           {
-            classList.map((item,index)=>{
-              return <TabPane tab={item.acName} key={item.acId}>
-                <Carousel
-                  autoplay={true}
-                  style={{height:'2rem'}}>
-                  {
-                    advlist.map(adv => {
-                      return <Img key={adv.id} src={adv.thumb} style={{width:'100%',height:'2rem'}}/>
-                    })
-                  }  
-                  
-                </Carousel>
-                <div>
-                {
-                  conList && conList.map((con,i) => {
-                      return <WingBlank>
-                        <WhiteSpace></WhiteSpace>
-                        <Flex key={i} style={{ height: '2.4rem' }}>
-                          <Img src='' style={{ width: '2rem', height: '2rem' }} />
-                          <Flex.Item>
-                            <p>
-                              <Button size='small' inline>{con.catName}</Button>
-                              <span>发布时间: {con.publishedStr.substr(0,10)}</span>
-                            </p>
-                            <div className='text-overflow-hidden'>{con.title}</div>
-                            <p style={{height:'1rem'}}>{con.digest}</p>
-                          </Flex.Item>
-                        </Flex>
-                        <WhiteSpace></WhiteSpace>
-                    </WingBlank>    
-                  })
-                }  
-                </div>  
-              </TabPane>
+            commentList.map(comment => {
+              return <Item key={comment.commentid}>
+                <Flex align='top'>
+                  <Img src={comment.memberAvatar} style={{
+                    width: '1rem',
+                    height: '1rem'
+                  }} />
+                  <Flex.Item>
+                    <div>{comment.memberTruename}</div>
+                    <p>{comment.comment}</p>
+                  </Flex.Item>
+                  <div>
+                    {comment.createTimeStr}
+                  </div>  
+                </Flex>
+              </Item>    
             })
           }
-        </Tabs>
+        </List>
+
+        <div className='content-bottom'>
+          <Flex justify='between'>
+            <Flex.Item>
+              <InputItem
+                value={postContent}
+                onChange={this.postContentChange}
+                placeholder="发表下你的评论"
+                ></InputItem>
+            </Flex.Item>  
+            <Button type='primary'
+              onClick={this.saveComment}  
+              className='postings-bottom-btn'
+              inline>发布</Button>  
+          </Flex>
+        </div>
       </div>
     )
   }
