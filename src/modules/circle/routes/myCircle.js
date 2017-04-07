@@ -52,12 +52,16 @@ class MyCircle extends Component {
     this.props.router.push('/circleSearch/' + val)
   }
 
+  back = () => {
+    this.props.router.goBack();
+  }
+
   render() {
     const { hotCircle, hotpostings } = this.state;
     return (
       <div>
         <Flex>
-          <Icon type='left' />
+          <Icon type='left' onClick={this.back}/>
           <Flex.Item>
             <SearchBar
               onSubmit={value => this.search(value)}
