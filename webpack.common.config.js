@@ -54,7 +54,16 @@ const commonPlugin = [
     options: {
       postcss: [pxtorem({
         rootValue: 100,
-        propWhiteList: ['font-size'],
+        propWhiteList: [
+          'font-size',
+          'font',
+          'width',
+          'height',
+          'padding',
+          'margin',
+          'line-height',
+          'letter-spacing',
+        ],
       })]
     }
   }),

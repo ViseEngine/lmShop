@@ -176,3 +176,17 @@ export function filesUpload({
     images
   });
 }
+
+export function circleSearch({
+  pageNo,
+  pageSize,
+  searchType,
+  keyword
+}) {
+  return fetch.get('/circleApi/circleSearch', {
+    pageNo,
+    pageSize,
+    searchType,
+    keyword
+  });
+}
