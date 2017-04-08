@@ -14,7 +14,7 @@ import {
 } from 'antd-mobile';
 import { Img, CartBar } from 'commonComponent';
 import { common } from 'common';
-import CouponList from '../components/CouponList';
+import CouponList from 'commonComponent/CouponList';
 import GoodsMoreInfo from '../components/GoodsMoreInfo';
 import GoodsList from '../components/GoodsList';
 import StoreInfo from '../components/StoreInfo';
@@ -23,6 +23,7 @@ import EvaluateGoodsList from '../components/EvaluateGoodsList';
 import { Map } from 'immutable'
 import * as goodsDetailApi from '../api/goodsDetail';
 import * as cartApi from '../api/cart';
+import * as storeApi from '../api/store';
 
 import './goodsDetail.less';
 
@@ -86,10 +87,27 @@ class GoodsDetail extends Component {
    */
   getCoupon = () => {
     const goodsDetailInfo = this.state.goodsDetailInfo.toJS();
-    const onMaskClose = () => {
+
+    storeApi.couponlist({
+      storeId: goodsDetailInfo.storeId
+    }).then(result => {
+      const data = result.data;
+      if (data && data.length > 0) {
+        Popup.show(<CouponList
+          storeId={goodsDetailInfo.storeId}
+          couponList={data}
+          onClose={() => Popup.hide()} />, { animationType: 'slide-up' });
+      } else {
+        Toast.info('暂无优惠券可领券', 1)
+      }
+    })
+
+    /*const onMaskClose = () => {
       console.log('关闭遮罩');
     }
-    Popup.show(<CouponList storeId={goodsDetailInfo.storeId} onClose={() => Popup.hide()} />, { animationType: 'slide-up', onMaskClose });
+    Popup.show(<CouponList
+      storeId={goodsDetailInfo.storeId}
+      onClose={() => Popup.hide()} />, { animationType: 'slide-up', onMaskClose });*/
   }
 
   /**

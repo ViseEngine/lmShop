@@ -17,7 +17,7 @@ import * as goodsApi from 'common/api/goods';
 import * as cartApi from '../api/cart';
 import * as storeApi from '../api/store';
 import { common } from 'common';
-import CouponList from '../components/CouponList';
+import CouponList from 'commonComponent/CouponList';
 import CartTopAction from '../components/CartTopAction';
 
 const AgreeItem = Checkbox.AgreeItem;
