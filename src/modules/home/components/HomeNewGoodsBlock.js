@@ -15,8 +15,10 @@ class HomeNewGoodsBlock extends React.PureComponent {
       <Flex.Item>
         <div style={{fontSize:'.28rem'}}>{dataItem.gcName}</div> 
       </Flex.Item>
-      <Flex.Item>
-        <div style={{color:'gray',width:'2.2rem'}} className='text-overflow-hidden'>{dataItem.goodsName}</div>
+      <Flex.Item style={{width: '90%'}}>
+        <div style={{
+          color: 'gray'
+        }} className='text-overflow-hidden'>{dataItem.goodsName}</div>
       </Flex.Item>
       <Flex.Item>
         <Img src={dataItem.goodsImage} style={{width:'2rem', height:'2rem' }} />
