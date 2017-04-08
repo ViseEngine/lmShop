@@ -176,7 +176,7 @@ class Cart extends Component {
   checkGoods = (checkedStore, checkedGoods, checked) => {
     // 遍历当前店铺的所有商品
     const mapedList = checkedStore.list.map(goods => {
-      if (checkedGoods.goodsId == goods.goodsId) {
+      if (checkedGoods.specId == goods.specId) {
         goods.checked = checked;
       }
       return goods
