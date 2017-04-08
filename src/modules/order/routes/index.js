@@ -19,7 +19,7 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/coupon/:cartIds' component={coupon} title='店铺优惠券' />
   <Route path='/invoice' component={invoice} title='发票信息' />
   <Route path='/cashier/:orderCode/:totalPrice' component={cashier} title='选择支付方式' />
-  <Route path='/paySuccess/:paySn' component={cashier} title='选择支付方式' />
+  <Route path='/paySuccess/:paySn' component={paySuccess} title='订单支付成功' />
 </Route>)
 
 function Routes({ history }) {

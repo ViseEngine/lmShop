@@ -59,8 +59,15 @@ class Order extends Component {
             window.location.href = 'home.html#/orderList/0';
           });
         } else {
-          // 跳转到收银台
-          this.props.router.push(`/cashier/${result.data[0].paySn}/${priceData.totalPrice}`);
+          // 余额数大于 订单支付额
+          // console.log(priceData);
+          if (parseFloat(priceData.totalPrice) == 0) {
+            console.log('支付成功，跳转到成功页面');
+            this.props.router.push('/paySuccess/' + result.data[0].paySn);
+          } else {
+            // 跳转到收银台
+            this.props.router.push(`/cashier/${result.data[0].paySn}/${priceData.totalPrice}`);
+          }
         }
       } else {
         Toast.fail(result.msg);
