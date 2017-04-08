@@ -100,7 +100,12 @@ class GoodsViewRecord extends Component {
                       onClick={()=>this.onClick(item)}
                       style={{ flex: 1 }}><Img src={item.browseGoodsImage} style={{ width: '100%', height: '100%' }} /></Flex.Item>
                     <Flex.Item style={{flex:2}}>
-                      <div onClick={()=>this.onClick(item)} style={{whiteSpace:'normal'}}>{item.browseGoodsName}</div>
+                      <div onClick={() => this.onClick(item)} style={{
+                        whiteSpace: 'normal',
+                        height: '1rem',
+                        lineHeight: '0.5rem',
+                        overflow: 'hidden'
+                      }}>{item.browseGoodsName}</div>
                       <div onClick={()=>this.onClick(item)} style={{color:'red'}}>¥{item.browseGoodsPrice}</div>
                       <div style={{ textAlign: 'right' }}>
                         <Button type='primary' size='small' inline onClick={()=>this.cancelAttention(item)}>删除</Button>
