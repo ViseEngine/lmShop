@@ -52,8 +52,8 @@ class Home extends Component {
       recommendGoodslist
     } = this.state;
     return (
-      <div>
-        <div onClick={this.onSearch}><SearchBar placeholder="搜索你想要的商品" disabled ></SearchBar></div>
+      <div className='wx-index'>
+        <div onClick={this.onSearch} className='index-search'><SearchBar placeholder="搜索你想要的商品" disabled ></SearchBar></div>
         <HomeCarouselBlock data={this.state.advList}></HomeCarouselBlock>
         <HomeFunctionBlock></HomeFunctionBlock>
         {
