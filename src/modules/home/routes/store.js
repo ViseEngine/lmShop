@@ -67,6 +67,7 @@ class Store extends Component {
   }
 
   storecollection = () => {
+    common.checkLogin();
     storeApi.storecollection({
       storeId: this.props.params.storeId,
       favType: 2,
