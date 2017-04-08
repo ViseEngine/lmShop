@@ -136,7 +136,7 @@ class My extends Component {
               }}
               style={{ width: '1rem', height: '1rem' }} src={memberDetail.memberAvatar}></Img>
             {
-              isLogin && memberDetail ? <div>
+              isLogin && memberDetail ? <div style={{marginLeft:'0.2rem'}}>
                 账户: {memberDetail.memberName}
               </div> : <Button inline size="small" onClick={this.gotoLogin}>登录</Button>
             }
