@@ -31,7 +31,7 @@ class Login extends Component {
             localStorage.setItem('token', result.data[0].token);
             window.location.href = this.callBack || 'home.html';
           } else {
-            // Toast.fail(this.props.form.getFieldError());
+            Toast.fail(result.msg, 1);
           }
         })
       }
