@@ -55,7 +55,9 @@ class GoodsClass extends Component {
         <div className='wx-goods-class-menu'>
           <GoodsClassMenu data={this.state.classList} onMenuChange={this.onMenuChange}></GoodsClassMenu>
         </div>
-        <div className='wx-goods-class-list'>
+        <div className='wx-goods-class-list' style={{
+          height:`${document.documentElement.clientHeight/100-1.8}rem`
+        }}>
           <GoodsList
             onGoodsClassClick={this.onGoodsClassClick}
             data={this.state.goodsList}></GoodsList>

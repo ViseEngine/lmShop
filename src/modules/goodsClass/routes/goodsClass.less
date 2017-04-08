@@ -1,38 +1,51 @@
- .wx-goods-class {
-   display: flex;
-   width: 100%;
-   .wx-goods-class-menu {
-     width: 1.6rem;
-     .am-radio-inner {
-       display: none;
-     }
-     .am-list-content {
-       text-align: center;
-     }
-     .am-list-item {
-       height: 1rem;
-       padding-left: 0;
-       .am-list-line {
-         padding-right: 0;
-       }
-     }
-   }
-   .wx-goods-class-list {
-     flex: 1;
-     height: 100%;
-     overflow-x: hidden;
-     overflow-y: auto;
+html,
+#root,
+#container,
+.wx-content,
+.wx-goods-class {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
 
-     .am-grid .am-flexbox .am-flexbox-item .am-grid-item-contain .am-grid-icon {
-       height: 1rem;
-       width: 1rem;
-     }
-   }
-   .am-menu .am-flexbox .am-flexbox-item .am-list .am-list-item .am-list-line .am-list-content {
-     font-size: .28rem;
-   }
+.wx-goods-class {
+  display: flex;
+  .wx-goods-class-menu {
+    width: 1.6rem;
+    height: 100%;
+    .am-radio-inner {
+      display: none;
+    }
+    .am-list-content {
+      text-align: center;
+    }
+    .am-list-item {
+      height: 1rem;
+      padding-left: 0;
+      .am-list-line {
+        padding-right: 0;
+      }
+    }
+  }
+  .wx-goods-class-list {
+    height: 100%;
+    overflow-y: scroll;
+  }
 
-   .am-grid .am-flexbox .am-flexbox-item .am-grid-item-contain.column-num-3 .am-grid-text {
-     font-size: .28rem;
-   }
- }
+  .wx-goods-class-list {
+    flex: 1;
+    height: 100%;
+    .am-grid .am-flexbox .am-flexbox-item .am-grid-item-contain .am-grid-icon {
+      height: 1rem;
+      width: 1rem;
+    }
+  }
+
+  .am-menu .am-flexbox .am-flexbox-item .am-list .am-list-item .am-list-line .am-list-content {
+    font-size: .28rem;
+  }
+
+  .am-grid .am-flexbox .am-flexbox-item .am-grid-item-contain.column-num-3 .am-grid-text {
+    font-size: .28rem;
+  }
+}
