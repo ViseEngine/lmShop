@@ -3,11 +3,11 @@ import { Router, Route, IndexRoute } from 'react-router';
 import App from 'container/appView';
 
 import home from './home';
-import store from './store';
-import storeDetail from './storeDetail';
-import storeGoods from './storeGoods';
-import storeNewGoods from './storeNewGoods';
-import storeCoupon from './storeCoupon';
+import store from './store/store';
+import storeDetail from './store/storeDetail';
+import storeGoods from './store/storeGoods';
+import storeNewGoods from './store/storeNewGoods';
+import storeCoupon from './store/storeCoupon';
 
 import gotoSearch from './gotoSearch';
 import goodsSearch from './goodsSearch';

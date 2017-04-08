@@ -10,8 +10,8 @@ import {
   Grid
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
-import * as storeApi from '../api/store';
 import { common } from 'common';
+import * as storeApi from '../../api/store';
 
 import './store.less';
 
@@ -41,18 +41,25 @@ class StoreNewGoods extends Component {
     });
   }
 
-  onClick = (dataItem) => {}
+  onClick = (dataItem) => {
+    common.gotoGoodsDetail({ specId: dataItem.specId })
+  }
 
   renderItem = (dataItem) => {
-    return <Flex direction='column' style={{ padding: '10px' }} >
+    return <Flex direction='column' style={{ padding: '0.1rem' }} >
       <Flex.Item style={{textAlign:'center'}}>
-        <Img src={dataItem.goodsImage} style={{ width: '100%' }} />
+        <Img src={dataItem.goodsImage} style={{ width: '3rem',height:'3rem' }} />
       </Flex.Item>
       <Flex.Item>
-        <span>{dataItem.goodsName}</span> 
+        <div style={{
+          fontSize: '.24rem',
+          height: '0.8rem',
+          lineHeight: '0.4rem',
+          overflow:'hidden'
+        }}>{dataItem.goodsName}</div> 
       </Flex.Item>
       <Flex.Item>
-        <span style={{color:'red'}}>{`¥${dataItem.goodsStorePrice}`}</span>
+        <span style={{fontSize:'.24rem',color:'red'}}>{`¥${dataItem.goodsStorePrice}`}</span>
       </Flex.Item>
     </Flex>
   }

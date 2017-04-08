@@ -12,8 +12,8 @@ import {
   Icon
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
-import * as storeApi from '../api/store';
 import { common } from 'common';
+import * as storeApi from '../../api/store';
 
 import './store.less';
 
@@ -53,7 +53,7 @@ class Store extends Component {
   }
 
   renderItem = (dataItem) => {
-    return <Flex direction='column' style={{ padding: '10px' }} >
+    return <Flex direction='column' style={{ padding: '0.1rem' }} >
       <Flex.Item style={{textAlign:'center'}}>
         <Img src={dataItem.goodsImage} style={{ width: '3rem',height:'3rem' }} />
       </Flex.Item>
@@ -99,7 +99,7 @@ class Store extends Component {
       return null;
     }
     const { params, router } = this.props;
-    const storeBannerShow = `url(${common.IMAGE_DOMAIN}${store.storeBanner}) no-repeat fixed top `;
+    const storeBannerShow = `url(${common.IMAGE_DOMAIN}${store.storeBanner}) no-repeat center center`;
     return <div className='wx-store'>
       <Flex>
         <Icon type='left' onClick={()=>this.props.router.goBack()}/>
@@ -110,60 +110,61 @@ class Store extends Component {
           />
         </Flex.Item>  
       </Flex>
-      <WingBlank size='sm'>
-        <div className='wx-store-header' style={{ background: storeBannerShow }}>
-          <Flex className='wx-store-header-left'>
-            <Flex.Item>
-              <Img src={store.storeLogo} style={{width:'100%'}} />
-            </Flex.Item>
+      
+      <div className='wx-store-header' style={{ background: storeBannerShow }}>
+        <WingBlank size='sm'>  
+          <Flex className='wx-store-header-body'>
+            <Img src={store.storeLogo} style={{
+              width: '2rem',
+              height: '1rem'
+            }} />
             <Flex.Item>
               <div>{store.storeName}</div>
               <div>{store.storeCollect}人关注</div>
             </Flex.Item>
             <Flex.Item>
             </Flex.Item>
-            <Flex.Item>
-              <Button type='primary' size='small' onClick={this.storecollection}>
-                {
-                  store.isFav==1?'已关注':'关注'
-                }
-              </Button>
-            </Flex.Item>
+            <Button className='rightBtn' type='primary' size='small' onClick={this.storecollection}>
+              {
+                store.isFav==1?'已关注':'关注'
+              }
+            </Button>
           </Flex>
-        </div>
-        <WhiteSpace></WhiteSpace>
-        <Flex style={{textAlign: 'center'}}>
-          <Flex.Item onClick={()=>
-            router.push(`/store/${params.storeId}/goods`)
-          }>
-            <div>全部</div>
-            <div>{store.storeGoodsCount}</div>
-          </Flex.Item>
-          <Flex.Item onClick={()=>
-            router.push(`/store/${params.storeId}/newgoods`)
-          }>
-            <div>上新</div>
-            <div>{store.newGoodsNum}</div>
-          </Flex.Item>
-          <Flex.Item onClick={()=>
-            router.push(`/store/${params.storeId}/coupon`)
-          }>
-            <div>优惠券</div>
-            <div>{store.couponNum}</div>
-          </Flex.Item>
-          <Flex.Item>
-            <div>店铺动态</div>
-            <div>0</div>
-          </Flex.Item>
-        </Flex>
-        <WhiteSpace></WhiteSpace>
-        <div>
-          <Grid data={this.state.goodsList} columnNum={2} hasLine={false}
-            onClick={(el,index)=>this.onClick(el)}
-              renderItem={(dataItem,index)=>(this.renderItem(dataItem))}>
-          </Grid>
-        </div>
-      </WingBlank>
+        </WingBlank>
+      </div>
+        
+      <WhiteSpace></WhiteSpace>
+      <Flex style={{textAlign: 'center'}}>
+        <Flex.Item onClick={()=>
+          router.push(`/store/${params.storeId}/goods`)
+        }>
+          <div>全部</div>
+          <div>{store.storeGoodsCount}</div>
+        </Flex.Item>
+        <Flex.Item onClick={()=>
+          router.push(`/store/${params.storeId}/newgoods`)
+        }>
+          <div>上新</div>
+          <div>{store.newGoodsNum}</div>
+        </Flex.Item>
+        <Flex.Item onClick={()=>
+          router.push(`/store/${params.storeId}/coupon`)
+        }>
+          <div>优惠券</div>
+          <div>{store.couponNum}</div>
+        </Flex.Item>
+        <Flex.Item>
+          <div>店铺动态</div>
+          <div>0</div>
+        </Flex.Item>
+      </Flex>
+      <WhiteSpace></WhiteSpace>
+      <div>
+        <Grid data={this.state.goodsList} columnNum={2} hasLine={false}
+          onClick={(el,index)=>this.onClick(el)}
+            renderItem={(dataItem,index)=>(this.renderItem(dataItem))}>
+        </Grid>
+      </div>
       
       <div className='wx-store-bar'>
         <Flex style={{ width:'100%',textAlign:'center'}} >

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router'
 import { WhiteSpace, WingBlank, Toast, Flex, List } from 'antd-mobile';
-import * as storeApi from '../api/store';
+import * as storeApi from '../../api/store';
 
 const Item = List.Item;
 

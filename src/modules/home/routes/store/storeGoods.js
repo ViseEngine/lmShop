@@ -10,8 +10,8 @@ import {
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import { common } from 'common';
-import GoodsSearch from '../components/GoodsSearch';
-import * as storeApi from '../api/store';
+import GoodsSearch from '../../components/GoodsSearch';
+import * as storeApi from '../../api/store';
 
 import './store.less';
 
