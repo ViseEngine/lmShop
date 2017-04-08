@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 import { Grid, List, Flex, Icon } from 'antd-mobile';
 import { Img } from 'commonComponent';
 import { ImgGoodsInfo, GoodsImgInfo } from './GoodsInfo';
+import { withRouter } from 'react-router'
 
 class HomeFloorGoods extends React.PureComponent {
 
   renderHeader = (data) => {
     return <Flex justify='between'>
       <div>{data.floorName}</div>
-      <Flex>更多<Icon type='right' size='xs'></Icon></Flex>
+      <Flex onClick={() => {
+          this.props.router.push(`/search/gcIdSearch/${data.gcId}`)
+      }}>更多<Icon type='right' size='xs'></Icon></Flex>
     </Flex>
   }
 
@@ -69,4 +72,4 @@ class HomeFloorGoods extends React.PureComponent {
   }
 }
 
-export default HomeFloorGoods;
+export default withRouter(HomeFloorGoods);
