@@ -70,7 +70,9 @@ class AddressEdit extends Component {
     const currentArea = (currentCity.children.filter(item => item.value == areaId))[0]
     const currentAreaName = [currentProvince.label, currentCity.label, currentArea.label].join(',');
 
+    console.log(fieldsValue);
     addressApi.saveAddress({
+      addressId: this.props.location.state.addressId,
       ...fieldsValue,
       provinceId,
       cityId,
