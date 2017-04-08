@@ -114,7 +114,9 @@ class OrderItem extends Component {
         break;
       case 40:
         orderStatus = '已完成'
-        showCommentBtn = true;
+        if (dataItem.evaluationStatus != 1) {
+          showCommentBtn = true;
+        }
         break;
       case 50:
         orderStatus = '已提交'
@@ -146,7 +148,9 @@ class OrderItem extends Component {
         }
         <WhiteSpace></WhiteSpace>
         <Flex justify='between'>
-          <div>订单总额: {`￥${dataItem.goodsAmount}`}</div>
+        <div>订单总额: {`￥${dataItem.goodsAmount}`}</div>
+        </Flex>
+        <Flex justify='end'>
           <div>
             {
               showCancelBtn && <Button
