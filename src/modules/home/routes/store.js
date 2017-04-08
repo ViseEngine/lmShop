@@ -58,7 +58,12 @@ class Store extends Component {
         <Img src={dataItem.goodsImage} style={{ width: '3rem',height:'3rem' }} />
       </Flex.Item>
       <Flex.Item>
-        <span style={{fontSize:'.24rem'}}>{dataItem.goodsName}</span> 
+        <div style={{
+          fontSize: '.24rem',
+          height: '0.8rem',
+          lineHeight: '0.4rem',
+          overflow:'hidden'
+        }}>{dataItem.goodsName}</div> 
       </Flex.Item>
       <Flex.Item>
         <span style={{fontSize:'.24rem',color:'red'}}>{`¥${dataItem.goodsStorePrice}`}</span>
