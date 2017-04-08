@@ -59,6 +59,10 @@ class ContentDetail extends Component {
       return;
     }
 
+    this.setState({
+      postContent: ''
+    })
+
     contentApi.saveComment({
       contentId: this.props.params.id,
       contentComment: postContent
