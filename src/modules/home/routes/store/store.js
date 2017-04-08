@@ -101,7 +101,7 @@ class Store extends Component {
     const { params, router } = this.props;
     const storeBannerShow = `url(${common.IMAGE_DOMAIN}${store.storeBanner}) no-repeat center center`;
     return <div className='wx-store'>
-      <Flex>
+      <Flex className='wx-store-search'>
         <Icon type='left' onClick={()=>this.props.router.goBack()}/>
         <Flex.Item>
           <SearchBar placeholder="商品名称" onSubmit={value => {
