@@ -27,6 +27,8 @@ class StoreNewGoods extends Component {
 
   componentDidMount() {
     storeApi.storegoods({
+      order: 'asc',
+      orderField: 'new',
       goodsType: 1,
       storeId: this.props.params.storeId
     }).then(result => {

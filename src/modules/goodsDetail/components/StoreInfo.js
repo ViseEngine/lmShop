@@ -20,7 +20,7 @@ const gotoStore = (goodsDetailInfo) => {
  * @param {*} param0 
  */
 export default function({ goodsDetailInfo }) {
-  const { evaluateStore } = goodsDetailInfo;
+  const { evaluateStore, storeId } = goodsDetailInfo;
   return <WingBlank>
     <Flex>
       <Flex.Item style={{ flex: 1 }}>
@@ -58,9 +58,11 @@ export default function({ goodsDetailInfo }) {
       </Flex.Item>  
       </Flex>
     <WhiteSpace></WhiteSpace>  
-    <Flex>
+    {
+      storeId != "0" && <Flex>
         <Flex.Item><Button>联系客服</Button></Flex.Item>
-        <Flex.Item><Button onClick={()=>gotoStore(goodsDetailInfo)}>进入店铺</Button></Flex.Item>
-    </Flex>  
+        <Flex.Item><Button onClick={() => gotoStore(goodsDetailInfo)}>进入店铺</Button></Flex.Item>
+      </Flex>
+    }  
   </WingBlank>
 }

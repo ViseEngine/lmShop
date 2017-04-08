@@ -51,10 +51,12 @@ export function get(requestUrl, params) {
   // var encrypted = encrypt.encrypt($('#input').val());
 
   const token = localStorage.getItem('token');
+  let headers = {}
+  if (token) {
+    headers['token'] = token;
+  }
   return fetch(url, {
-      headers: {
-        token: token
-      },
+      headers,
       credentials: 'include',
     }).then(checkStatus)
     .then(parseJSON);
@@ -71,12 +73,15 @@ export function post(requestUrl, params) {
     ...params,
     ...baseParams
   }
+  let headers = {
+    "Content-Type": "application/x-www-form-urlencoded"
+  }
+  if (token) {
+    headers['token'] = token;
+  }
   return fetch(url, {
     method: "POST",
-    headers: {
-      token: token,
-      "Content-Type": "application/x-www-form-urlencoded"
-    },
+    headers,
     credentials: 'include',
     body: qs.stringify(params),
   }).then(checkStatus).then(parseJSON);
@@ -96,11 +101,13 @@ export function upload(requestUrl, data) {
     formData.append('images', data.images)
   }
   let url = getFullUrl(requestUrl);
+  let headers = {}
+  if (token) {
+    headers['token'] = token;
+  }
   return fetch(url, {
     method: 'POST',
-    headers: {
-      token: token,
-    },
+    headers,
     credentials: 'include',
     body: formData
   }).then(checkStatus).then(parseJSON);
