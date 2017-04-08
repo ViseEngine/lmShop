@@ -28,6 +28,11 @@ class UpdateNickName extends Component {
       Toast.info('请输入昵称', 1)
       return;
     }
+
+    if (this.state.nickname.length < 4) {
+      Toast.info('请输入4个字符以上', 1)
+      return;
+    }
     memberApi.updateMemberInfo({
       nichen: this.state.nickname
     }).then(result => {
@@ -51,6 +56,7 @@ class UpdateNickName extends Component {
               nickname:val
             })
           }}
+          maxLength={20}
             clear
             placeholder="请输入昵称"
             autoFocus
