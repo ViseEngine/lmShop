@@ -225,7 +225,7 @@ class GoodsDetail extends Component {
     const selectedSpecGoodsSpec = vals.join(' ');
     return (
       <div className='wx-goods-detail'>
-        <Carousel autoplay={false} infinite dots={false}>
+        <Carousel autoplay={false} infinite={false} dots={false}>
           {
             goodsDetailInfo.goodsCallyList.map((item,index) => (
                 <Img key={index} src={item} />
