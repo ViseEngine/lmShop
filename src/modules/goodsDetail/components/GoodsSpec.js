@@ -83,6 +83,7 @@ class GoodsSpec extends React.PureComponent {
       goodsSpecValueAll[spec.spId].forEach(item => {
         delete currentSpecs[item.spValueId]
       })
+      this.onChangeNum(1);
       // 添加当前规则到 已选择的规则
       currentSpecs[spec.spValueId] = spec.spValueName
       const specIds = Object.keys(currentSpecs).join()
