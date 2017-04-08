@@ -72,14 +72,12 @@ class GroupBuy extends Component {
     return <div style={{padding:'0 0.1rem'}}>
       <Img src={dataItem.goodsImage} style={{width:'2rem',height:'2rem'}}/>
       <div className='text-overflow-hidden'>{dataItem.goodsName}</div>
-      <Flex>
-        <Flex.Item>
-          <span style={{color:'red'}}>{'¥'+dataItem.price}</span><br/>
-          <span style={{textDecoration:'line-through'}}>{'¥'+dataItem.specGoodsPrice}</span>
-        </Flex.Item>
-        <Flex.Item>
-          <Button onClick={()=>this.gotoBuy(dataItem)} size='small' type='primary'>入场疯抢</Button>
-        </Flex.Item>
+      <div>
+        <span style={{color:'red'}}>{'¥'+dataItem.price}</span><br/>
+        <span style={{textDecoration:'line-through'}}>{'¥'+dataItem.specGoodsPrice}</span>
+      </div>
+      <Flex justify='end'>
+        <Button onClick={()=>this.gotoBuy(dataItem)} size='small' type='primary'>入场疯抢</Button>
       </Flex>
     </div>
   }
