@@ -176,7 +176,7 @@ class OrderList extends Component {
         <div className='orderlist-body'>
           <ListView
             style={{
-              height: document.documentElement.clientHeight-200,
+              height: `${document.documentElement.clientHeight/100-1.9}rem`,
               overflow: 'auto',
             }}
             renderFooter={()=>footer}
