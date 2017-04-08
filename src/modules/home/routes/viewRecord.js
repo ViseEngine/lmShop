@@ -11,7 +11,7 @@ import {
   Button
 } from 'antd-mobile';
 import * as memberApi from '../api/member';
-
+import { common } from 'common';
 import { Img } from 'commonComponent';
 
 import './attention.less';
@@ -27,6 +27,11 @@ class GoodsViewRecord extends Component {
       type: "0"
     }
   }
+
+  onClick = (el) => {
+    common.gotoGoodsDetail({ specId: el.browseSpecId });
+  }
+
 
   componentDidMount() {
     this.onChangeTab(this.state.type);
@@ -88,12 +93,15 @@ class GoodsViewRecord extends Component {
           <TabPane tab="商品浏览记录" key="0">
             <List>
               {
-                goodsList && goodsList.map((item, index) => <List.Item key={index}>
+                goodsList && goodsList.map((item, index) => <List.Item
+                  key={index}>
                   <Flex>
-                    <Flex.Item style={{flex:1}}><Img src={item.browseGoodsImage} style={{width:'100%',height:'100%'}} /></Flex.Item>
+                    <Flex.Item
+                      onClick={()=>this.onClick(item)}
+                      style={{ flex: 1 }}><Img src={item.browseGoodsImage} style={{ width: '100%', height: '100%' }} /></Flex.Item>
                     <Flex.Item style={{flex:2}}>
-                      <div style={{whiteSpace:'normal'}}>{item.browseGoodsName}</div>
-                      <div style={{color:'red'}}>¥{item.browseGoodsPrice}</div>
+                      <div onClick={()=>this.onClick(item)} style={{whiteSpace:'normal'}}>{item.browseGoodsName}</div>
+                      <div onClick={()=>this.onClick(item)} style={{color:'red'}}>¥{item.browseGoodsPrice}</div>
                       <div style={{ textAlign: 'right' }}>
                         <Button type='primary' size='small' inline onClick={()=>this.cancelAttention(item)}>删除</Button>
                       </div>
@@ -107,11 +115,20 @@ class GoodsViewRecord extends Component {
           <TabPane tab="店铺浏览记录" key="1">
             <List>
               {
-                storeList && storeList.map((item, index) => <List.Item key={index}>
+                storeList && storeList.map((item, index) => <List.Item
+                  key={index}>
                   <Flex>
-                    <Flex.Item style={{flex:1}}><Img src={item.storeLogo} style={{width:'100%',height:'100%'}} /></Flex.Item>
+                    <Flex.Item
+                      onClick={() => { 
+                        this.props.router.push(`/store/${item.storeId}/index`)
+                      }}
+                      style={{ flex: 1 }}><Img src={item.storeLogo} style={{ width: '100%', height: '100%' }} /></Flex.Item>
                     <Flex.Item style={{flex:2}}>
-                      <div>{item.storeName}</div>
+                      <div
+                        onClick={() => { 
+                          this.props.router.push(`/store/${item.storeId}/index`)
+                        }}
+                      >{item.storeName}</div>
                       <div style={{ textAlign: 'right' }}>
                         <Button type='primary' size='small' inline onClick={()=>this.cancelAttention(item)}>删除</Button>
                       </div>
