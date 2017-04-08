@@ -6,6 +6,14 @@ import * as storeApi from '../api/store';
 
 import './CouponList.less';
 
+const goodsTypes = {
+  '0': '全部商品',
+  '1': '指定商品分类',
+  '2': '指定商品类型',
+  '3': '指定品牌',
+  '4': '指定商品'
+}
+
 class CouponList extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -29,16 +37,21 @@ class CouponList extends React.PureComponent {
       return null;
     }
     const { couponList } = this.props;
+
     return <div className='wx-CouponList'>
       <List renderHeader={() => '店铺优惠券'}>
       {
-        couponList && couponList.map(item => {
-          return <List.Item key={item.id} onClick={() => { this.onSel(item); }}>
+          couponList && couponList.map(item => {
+            const { shopActivity } = item;  
+            const showMemberLimit = shopActivity.shopActivityMembership.memberGradle ?
+              shopActivity.shopActivityMembership.memberGradle.gradleName : '全部会员'
+
+            return <List.Item key={item.id} onClick={() => { this.onSel(item); }}>
             <Flex>
               <Flex.Item>{item.shopActivity.storeName} ({item.couponSource}元)</Flex.Item>
               <Flex.Item>
-                <div>会员限制：</div>
-                <div>商品限制：</div>
+                <div>会员限制：{showMemberLimit}</div>
+                <div>商品限制：{goodsTypes[shopActivity.goodsType]}</div>
                 <div style={{color:'red'}}>{item.description}</div>
                 <div>{item.shopActivity.startTimeStr} 至 <br/> {item.shopActivity.endTimeStr}</div>
               </Flex.Item>  
