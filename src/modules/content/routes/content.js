@@ -96,15 +96,15 @@ class Content extends Component {
                   conList && conList.map((con,i) => {
                     return <WingBlank key={i}>
                       <WhiteSpace></WhiteSpace>
-                      <Flex onClick={()=>this.gotoDetail(con)} style={{ height: '2.4rem' }}>
+                      <Flex onClick={()=>this.gotoDetail(con)} style={{ height: '2.8rem' }}>
                         <Img src={con.thumb} style={{ width: '2rem', height: '2rem' }} />
                         <Flex.Item>
                           <Flex justify='between'>
                             <Button size='small' inline>{con.catName}</Button>
-                            <span>发布时间: {con.publishedStr.substr(0,10)}</span>
+                            <span style={{fontSize:'.24rem'}}>发布时间: {con.publishedStr.substr(0,10)}</span>
                           </Flex>
-                          <div className='text-overflow-hidden'>{con.title}</div>
-                          <p style={{height:'1rem'}}>{con.digest}</p>
+                          <p className='text-overflow-hidden'>{con.title}</p>
+                          <div style={{height:'1.2rem',lineHeight:'0.4rem',color:'gray'}}>{con.digest}</div>
                         </Flex.Item>
                       </Flex>
                       <WhiteSpace></WhiteSpace>
