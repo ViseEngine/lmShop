@@ -26,7 +26,8 @@ class Progress extends Component {
   }
 
   refreshList = () => {
-    if (this.props.params.type == 0) {
+    const type = this.props.params.type ? this.props.params.type : 0;
+    if (type == 0) {
       orderApi.returnList({
         pageNo: 1,
         pageSize: 10
@@ -70,6 +71,8 @@ class Progress extends Component {
     let type = this.props.params.type
     type = (type && parseInt(type)) || 0
 
+    const listHeight = `${document.documentElement.clientHeight/100 - 1.7}rem`
+
     return (
       <div className="wx-progress">
           <SegmentedControl
@@ -80,7 +83,7 @@ class Progress extends Component {
             values={['退款退货列表', '换货列表']} />
             <ListView
               style={{
-                height: '100%',
+                height: listHeight,
                 overflowY: 'auto',
               }}
               dataSource={dataSource}
