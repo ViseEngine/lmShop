@@ -53,10 +53,10 @@ class CartBar extends React.Component {
               </div>
             </Flex.Item>
           }
-          <Flex.Item  onClick={()=>this._addCart()} style={{flex:2}}>
+          <Flex.Item className='addCart' onClick={()=>this._addCart()} style={{flex:2}}>
             <Button type='primary'>添加购物车</Button>
           </Flex.Item>
-          <Flex.Item  onClick={()=>this._gotoBuy()} style={{flex:2}}>
+          <Flex.Item className='goBuy' onClick={()=>this._gotoBuy()} style={{flex:2}}>
             <Button type='primary'>立即购买</Button>
           </Flex.Item>
         </Flex>
