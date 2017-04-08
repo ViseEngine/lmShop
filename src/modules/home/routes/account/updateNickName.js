@@ -37,7 +37,7 @@ class UpdateNickName extends Component {
       nichen: this.state.nickname
     }).then(result => {
       if (result.result == 1) {
-        this.props.router.push('/account')
+        this.props.router.replace('/account')
       } else {
         Toast.info(result.msg, 1);
       }
