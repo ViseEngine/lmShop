@@ -9,6 +9,7 @@ import {
   List
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
+import { common } from 'common';
 import * as orderApi from '../api/order';
 
 class OrderDetail extends Component {
@@ -86,7 +87,11 @@ class OrderDetail extends Component {
           </p>
           {
             orderDetail.orderGoodsList.map(goods => {
-              return <Flex>
+              return <Flex key={goods.specId} onClick={() => {
+                common.gotoGoodsDetail({
+                  specId:goods.specId
+                })
+              }}>
                 <Img src={goods.goodsImage}
                   style={{ width: '1.5rem', height: '1.5rem' }} />
                 <div>
