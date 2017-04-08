@@ -99,11 +99,9 @@ class CartShop extends Component {
                 <p className='text-overflow-hidden' style={{ fontSize: '.24rem',color:'#bbb' }}
                   dangerouslySetInnerHTML={{ __html: goods.specInfo }}>
                 </p>
-                <Flex>
+                <Flex justify='between'>
                   <div>{goods.goodsPrice}</div>
-                  <Flex.Item style={{textAlign:'right'}}>
-                    <Stepper showNumber min={1} value={goods.goodsNum} onChange={(val)=>this.updateCart(data,goods,val)} />
-                  </Flex.Item>
+                  <Stepper showNumber min={1} value={goods.goodsNum} onChange={(val)=>this.updateCart(data,goods,val)} />
                 </Flex>
                 <div style={{ textAlign: 'right' }}>
                   <Button size='small' inline onClick={() => this.delCart(goods)}>删除</Button>
