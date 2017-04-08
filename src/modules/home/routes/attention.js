@@ -10,6 +10,7 @@ import {
   Flex,
   Button
 } from 'antd-mobile';
+import { common } from 'common';
 import * as memberApi from '../api/member';
 import * as storeApi from '../api/store';
 
@@ -91,6 +92,17 @@ class Attention extends Component {
     }
   }
 
+  onClick = (el) => {
+    common.gotoGoodsDetail({ specId: el.goods.specId });
+  }
+
+  gotoStore = (item) => {
+    if (item.store.storeId == 0) {
+      return;
+    }
+    this.props.router.push(`/store/${item.store.storeId}/index`)
+  }
+
   render() {
     const {
       goodsList,
@@ -106,9 +118,13 @@ class Attention extends Component {
               {
                 goodsList && goodsList.map((item, index) => <List.Item key={index}>
                   <Flex>
-                    <Flex.Item style={{flex:1}}><Img src={item.goods.goodsImage} style={{width:'100%',height:'100%'}} /></Flex.Item>
+                    <Flex.Item
+                      onClick={()=>this.onClick(item)}
+                      style={{ flex: 1 }}><Img src={item.goods.goodsImage} style={{ width: '100%', height: '100%' }} /></Flex.Item>
                     <Flex.Item style={{flex:2}}>
-                      <div className='text-overflow-hidden'>{item.goods.goodsName}</div>
+                      <div
+                        onClick={()=>this.onClick(item)}
+                        className='text-overflow-hidden'>{item.goods.goodsName}</div>
                       <div>{item.goods.goodsPrice}</div>
                       <div style={{ textAlign: 'right' }}>
                         <Button type='primary' size='small' inline onClick={()=>this.cancelAttention(item)}>取消关注</Button>
@@ -128,9 +144,17 @@ class Attention extends Component {
               {
                 storeList && storeList.map((item, index) => <List.Item key={index}>
                   <Flex>
-                    <Flex.Item style={{flex:1}}><Img src={item.store.storeLogo} style={{width:'100%',height:'100%'}} /></Flex.Item>
+                    <Flex.Item
+                      onClick={() => { 
+                        this.gotoStore(item)
+                      }}
+                      style={{ flex: 1 }}><Img src={item.store.storeLogo} style={{ width: '100%', height: '100%' }} /></Flex.Item>
                     <Flex.Item style={{flex:2}}>
-                      <div className='text-overflow-hidden'>{item.store.storeName}</div>
+                      <div
+                        onClick={() => { 
+                          this.gotoStore(item)
+                        }}
+                        className='text-overflow-hidden'>{item.store.storeName}</div>
                       <div>关注人数 {item.store.storeCollect}</div>
                       <div style={{ textAlign: 'right' }}>
                         <Button type='primary' size='small' inline onClick={()=>this.cancelAttention(item)}>取消关注</Button>
