@@ -56,7 +56,7 @@ class Order extends Component {
         // 货到付款，成功后跳转到货到付款提示页面
         if (paytype == 2) {
           Toast.success(result.msg, 1, () => {
-            this.props.router.go(-1);
+            window.location.href = 'home.html#/orderList/0';
           });
         } else {
           // 跳转到收银台
@@ -78,7 +78,7 @@ class Order extends Component {
       freight,
       couponId,
       invoiceId,
-      priceData
+      priceData,
     } = this.props.order;
     // 验证数据
     if (!selectedAddress) {
@@ -87,7 +87,7 @@ class Order extends Component {
     }
 
     // 如果使用余额支付，弹出密码输入框，，否则跳到
-    if (isPd == 1) {
+    if (isPd == 1 && paytype == 1) {
       prompt(
         '请输入支付密码',
         '', [{ text: '取消' }, {
