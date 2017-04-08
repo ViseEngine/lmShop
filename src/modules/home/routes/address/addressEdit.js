@@ -70,6 +70,7 @@ class AddressEdit extends Component {
     const currentAreaName = [currentProvince.label, currentCity.label, currentArea.label].join(',');
 
     addressApi.saveAddress({
+      addressId: this.props.location.state.addressId,
       ...fieldsValue,
       provinceId,
       cityId,
