@@ -42,9 +42,15 @@ const order = handleActions({
   },
   ['selectPayType'](state, action) {
     const payload = action.payload
+    let isPd = state.isPd;
+    // 货到付款，自动切换为不使用余额
+    if (payload == 2) {
+      isPd = 0;
+    }
     return {
       ...state,
-      paytype: payload
+      paytype: payload,
+      isPd
     };
   },
   ['selectCoupon'](state, action) {
