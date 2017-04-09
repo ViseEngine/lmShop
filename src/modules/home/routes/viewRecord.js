@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { withRouter } from 'react-router'
 import {
   WhiteSpace,
@@ -19,6 +19,12 @@ import './attention.less';
 const TabPane = Tabs.TabPane;
 
 class GoodsViewRecord extends Component {
+
+  static contextTypes = {
+    initAction: PropTypes.func,
+    clearAction: PropTypes.func,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -30,6 +36,35 @@ class GoodsViewRecord extends Component {
 
   onClick = (el) => {
     common.gotoGoodsDetail({ specId: el.browseSpecId });
+  }
+
+  componentWillMount() {
+    this.context.initAction({
+      title: '清空',
+      action: () => {
+        // 清空处理
+        Modal.alert('提示', '是否全部清除?', [
+          { text: '取消' },
+          {
+            text: '确定',
+            onPress: () => {
+              console.log(this.state);
+              memberApi.delGoodsBrowseByAll({
+                browseState: this.state.type
+              }).then(result => {
+                Toast.info(result.msg);
+                // 刷新页面
+                this.onChangeTab(this.state.type);
+              });
+            }
+          }
+        ]);
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.context.clearAction();
   }
 
 
@@ -56,7 +91,6 @@ class GoodsViewRecord extends Component {
   }
 
   onChangeTab = (value) => {
-    console.log(value);
     this.setState({
       type: value
     })

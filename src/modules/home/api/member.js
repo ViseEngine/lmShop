@@ -38,6 +38,15 @@ export function delGoodsBrowse({ browseId }) {
   });
 }
 
+// 删除全部
+export function delGoodsBrowseByAll({ browseState }) {
+  return fetch.get('/memberapi/delGoodsBrowseByAll', {
+    browseState
+  });
+}
+
+// http://testbbc.leimingtech.com/memberapi/delGoodsBrowseByAll
+
 // 积分
 export function shopPointsLogList({
   pageNo,
