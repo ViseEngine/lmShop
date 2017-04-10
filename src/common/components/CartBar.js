@@ -33,7 +33,11 @@ class CartBar extends React.Component {
     const isFavUrl = `${common.SERVER_DOMAIN}/res_v4.0/h5/images/${filename}`
     return (
       <div className='wx-cartbar'>
-        <Flex style={{ width:'100%'}}>
+        <Flex style={{
+          width: '100%',
+          paddingLeft: '0.1rem',
+          paddingRight:'0.1rem'
+        }}>
           {
             showCollectionCart && <Flex.Item style={{ flex: 1, textAlign: 'center' }} onClick={() => this._storecollection()}>
               <img src={isFavUrl} style={{width:'.44rem',height:'.44rem'}} alt=""/>   
