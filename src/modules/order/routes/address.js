@@ -91,6 +91,7 @@ class Address extends Component {
   render() {
     const { addressList } = this.state;
     return <div className='wx-addresslist'>
+      <div className='fix-scroll hastitle hasbottom'>
       {
         addressList.map(address => {
           return <List key={address.addressId}>
@@ -112,7 +113,8 @@ class Address extends Component {
             </Item>
           </List>
         })
-      }
+        }
+      </div>  
       <div className='wx-addresslist-bar'>
         <Button type='primary' onClick={this.gotoAdd}>新增地址</Button>
       </div>

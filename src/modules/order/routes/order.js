@@ -253,6 +253,7 @@ class Order extends Component {
       invoiceShow = invoice.invTitle
     }
     return <div className='wx-order'>
+      <div className='fix-scroll hastitle' style={{paddingBottom:'1.1rem'}}>
       <List>
         <Item onClick={this.onClickSelectedAddress}
           arrow="horizontal"
@@ -316,7 +317,8 @@ class Order extends Component {
             <div>{`¥${priceData.totalPrice}`}</div>
           </div>
         </Flex.Item>
-      </Flex>
+        </Flex>
+      </div>  
       <OrderBar onSubmitOrder={this.onSubmitOrder} totalPrice={priceData.totalPrice}></OrderBar>
     </div>
   }
