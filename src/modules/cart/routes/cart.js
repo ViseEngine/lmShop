@@ -295,7 +295,7 @@ class Cart extends Component {
     if (!isInit) {
       return null;
     }
-    return <div className='wx-cart-list fix-scroll'>
+    return <div className='wx-cart-list fix-scroll hastitle'>
       {
         !isLogin && <WingBlank>
           <Button inline size="small" onClick={this.gotoLogin}>登录</Button>
