@@ -82,15 +82,15 @@ class My extends Component {
       <img src={item.icon} style={{height:'0.5rem'}}/>
       <div>{item.text}</div>
       {
-        index == 0 && memberDetail.noPayOrder &&
+        index == 0 && memberDetail.noPayOrder!=0 &&
           <OrderBadge num={memberDetail.noPayOrder}></OrderBadge>
       }
       {
-        index == 1 && memberDetail.noReceiveOrder &&
+        index == 1 && memberDetail.noReceiveOrder!=0 &&
           <OrderBadge num={memberDetail.noReceiveOrder}></OrderBadge>
       }
       {
-        index == 2 && memberDetail.finishOrder &&
+        index == 2 && memberDetail.finishOrder!=0 &&
           <OrderBadge num={memberDetail.finishOrder}></OrderBadge>
       }
     </div>
