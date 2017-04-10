@@ -69,6 +69,7 @@ class StoreDetail extends Component {
     const storeCodeShow = <Img src={store.storeCode} />;
     const storeBannerShow = `url(${common.IMAGE_DOMAIN}${store.storeBanner}) no-repeat center center`;
     return <div className='wx-store'>
+      <div className='fix-scroll hastitle'>
       <div className='wx-store-header' style={{ background: storeBannerShow }}>
         <WingBlank size='sm'>  
           <Flex className='wx-store-header-body'>
@@ -132,7 +133,8 @@ class StoreDetail extends Component {
         <Item>
           授权品牌
         </Item>
-      </List>
+        </List>
+      </div>  
     </div>
   }
 }

@@ -101,6 +101,7 @@ class Store extends Component {
     const { params, router } = this.props;
     const storeBannerShow = `url(${common.IMAGE_DOMAIN}${store.storeBanner}) no-repeat center center`;
     return <div className='wx-store'>
+      <div className='fix-scroll hastitle hasbottom'>
       <Flex className='wx-store-search'>
         <Icon type='left' onClick={()=>this.props.router.goBack()}/>
         <Flex.Item>
@@ -165,7 +166,7 @@ class Store extends Component {
             renderItem={(dataItem,index)=>(this.renderItem(dataItem))}>
         </Grid>
       </div>
-      
+      </div>
       <div className='wx-store-bar'>
         <Flex style={{ width:'100%',textAlign:'center'}} >
           <Flex.Item>
