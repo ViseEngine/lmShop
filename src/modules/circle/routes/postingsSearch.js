@@ -54,7 +54,7 @@ class PostingsSearch extends Component {
   render() {
     const { postingsList } = this.state;
     return (
-      <div>
+      <div className='fix-scroll hastitle'>
         <List>
           {
             postingsList.map(postings => {

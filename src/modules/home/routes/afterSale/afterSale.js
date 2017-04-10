@@ -109,7 +109,7 @@ class AfterSale extends Component {
     </div>;*/
     const footer = null;
     return (
-      <div className="wx-afterSale">
+      <div className="wx-afterSale fix-scroll">
         <ListView
           style={{
             height: document.documentElement.clientHeight - 200,

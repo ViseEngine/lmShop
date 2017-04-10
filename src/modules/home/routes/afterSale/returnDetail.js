@@ -36,7 +36,8 @@ class ReturnDetail extends Component {
     }
     let refundStateShow = returnDetail.refundState == 1 ? '进行中' : ''
     return (
-      <WingBlank>
+      <div className='fix-scroll' style={{paddingTop:'0.9rem'}}>
+      <WingBlank >
         <WhiteSpace></WhiteSpace>
         <div>
           退款金额 <span style={{color:'red'}}>【{`￥${returnDetail.refundAmount}`}】</span>  
@@ -60,6 +61,7 @@ class ReturnDetail extends Component {
           退款状态: {refundStateShow} 
         </p>
       </WingBlank >
+      </div>
     )
   }
 }

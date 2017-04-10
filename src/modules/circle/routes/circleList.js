@@ -60,7 +60,7 @@ class CircleList extends Component {
     const { hotCircle, hotpostings } = this.state;
     return (
       <div>
-        <Flex>
+        <Flex className='fixed-top'>
           <Icon type='left' onClick={this.back}/>
           <Flex.Item>
             <SearchBar
@@ -68,7 +68,7 @@ class CircleList extends Component {
               placeholder="请搜索你想要的圈子"></SearchBar>
           </Flex.Item> 
         </Flex>
-        <List>
+        <List className='fix-scroll hastitle'>
           {
             hotCircle.map(circle => {
               return <Item key={circle.circleId} onClick={()=>this.gotoCircleDetail(circle)}>
@@ -85,7 +85,7 @@ class CircleList extends Component {
               </Item>
             })
           }
-        </List>
+          </List>
       </div>
     )
   }

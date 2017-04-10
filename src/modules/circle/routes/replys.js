@@ -50,7 +50,7 @@ class Replys extends Component {
       commentsList
     } = this.state;
     return (
-      <div>
+      <div className='fix-scroll hastitle'>
         <List>
           {
             commentsList.map(comments => {

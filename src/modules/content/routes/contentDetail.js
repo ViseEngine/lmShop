@@ -92,7 +92,7 @@ class ContentDetail extends Component {
       return null;
     }
     return (
-      <div>
+      <div className='fix-scroll hastitle hasbottom'>
         <Flex direction='column' justify='center'>
           <div style={{ textAlign: 'center' }}>
             <h4>{contentEntity.title}</h4>
@@ -105,7 +105,7 @@ class ContentDetail extends Component {
         </Flex>
         <List renderHeader={this.renderHeader(contentEntity)}>
           {
-            commentList.map(comment => {
+            commentList && commentList.map(comment => {
               return <Item key={comment.commentid}>
                 <Flex align='top'>
                   <Img src={comment.memberAvatar} style={{

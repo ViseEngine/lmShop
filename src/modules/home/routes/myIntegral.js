@@ -35,7 +35,7 @@ class MyIntegral extends Component {
       shopPointsLogsList
     } = this.state;
     return (
-      <div>
+      <div className='fix-scroll hastitle'>
         <div style={{
           height: '1rem',
           padding: '0.5rem 0.3rem'

@@ -181,7 +181,7 @@ class ApplyAfterSale extends Component {
       parseFloat(goodsItem.goodsPayPrice * goodsItem.goodsNum).toFixed(2)
 
     return (
-      <div className="wx-applyafterSale">
+      <div className="wx-applyafterSale fix-scroll">
         <WhiteSpace style={{
           height: '0.2rem',
           backgroundColor:'white'

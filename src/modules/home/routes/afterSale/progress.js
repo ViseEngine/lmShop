@@ -74,7 +74,7 @@ class Progress extends Component {
     const listHeight = `${document.documentElement.clientHeight/100 - 1.7}rem`
 
     return (
-      <div className="wx-progress">
+      <div className="wx-progress fix-scroll">
           <SegmentedControl
             style={{ height: '0.8rem',width:'100%'}}  
             tintColor={'#ff0000'}

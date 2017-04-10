@@ -86,6 +86,7 @@ class Circle extends Component {
     const { hotCircle, hotpostings } = this.state;
     return (
       <div className='wx-circle'>
+        <div  className='fix-scroll hastitle hasbottom'>
         <List>
           <Item>热门圈子</Item>  
           {
@@ -128,7 +129,8 @@ class Circle extends Component {
             })
           }
           <Item><div style={{textAlign:'center'}} onClick={()=>this.moreList(2)}>更多</div></Item>  
-        </List>
+          </List>
+        </div>  
         <div className='circle-bottom' onClick={this.goMy}>
           进入我的
         </div>

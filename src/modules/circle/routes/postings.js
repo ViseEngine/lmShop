@@ -109,8 +109,8 @@ class Postings extends Component {
     if (!postings) {
       return null;
     }
-    return (
-      <div className='wx-postings'>
+    return (<div className='wx-postings'>
+        <div className='fix-scroll hastitle hasbottom'>
         <List>
           <Item>
             <Flex>
@@ -175,7 +175,8 @@ class Postings extends Component {
               </Item>
             })
           }
-        </List>
+          </List>
+        </div>  
         <div className='postings-bottom'>
           <Flex justify='between'>
             <Flex.Item>
@@ -191,8 +192,7 @@ class Postings extends Component {
               inline>发布</Button>  
           </Flex>
         </div>
-      </div>
-    )
+      </div>)
   }
 }
 

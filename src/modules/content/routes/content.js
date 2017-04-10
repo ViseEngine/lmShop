@@ -75,7 +75,7 @@ class Content extends Component {
       return null;
     }
     return (
-      <div>
+      <div className='fix-scroll hastitle'>
         <Tabs activeKey={activeKey}
           swipeable={false}
           onChange={this.onChangeTab}>

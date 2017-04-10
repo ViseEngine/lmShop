@@ -14,8 +14,6 @@ import * as memberApi from '../api/member';
 import { common } from 'common';
 import { Img } from 'commonComponent';
 
-import './attention.less';
-
 const TabPane = Tabs.TabPane;
 
 class GoodsViewRecord extends Component {
@@ -122,7 +120,7 @@ class GoodsViewRecord extends Component {
       type
     } = this.state;
     return (
-      <div className='wx-attention'>
+      <div className='wx-attention fix-scroll'>
         <Tabs swipeable={false} defaultActiveKey={type} onChange={this.onChangeTab}>
           <TabPane tab="商品浏览记录" key="0">
             <List>

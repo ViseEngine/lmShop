@@ -38,7 +38,7 @@ class Comments extends Component {
       commentList
     } = this.state;
     return (
-      <div>
+      <div className='fix-scroll hastitle'>
         <List>
           {
             commentList.map(comment => {

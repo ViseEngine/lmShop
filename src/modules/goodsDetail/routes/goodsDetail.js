@@ -242,7 +242,7 @@ class GoodsDetail extends Component {
     });
     const selectedSpecGoodsSpec = vals.join(' ');
     return (
-      <div className='wx-goods-detail'>
+      <div className='wx-goods-detail fix-scroll'>
         <Carousel autoplay={false} infinite={false} dots={false}>
           {
             goodsDetailInfo.goodsCallyList.map((item,index) => (

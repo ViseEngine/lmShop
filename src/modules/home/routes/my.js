@@ -127,7 +127,7 @@ class My extends Component {
 
     const isLogin = common.isLogin();
     const { memberDetail } = this.state;
-    return <div className='wx-my'>
+    return <div className='wx-my fix-scroll'>
       <Flex style={{ height: '1.5rem' }}>
         <WingBlank>
           <Flex>

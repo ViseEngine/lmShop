@@ -62,7 +62,7 @@ class PostingsList extends Component {
     const { postingsList } = this.state;
     return (
       <div>
-        <Flex>
+        <Flex className='fixed-top'>
           <Icon type='left' onClick={this.back}/>
           <Flex.Item>
             <SearchBar
@@ -70,7 +70,7 @@ class PostingsList extends Component {
               placeholder="请搜索你想要的帖子"></SearchBar>
           </Flex.Item> 
         </Flex>
-        <List>
+        <List className='fix-scroll hastitle'>
           {
             postingsList.map(postings => {
               return <Item key={postings.postingsId} onClick={()=>this.gotoPostingsDetail(postings)}>

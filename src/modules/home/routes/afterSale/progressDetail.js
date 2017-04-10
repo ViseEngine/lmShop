@@ -59,7 +59,7 @@ class ProgressDetail extends Component {
 
     const list = type == 0 ? progressDetail.returnLogList : progressDetail.shopBarterLogList;
     return (
-      <div className="wx-progress-detail">
+      <div className="wx-progress-detail fix-scroll">
         <List>
           <Item>问题描述</Item>
           <Item style={{height:'2rem'}}>

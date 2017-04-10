@@ -126,7 +126,7 @@ class CircleDetail extends Component {
     const bannerShow = `url(${common.IMAGE_DOMAIN}${circle.circlePhoto}) 100% 100% no-repeat fixed top `;
     const favShow = circle.isFavorites == 1 ? '已关注' : '+关注'
     return (
-      <div>
+      <div className='fix-scroll hastitle'>
         <div style={{height:'2rem',background:bannerShow}}>
           <WingBlank>
             <Flex>

@@ -94,7 +94,7 @@ class GroupBuy extends Component {
       return null;
     }
     return (
-      <div className='wx-group'>
+      <div className='wx-group fix-scroll'>
         <Tabs swipeable={false} onChange={this.onTabChange} defaultActiveKey={defaultActiveClass}>
           {
             qiangClass.map((item,index) => {

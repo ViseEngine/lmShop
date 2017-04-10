@@ -114,16 +114,14 @@ class TimeBuy extends Component {
         <p>
           {dataItem.goodsName}
         </p>
-        <WingBlank>
-          <Flex justify='between'>
-            <div style={{color:'red'}}>{'¥'+dataItem.price}</div>
-            <div style={{textDecoration:'line-through'}}>{'¥'+dataItem.specGoodsPrice}</div>
-              <Button size='small' inline type='primary' onClick={()=>this.gotoBuy(dataItem)}>马上抢</Button>
-          </Flex>
-          <Flex justify='end'>
-            <p style={{color:'red'}}>{dataItem.countdown}</p>
-          </Flex>
-        </WingBlank>
+        <Flex justify='between' style={{marginRight:'.1rem'}}>
+          <div style={{color:'red'}}>{'¥'+dataItem.price}</div>
+          <div style={{textDecoration:'line-through'}}>{'¥'+dataItem.specGoodsPrice}</div>
+          <Button size='small' inline type='primary' onClick={()=>this.gotoBuy(dataItem)}>马上抢</Button>
+        </Flex>
+        <Flex justify='end' style={{marginRight:'.1rem'}}>
+          <p style={{height:'0.3rem',color:'red'}}>{dataItem.countdown}</p>
+        </Flex>
         
       </Flex.Item>
     </Flex>
@@ -152,7 +150,9 @@ class TimeBuy extends Component {
     if (qiangClass.length == 0) {
       return null;
     }
-    return <div>
+    return <div className='fix-scroll' style={{
+      paddingTop:'0.9rem'
+    }}>
       {this.renderHeader()}
       <WhiteSpace></WhiteSpace>
       <ListView

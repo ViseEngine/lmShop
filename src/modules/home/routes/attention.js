@@ -111,7 +111,7 @@ class Attention extends Component {
       type
     } = this.state;
     return (
-      <div className='wx-attention'>
+      <div className='wx-attention fix-scroll'>
         <Tabs swipeable={false} defaultActiveKey={type} onChange={this.onChangeTab}>
           <TabPane tab="关注的商品" key="1">
             <List>
