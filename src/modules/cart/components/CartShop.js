@@ -76,7 +76,7 @@ class CartShop extends Component {
     return <Flex>
       <Checkbox checked={data.checked}
         onChange={(e)=>this.checkShop(data,e)}
-      >{data.storeName}</Checkbox>
+      ></Checkbox>&nbsp;{data.storeName}
       <Icon type='right' />
       <Flex.Item style={{ textAlign: 'right' }}>
         <Button size='small' inline onClick={()=>this.getCoupon(data)}>领券</Button>
