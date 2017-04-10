@@ -82,7 +82,7 @@ class Address extends Component {
 
   render() {
     const { addressList } = this.state;
-    return <div className='wx-addresslist'>
+    return <div className='wx-addresslist fix-scroll hastitle'>
       {
         addressList.map(address => {
           return <List key={address.addressId}>
