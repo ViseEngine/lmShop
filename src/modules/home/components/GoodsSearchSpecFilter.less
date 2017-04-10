@@ -1,12 +1,23 @@
 .wx-GoodsSearchSpecFilter {
   width: 6rem;
+  height: 100%;
   background-color: white;
-  z-index: 10000;
-  position: fixed;
+  z-index: 1000;
+  position: absolute;
   right: 0;
-  overflow-y: scroll;
-
+  top: 0;
   font-size: .24rem;
+
+  .price-filter {
+    .am-list-item {
+      z-index: 1001;
+    }
+  }
+
+  .spec-value-list {
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+  }
 
   .spec-value {
     .am-button {
@@ -25,7 +36,7 @@
     font-size: .26px;
     position: fixed;
     bottom: 0;
-    height: 0.9rem;
+    height: 0.84rem;
     width: 6rem;
     .am-button {
       padding: 0;
@@ -33,16 +44,4 @@
       width: 3rem;
     }
   }
-}
-
-.fixios {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  z-index: 10000;
-  /* 使之可以滚动 */
-  overflow-y: scroll;
-  /* 为了页面滚动流畅 */
-  -webkit-overflow-scrolling: touch;
 }

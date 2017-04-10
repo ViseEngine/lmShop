@@ -33,8 +33,8 @@ class GoodsSearch extends Component {
       sortOrder: 'asc',
       open: false,
       specList: [],
-      maximumPrice: null,
-      minimumPrice: null
+      maximumPrice: '',
+      minimumPrice: ''
     }
   }
 
@@ -105,7 +105,15 @@ class GoodsSearch extends Component {
     })
   }
 
+  // 修改价格过滤
+  changePrice = (priceFilter) => {
+    this.setState({
+      ...priceFilter
+    })
+  }
+
   filterBySpec = () => {
+    console.log(this.state);
     this.setState({
       open: false
     })
@@ -215,6 +223,7 @@ class GoodsSearch extends Component {
     return <div className='wx-goods-search-page'>
       {
         this.state.open ? <GoodsSearchSpecFilter
+          changePrice={this.changePrice}  
           onClickSpValue={this.onClickSpValue}
           resetSpec={this.resetSpec}
           filterBySpec={this.filterBySpec}
@@ -227,44 +236,50 @@ class GoodsSearch extends Component {
           open:false
         })} className="am-modal-mask"></div> : null
       }
-      <Flex className='wx-goods-search-header'>
-        <Flex.Item onClick={()=>this.changeOrder('')}>
-          {
-            sortField == '' ? <span style={{color:'red'}}>综合</span>:'综合'
-          }  
-          <div className='wx-goods-search-order'>
-            <Icon className={allUpClass} type="up" />
-            <Icon className={allDownClass} type="down" />
-          </div>
-        </Flex.Item>
-        <Flex.Item onClick={()=>this.changeOrder('salenum')}>
-          {
-            sortField == 'salenum' ? <span style={{color:'red'}}>销量</span>:'销量'
-          }  
-          <div className="wx-goods-search-order">
-            <Icon className={salenumUpClass} type="up" />
-            <Icon className={salenumDownClass} type="down" />
-          </div>
-        </Flex.Item>
-        <Flex.Item onClick={()=>this.changeOrder('goodsStorePrice')}>
-          {
-            sortField == 'goodsStorePrice' ? <span style={{color:'red'}}>价格</span>:'价格'
-          }  
-          <div className="wx-goods-search-order">
-            <Icon className={goodsStorePriceUpClass} type="up"/>
-            <Icon className={goodsStorePriceDownClass} type="down" />
-          </div>
-        </Flex.Item>
-        <Flex.Item onClick={()=>this.onClickFilter()}>
-          筛选<img style={{width:'.2rem',height:'.2rem'}} src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/list_saixuan.png`} />
-        </Flex.Item>
-      </Flex>
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderItem}
-        stickyHeader
-        delayTime={10}>
-      </ListView>
+      <Flex direction='column'>
+        <Flex className='wx-goods-search-header'>
+          <Flex.Item onClick={()=>this.changeOrder('')}>
+            {
+              sortField == '' ? <span style={{color:'red'}}>综合</span>:'综合'
+            }  
+            <div className='wx-goods-search-order'>
+              <Icon className={allUpClass} type="up" />
+              <Icon className={allDownClass} type="down" />
+            </div>
+          </Flex.Item>
+          <Flex.Item onClick={()=>this.changeOrder('salenum')}>
+            {
+              sortField == 'salenum' ? <span style={{color:'red'}}>销量</span>:'销量'
+            }  
+            <div className="wx-goods-search-order">
+              <Icon className={salenumUpClass} type="up" />
+              <Icon className={salenumDownClass} type="down" />
+            </div>
+          </Flex.Item>
+          <Flex.Item onClick={()=>this.changeOrder('goodsStorePrice')}>
+            {
+              sortField == 'goodsStorePrice' ? <span style={{color:'red'}}>价格</span>:'价格'
+            }  
+            <div className="wx-goods-search-order">
+              <Icon className={goodsStorePriceUpClass} type="up"/>
+              <Icon className={goodsStorePriceDownClass} type="down" />
+            </div>
+          </Flex.Item>
+          <Flex.Item onClick={()=>this.onClickFilter()}>
+            筛选<img style={{width:'.2rem',height:'.2rem'}} src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/list_saixuan.png`} />
+          </Flex.Item>
+        </Flex>
+        <div className='fix-scroll' style={{paddingTop:'1.9rem'}}>
+          <ListView
+            style={{
+              height:'100%'
+            }}  
+            dataSource={this.state.dataSource}
+            renderRow={this.renderItem}
+            delayTime={10}>
+            </ListView>
+        </div>
+      </Flex>  
     </div>
   }
 }
