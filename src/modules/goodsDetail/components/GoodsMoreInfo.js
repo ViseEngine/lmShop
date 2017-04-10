@@ -32,7 +32,7 @@ export default function({ goodsDetailInfo }) {
         })
       }
     </TabPane>
-    <TabPane tab="规格参数" key="2">
+    <TabPane tab="规格参数" key="2" style={{overflowX:'hidden'}}>
       <div dangerouslySetInnerHTML={{ __html: goodsDetailInfo.goodsProperty }}></div>
     </TabPane>
     <TabPane tab="包装售后" key="3">

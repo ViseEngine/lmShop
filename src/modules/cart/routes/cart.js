@@ -295,38 +295,40 @@ class Cart extends Component {
     if (!isInit) {
       return null;
     }
-    return <div className='wx-cart-list fix-scroll hastitle'>
-      {
-        !isLogin && <WingBlank>
-          <Button inline size="small" onClick={this.gotoLogin}>登录</Button>
-        </WingBlank>
-      }
-      {
-        cartList && cartList.map((shop,index) => {
-          return <CartShop
-            key={index}  
-            data={shop}
-            delShopCart={this.delShopCart}
-            delCart={this.delCart}
-            updateCart={this.updateCart}
-            checkShop={this.checkShop}
-            checkGoods={this.checkGoods}
-            getCoupon={this.getCoupon}
-          >
-          </CartShop>
-        })
-      }
-      {
-        cartList.length == 0 && 
-          <div style={{ padding:'20px 20px' }}>
-            <img src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/b_3.png`}></img>
-            <span style={{fontSize: '28px',color:'gray'}}>购物车是空的</span>
-          </div>
-      }
+    return <div className='wx-cart-list'>
+      <div className='fix-scroll hastitle' style={{paddingBottom:'1.8rem'}}>
+        {
+          !isLogin && <WingBlank>
+            <Button inline size="small" onClick={this.gotoLogin}>登录</Button>
+          </WingBlank>
+        }
+        {
+          cartList && cartList.map((shop,index) => {
+            return <CartShop
+              key={index}  
+              data={shop}
+              delShopCart={this.delShopCart}
+              delCart={this.delCart}
+              updateCart={this.updateCart}
+              checkShop={this.checkShop}
+              checkGoods={this.checkGoods}
+              getCoupon={this.getCoupon}
+            >
+            </CartShop>
+          })
+        }
+        {
+          cartList.length == 0 && 
+            <div style={{ padding:'20px 20px' }}>
+              <img src={`${common.SERVER_DOMAIN}/res_v4.0/h5/images/b_3.png`}></img>
+              <span style={{fontSize: '28px',color:'gray'}}>购物车是空的</span>
+            </div>
+        }
       
-      <div>
-        <RecommendGoods data={this.state.relGoodsRecommedlist}></RecommendGoods>
-      </div>
+        <div>
+          <RecommendGoods data={this.state.relGoodsRecommedlist}></RecommendGoods>
+        </div>
+      </div>  
       
       <div className='wx-cart-list-bar'>
         <Flex>
