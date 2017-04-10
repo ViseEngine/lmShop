@@ -109,21 +109,22 @@ class AfterSale extends Component {
     </div>;*/
     const footer = null;
     return (
-      <div className="wx-afterSale fix-scroll">
-        <ListView
-          style={{
-            height: document.documentElement.clientHeight - 200,
-            overflowY: 'auto',
-          }}
-          renderFooter={() => footer}
-          dataSource={this.state.dataSource}
-          renderRow={(dataItem) => (
-            <AfterSaleOrderItem
-              cancelOrder={() => this.refreshList({
-                pageNo:1
-              })}
-              dataItem={dataItem}></AfterSaleOrderItem>
-          )}></ListView>
+      <div className="wx-afterSale">
+        <div className="fix-scroll hastitle">
+          <ListView
+            style={{
+              height: '100%'
+            }}
+            renderFooter={() => footer}
+            dataSource={this.state.dataSource}
+            renderRow={(dataItem) => (
+              <AfterSaleOrderItem
+                cancelOrder={() => this.refreshList({
+                  pageNo:1
+                })}
+                dataItem={dataItem}></AfterSaleOrderItem>
+            )}></ListView>
+        </div>
         <Button className='progressquery'
           onClick={() => {
             this.props.router.push('/progress')

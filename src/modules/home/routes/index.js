@@ -26,6 +26,7 @@ import applyAfterSale from './afterSale/applyAfterSale';
 import progress from './afterSale/progress';
 import progressDetail from './afterSale/progressDetail';
 import returnDetail from './afterSale/returnDetail';
+import returnGoods from './afterSale/returnGoods';
 
 import commentList from './commentList';
 import comment from './comment';
@@ -69,7 +70,8 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/progress(/:type)' component={progress} title='进度查询' />
   <Route path='/progressDetail/:type/:refundId' component={progressDetail} title='进度详情' />
   <Route path='/returnDetail/:refundId' component={returnDetail} title='退款详情' />
-
+  <Route path='/returnGoods/:refundId' component={returnGoods} title='填写快递单号' />
+  
   <Route path='/commentList' component={commentList} title='评价晒单' />
   <Route path='/comment' component={comment} title='评价晒单'/>
   

@@ -30,13 +30,41 @@ class ProgressItem extends Component {
   }
 
   render() {
+    // type 0 代表退货退款列表，1 代表换货
     const { dataItem, type } = this.props;
+    // 1 退货  2退款
+    const { returnType, sellerState, refundState } = dataItem
+
+    let showReturnBtn = false;
+    // console.log(dataItem.goodsName, dataItem);
+
+    const returnStateMap = {
+      '1': '进行中',
+      '2': '',
+      '3': '已完成'
+    }
+
+    const barterStateMap = {
+      '1': '进行中',
+      '2': '',
+      '3': '已完成'
+    }
 
     let statusShow = '';
     if (type == 0) {
-      statusShow = dataItem.refundState == 1 ? '进行中' : ''
+      if (refundState == 3) {
+        statusShow = '已完成'
+      } else if (sellerState == 2) {
+        statusShow = '进行中'
+      } else if (sellerState == 3) {
+        statusShow = '已完成'
+      }
+      // if () {
+
+      // }
+      // statusShow = returnStateMap[dataItem.refundState]
     } else {
-      statusShow = '进行中'
+      statusShow = barterStateMap[dataItem.refundState]
     }
     return <div className='progressItem'>
       <WhiteSpace></WhiteSpace>
@@ -53,9 +81,17 @@ class ProgressItem extends Component {
           <p>{dataItem.goodsName}</p>
           <p style={{color:'red'}}>状态: {statusShow}</p>
           <p style={{color:'#bbb'}}>申请时间: {dataItem.createTimeStr}</p>
+
           {
             type ==0 && <Flex.Item>
               <Flex justify='end'>
+                {
+                  showReturnBtn && <Button size='small'
+                    onClick={() => { 
+                      this.props.router.push(`/returnGoods/${dataItem.refundId}`)
+                    }}
+                    inline>退款详情</Button> 
+                }
                 <Button size='small'
                   onClick={()=>this.gotoReturnDetail(dataItem)}
                   inline>退款详情</Button>

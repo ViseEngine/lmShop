@@ -173,3 +173,17 @@ export function barterDetail({
     barterId
   });
 }
+
+// 退货
+export function returnDelivery({
+  invoiceNo,
+  expressName,
+  refundId
+}) {
+  return fetch.post('/orderapi/returnDelivery', {
+    invoiceNo,
+    expressName,
+    refundId
+  });
+}
+// http://testbbc.leimingtech.com/orderapi/returnDelivery
