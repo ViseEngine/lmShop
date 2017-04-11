@@ -32,41 +32,45 @@ class ProgressItem extends Component {
   render() {
     // type 0 代表退货退款列表，1 代表换货
     const { dataItem, type } = this.props;
-    // 1 退货  2退款
-    const { returnType, sellerState, refundState } = dataItem
+    // 1 退款 2 退货
+    const { refundType, sellerState, refundState, goodsState } = dataItem
 
     let showReturnBtn = false;
-    // console.log(dataItem.goodsName, dataItem);
-
-    const returnStateMap = {
-      '1': '进行中',
-      '2': '',
-      '3': '已完成'
-    }
-
-    const barterStateMap = {
-      '1': '进行中',
-      '2': '',
-      '3': '已完成'
-    }
 
     let statusShow = '';
     if (type == 0) {
-      if (refundState == 3) {
-        statusShow = '已完成'
-      } else if (refundState == 2) {
-        if (sellerState == 1) {
-          statusShow = '进行中'
-        } else if (sellerState == 2) {
-          statusShow = '商家审核通过'
+      if (refundType == 2) {
+        showReturnBtn = true;
+        if (refundState == 3) {
+          statusShow = '已完成'
         } else {
-          statusShow = '商家审核不通过'
+          if (sellerState == 2 && goodsState == 1) {
+            statusShow = '商家同意退货'
+          } else {
+            statusShow = '进行中'
+          }
         }
+      } else {
+        if (refundState == 3) {
+          statusShow = '已完成'
+        } else {
+          if (sellerState == 2 && goodsState == 1) {
+            statusShow = '商家同意退款'
+          } else {
+            statusShow = '进行中'
+          }
+        }
+      }
+    } else {
+      if (goodsState == 4) {
+
+      } else if (goodsState == 5) {
+        statusShow = '已完成'
+      } else if (goodsState == 1 && sellerState == 30) {
+        statusShow = '商家同意换货'
       } else {
         statusShow = '进行中'
       }
-    } else {
-      statusShow = barterStateMap[dataItem.refundState]
     }
     return <div className='progressItem'>
       <WhiteSpace></WhiteSpace>
@@ -88,11 +92,14 @@ class ProgressItem extends Component {
             type ==0 && <Flex.Item>
               <Flex justify='end'>
                 {
-                  showReturnBtn && <Button size='small'
+                  showReturnBtn && <Button
+                    type='ghost'
+                    size='small'
+                    style={{marginRight:'0.1rem'}}
                     onClick={() => { 
                       this.props.router.push(`/returnGoods/${dataItem.refundId}`)
                     }}
-                    inline>退款详情</Button> 
+                    inline>退货</Button> 
                 }
                 <Button size='small'
                   onClick={()=>this.gotoReturnDetail(dataItem)}

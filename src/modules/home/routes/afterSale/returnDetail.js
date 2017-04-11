@@ -34,7 +34,17 @@ class ReturnDetail extends Component {
     if (!returnDetail) {
       return null;
     }
-    let refundStateShow = returnDetail.refundState == 1 ? '进行中' : ''
+    const { refundState, goodsState, sellerState } = returnDetail;
+    let refundStateShow = '';
+    if (refundState == 3) {
+      refundStateShow = '已完成'
+    } else {
+      if (sellerState == 2 && goodsState == 1) {
+        refundStateShow = '商家同意退款'
+      } else {
+        refundStateShow = '进行中'
+      }
+    }
     return (
       <div className='fix-scroll' style={{paddingTop:'0.9rem'}}>
       <WingBlank >
