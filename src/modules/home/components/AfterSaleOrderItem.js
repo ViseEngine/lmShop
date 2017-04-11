@@ -73,7 +73,7 @@ class AfterSaleOrderItem extends Component {
                 <Img src={goods.goodsImage} style={{ width: '1.5rem' }} />
                 <div>
                   <p>{goods.goodsName}</p>
-                  <p dangerouslySetInnerHTML={{ __html: goods.specInfo }}></p>
+                  <p style={{fontSize:'.24rem',color:'gray'}} dangerouslySetInnerHTML={{ __html: goods.specInfo }}></p>
                 </div>
               </Flex>
               <Flex justify='end'>
