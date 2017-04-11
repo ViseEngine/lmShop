@@ -139,7 +139,7 @@ class OrderItem extends Component {
           dataItem.orderGoodsList.map(goods => {
             return <Flex key={goods.specId} onClick={()=>this.gotoOrderDetail(goods)}>
               <Img src={goods.goodsImage} style={{ width: '1.5rem' }} />
-              <div>
+              <div style={{marginLeft:'0.2rem'}}>
                 <p>{goods.goodsName}</p>
                 <p dangerouslySetInnerHTML={{ __html: goods.specInfo }}></p>
               </div>
