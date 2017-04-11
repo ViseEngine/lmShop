@@ -54,15 +54,17 @@ class ProgressItem extends Component {
     if (type == 0) {
       if (refundState == 3) {
         statusShow = '已完成'
-      } else if (sellerState == 2) {
+      } else if (refundState == 2) {
+        if (sellerState == 1) {
+          statusShow = '进行中'
+        } else if (sellerState == 2) {
+          statusShow = '商家审核通过'
+        } else {
+          statusShow = '商家审核不通过'
+        }
+      } else {
         statusShow = '进行中'
-      } else if (sellerState == 3) {
-        statusShow = '已完成'
       }
-      // if () {
-
-      // }
-      // statusShow = returnStateMap[dataItem.refundState]
     } else {
       statusShow = barterStateMap[dataItem.refundState]
     }

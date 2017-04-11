@@ -81,10 +81,10 @@ class HomeFunctionBlock extends React.PureComponent {
         text: `优惠券`,
       },
       {
-        icon: `${url}/res_v4.0/h5/images/i_8.png`,
+        icon: './assets/img/circle.png',
         text: `圈子`,
       }, {
-        icon: `${url}/res_v4.0/h5/images/i_8.png`,
+        icon: './assets/img/content.png',
         text: `资讯`,
       }
     ]
