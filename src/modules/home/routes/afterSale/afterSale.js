@@ -110,7 +110,7 @@ class AfterSale extends Component {
     const footer = null;
     return (
       <div className="wx-afterSale">
-        <div className="fix-scroll hastitle">
+        <div className="fix-scroll hastitle hasbottom">
           <ListView
             style={{
               height: '100%'
@@ -123,7 +123,8 @@ class AfterSale extends Component {
                   pageNo:1
                 })}
                 dataItem={dataItem}></AfterSaleOrderItem>
-            )}></ListView>
+            )}>
+          </ListView>
         </div>
         <Button className='progressquery'
           onClick={() => {

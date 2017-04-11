@@ -75,77 +75,141 @@ class ApplyAfterSale extends Component {
     })
   }
 
+  submitHandle = (imgUrl) => {
+    const { orderItem, goodsItem, type } = this.props.location.state;
+    const { files, selectedAction, buyerMessage, goodsNum } = this.state;
+    if (selectedAction == 1) {
+      const returnMoney = type == 1 ?
+        orderItem.returnMoney :
+        parseFloat(goodsItem.goodsPayPrice * goodsItem.goodsNum).toFixed(2)
+      orderApi.refundOrder({
+        imgUrl,
+        refundAmount: returnMoney,
+        buyerMessage,
+        orderGoodsId: goodsItem && goodsItem.recId,
+        orderId: orderItem && orderItem.orderId
+      }).then(r => {
+        if (r.result == 1) {
+          Toast.info(r.msg);
+          this.props.router.replace('/afterSale')
+        } else {
+          Toast.info(r.msg);
+        }
+      })
+    } else if (selectedAction == 2) { // 选择退货
+      orderApi.returnOrder({
+        imgUrl,
+        buyerMessage,
+        goodsNum,
+        orderGoodsId: goodsItem && goodsItem.recId,
+        orderId: orderItem && orderItem.orderId
+      }).then(r => {
+        if (r.result == 1) {
+          Toast.info(r.msg);
+          this.props.router.replace('/afterSale')
+        } else {
+          Toast.info(r.msg);
+        }
+      })
+    } else {
+      // 换货
+      orderApi.barterOrder({
+        imgUrl,
+        buyerMessage,
+        goodsNum,
+        orderGoodsId: goodsItem && goodsItem.recId,
+        orderId: orderItem && orderItem.orderId
+      }).then(r => {
+        if (r.result == 1) {
+          Toast.info(r.msg);
+          this.props.router.push('/afterSale')
+        } else {
+          Toast.info(r.msg);
+        }
+      })
+    }
+  }
+
   // 提交申请
   submit = () => {
     const { orderItem, goodsItem, type } = this.props.location.state;
     const { files, selectedAction, buyerMessage, goodsNum } = this.state;
-    console.log(orderItem);
     if (buyerMessage == '') {
       Toast.info('请填写问题描述', 1);
       return;
     }
-    if (files.length == 0) {
-      Toast.info('请先上传照片', 1);
-      return;
-    }
-    orderApi.filesUpload({
-      images: files.map(item => item.file)
-    }).then(result => {
-      // 上传图片成功
-      if (result.result == 1) {
-        const imgUrl = result.data;
-        if (selectedAction == 1) {
-          const returnMoney = type == 1 ?
-            orderItem.returnMoney :
-            parseFloat(goodsItem.goodsPayPrice * goodsItem.goodsNum).toFixed(2)
-          orderApi.refundOrder({
-            imgUrl,
-            refundAmount: returnMoney,
-            buyerMessage,
-            orderGoodsId: goodsItem && goodsItem.recId,
-            orderId: orderItem && orderItem.orderId
-          }).then(r => {
-            if (r.result == 1) {
-              Toast.info(r.msg);
-              this.props.router.push('/afterSale')
-            } else {
-              Toast.info(r.msg);
-            }
-          })
-        } else if (selectedAction == 2) { // 选择退货
-          orderApi.returnOrder({
-            imgUrl,
-            buyerMessage,
-            goodsNum,
-            orderGoodsId: goodsItem && goodsItem.recId,
-            orderId: orderItem && orderItem.orderId
-          }).then(r => {
-            if (r.result == 1) {
-              Toast.info(r.msg);
-              this.props.router.push('/afterSale')
-            } else {
-              Toast.info(r.msg);
-            }
-          })
-        } else {
-          // 换货
-          orderApi.barterOrder({
-            imgUrl,
-            buyerMessage,
-            goodsNum,
-            orderGoodsId: goodsItem && goodsItem.recId,
-            orderId: orderItem && orderItem.orderId
-          }).then(r => {
-            if (r.result == 1) {
-              Toast.info(r.msg);
-              this.props.router.push('/afterSale')
-            } else {
-              Toast.info(r.msg);
-            }
-          })
+    if (files.length > 0) {
+      orderApi.filesUpload({
+        images: files.map(item => item.file)
+      }).then(result => {
+        // 上传图片成功
+        if (result.result == 1) {
+          const imgUrl = result.data;
+          this.submitHandle(imgUrl);
         }
-      }
-    })
+      });
+    } else {
+      this.submitHandle();
+    }
+
+    // orderApi.filesUpload({
+    //   images: files.map(item => item.file)
+    // }).then(result => {
+    //   // 上传图片成功
+    //   if (result.result == 1) {
+    //     const imgUrl = result.data;
+    //     if (selectedAction == 1) {
+    //       const returnMoney = type == 1 ?
+    //         orderItem.returnMoney :
+    //         parseFloat(goodsItem.goodsPayPrice * goodsItem.goodsNum).toFixed(2)
+    //       orderApi.refundOrder({
+    //         imgUrl,
+    //         refundAmount: returnMoney,
+    //         buyerMessage,
+    //         orderGoodsId: goodsItem && goodsItem.recId,
+    //         orderId: orderItem && orderItem.orderId
+    //       }).then(r => {
+    //         if (r.result == 1) {
+    //           Toast.info(r.msg);
+    //           this.props.router.push('/afterSale')
+    //         } else {
+    //           Toast.info(r.msg);
+    //         }
+    //       })
+    //     } else if (selectedAction == 2) { // 选择退货
+    //       orderApi.returnOrder({
+    //         imgUrl,
+    //         buyerMessage,
+    //         goodsNum,
+    //         orderGoodsId: goodsItem && goodsItem.recId,
+    //         orderId: orderItem && orderItem.orderId
+    //       }).then(r => {
+    //         if (r.result == 1) {
+    //           Toast.info(r.msg);
+    //           this.props.router.push('/afterSale')
+    //         } else {
+    //           Toast.info(r.msg);
+    //         }
+    //       })
+    //     } else {
+    //       // 换货
+    //       orderApi.barterOrder({
+    //         imgUrl,
+    //         buyerMessage,
+    //         goodsNum,
+    //         orderGoodsId: goodsItem && goodsItem.recId,
+    //         orderId: orderItem && orderItem.orderId
+    //       }).then(r => {
+    //         if (r.result == 1) {
+    //           Toast.info(r.msg);
+    //           this.props.router.push('/afterSale')
+    //         } else {
+    //           Toast.info(r.msg);
+    //         }
+    //       })
+    //     }
+    //   }
+    // })
   }
 
   render() {
