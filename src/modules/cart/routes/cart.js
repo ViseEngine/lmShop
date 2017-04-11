@@ -343,8 +343,11 @@ class Cart extends Component {
                 <span style={{minWidth:'100px'}}>合计:¥{this.state.goodsTotalPrice}</span><br/>
                 <span>共{this.state.goodsNum}件</span>
               </Flex.Item>,
-              <Flex.Item key={2} style={{textAlign:'right'}}>
-                <Button type='primary' inline onClick={this.gotoBuy}>去结算</Button>
+              <Flex.Item key={2} style={{
+                textAlign: 'right',
+                margin: '0.1rem',
+              }}>
+                <Button type='primary' size='small' inline onClick={this.gotoBuy}>去结算</Button>
               </Flex.Item>    
              ] : [
               <Flex.Item key={1}>
