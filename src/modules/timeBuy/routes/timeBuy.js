@@ -67,6 +67,7 @@ class TimeBuy extends Component {
           clearInterval(this.timer)
         }
         this.timer = setInterval(this.countdown, 1000, 1000)
+        this.countdown();
       }
     })
   }
