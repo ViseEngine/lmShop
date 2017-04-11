@@ -56,11 +56,15 @@ class Cart extends Component {
     this.context.clearAction();
   }
 
-  componentDidMount() {
+  initAction = () => {
     // 绑定头部事件
     this.context.initAction({
-      title: <CartTopAction onChange={this.onChangeEditStatus}></CartTopAction>
+      title: <CartTopAction status={this.state.editStatus} onChange={this.onChangeEditStatus}></CartTopAction>
     })
+  }
+
+  componentDidMount() {
+    this.initAction();
 
     Toast.loading();
     cartApi.cartList().then(result => {
@@ -90,8 +94,10 @@ class Cart extends Component {
       if (result.result == 1) {
         const cartList = result.data || [];
         this.setState({
-          cartList
+          cartList,
+          editStatus: 0
         })
+        this.initAction();
         this.refreshTotalPriceAndCount(cartList);
       }
     })
@@ -164,10 +170,12 @@ class Cart extends Component {
     }
     cartApi.deleteCart({ cartId: cartId.join(',') }).then(result => {
       if (result.result == 1) {
-        this.setState({
-          editStatus: 0
-        });
-        this.refreshCartList();
+        // this.setState({
+        //   editStatus: 0
+        // });
+        Toast.info('删除成功', 1, () => {
+          this.refreshCartList();
+        })
       }
     })
   }

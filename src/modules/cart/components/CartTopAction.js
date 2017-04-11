@@ -9,6 +9,14 @@ class CartTopAction extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.status != this.state.status) {
+      this.setState({
+        status: nextProps.status
+      });
+    }
+  }
+
   onClick = () => {
     const nextStatus = this.state.status == 1 ? 0 : 1
     this.setState({
