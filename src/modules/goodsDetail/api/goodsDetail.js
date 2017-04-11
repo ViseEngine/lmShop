@@ -46,10 +46,12 @@ export function goodsEvaluteList({
 
 // 购买咨询
 export function goodsConsultList({
-  goodsId
+  goodsId,
+  pageNo
 }) {
   return fetch.get('/goods/api/goodsConsultList', {
-    goodsId
+    goodsId,
+    pageNo
   });
 }
 

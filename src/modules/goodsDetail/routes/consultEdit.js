@@ -34,6 +34,13 @@ class ConsultEdit extends Component {
       Toast.info('咨询内容不能为空', 1)
       return;
     }
+    // const regex = new RegExp("/^[\u4E00-\u9FA5\w\d]+$/u"); 
+    // const res = regex.test(this.state.content);
+    // if (!res) {
+    //   Toast.info('输入格式不合法', 1)
+    //   return;
+    // }
+
     goodsDetailApi.saveConsult({
       goodsId: this.props.params.goodsId,
       consultContent: this.state.content
