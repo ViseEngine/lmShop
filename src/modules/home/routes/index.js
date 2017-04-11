@@ -61,7 +61,7 @@ const routesConfig = (<Route path="/" component={App}>
   <Route path='/myIntegral' component={myIntegral} title='我的积分' />
   <Route path='/coupon(/:couponIsUser)' component={coupon} title='我的优惠券' />
 
-  <Route path='/my' component={my} title='我的' showBottomBar={true} />
+  <Route path='/my' component={my} title='我的' showBottomBar={true} selectedTab='my'/>
   <Route path='/orderList/(:type)' component={orderList} title='订单列表'/>
   <Route path='/orderDetail/(:id)' component={orderDetail} title='订单详情'/>
 
