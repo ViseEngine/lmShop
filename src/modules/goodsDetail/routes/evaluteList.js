@@ -92,10 +92,19 @@ class EvaluteList extends Component {
       <div className="wx-EvaluteList">
         {
          countAll && <SegmentedControl tintColor='#a4a9b0' selectedIndex={selectedIndex}
-            style={{ textAlign: 'center', height: '1rem' }} values={tabs}
+            style={{
+              textAlign: 'center',
+              height: '1rem',
+              position: 'fixed',
+              top: '0.9rem',
+              left: 0,
+              width: '100%',
+              zIndex:100
+            }} values={tabs}
             onChange={(e) => this.onChange(e.nativeEvent.selectedSegmentIndex)} >
           </SegmentedControl>
         }
+        <div className='fix-scroll' style={{paddingTop:'1.9rem'}}>
         <List>
         {
             evaluteList && evaluteList.map((item, index) => {
@@ -128,13 +137,19 @@ class EvaluteList extends Component {
               {
                 item.gevalImage && <div>{gevalImageShow}</div>
               }
-              <p dangerouslySetInnerHTML={{ __html: item.specInfo }} ></p>
-              <p>购买日期:{Moment(item.orderAddTime).format('YYYY-MM-DD HH:mm:ss')}</p>
+              <p style={{
+                fontSize: '.24rem',
+                color:'gray'
+              }} dangerouslySetInnerHTML={{ __html: item.specInfo }} ></p>
+              <p style={{
+                fontSize: '.24rem',
+                color:'gray'
+              }}>购买日期:{Moment(item.orderAddTime).format('YYYY-MM-DD HH:mm:ss')}</p>
             </WingBlank>
           })
         }  
         </List>  
-        
+        </div>
       </div>
     )
   }
