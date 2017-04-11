@@ -63,11 +63,11 @@ class ProgressDetail extends Component {
         <List>
           <Item>问题描述</Item>
           <Item style={{height:'2rem'}}>
-            {progressDetail.buyerMessage}
+            <div style={{color:'red'}}>{progressDetail.buyerMessage}</div>
           </Item>
           <Item>审核留言</Item>
           <Item style={{height:'2rem'}}>
-            {progressDetail.sellerMessage}
+            <div style={{color:'red'}}>{progressDetail.sellerMessage}</div>
           </Item>
           <Item>审核进度</Item>
           <Item>
