@@ -40,11 +40,11 @@ class ProgressItem extends Component {
     let statusShow = '';
     if (type == 0) {
       if (refundType == 2) {
-        showReturnBtn = true;
         if (refundState == 3) {
           statusShow = '已完成'
         } else {
           if (sellerState == 2 && goodsState == 1) {
+            showReturnBtn = true;
             statusShow = '商家同意退货'
           } else {
             statusShow = '进行中'
