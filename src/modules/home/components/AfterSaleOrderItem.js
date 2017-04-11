@@ -72,7 +72,12 @@ class AfterSaleOrderItem extends Component {
               <Flex onClick={() => this.gotoOrderDetail(goods)}>
                 <Img src={goods.goodsImage} style={{ width: '1.5rem' }} />
                 <div>
-                  <p>{goods.goodsName}</p>
+                  <div style={{
+                    marginTop:'0.1rem',
+                    height: '0.8rem',
+                    lineHeight: '0.4rem',
+                    overflow:'hidden'
+                  }}>{goods.goodsName}</div>
                   <p style={{fontSize:'.24rem',color:'gray'}} dangerouslySetInnerHTML={{ __html: goods.specInfo }}></p>
                 </div>
               </Flex>
