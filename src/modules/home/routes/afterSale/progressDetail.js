@@ -71,7 +71,7 @@ class ProgressDetail extends Component {
           </Item>
           <Item>审核进度</Item>
           <Item>
-            <Steps current={1}>
+            <Steps current={1} size='small'>
               {
                 list.map((log,index) => {
                   return <Step key={index} title={log.createTimeStr}
