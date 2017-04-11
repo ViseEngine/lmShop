@@ -235,6 +235,7 @@ class ApplyAfterSale extends Component {
           <div>问题描述</div> 
            <WhiteSpace></WhiteSpace>
            <TextareaItem
+           className='issue-desc' 
             onChange={this.onChangeBuyMessage}
             rows={3}
             placeholder="请填写您对商品的评价"
