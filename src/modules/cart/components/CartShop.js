@@ -100,7 +100,7 @@ class CartShop extends Component {
                   dangerouslySetInnerHTML={{ __html: goods.specInfo }}>
                 </p>
                 <Flex justify='between'>
-                  <div>{goods.goodsPrice}</div>
+                  <div>{`￥${goods.goodsPrice}`}</div>
                   <Stepper showNumber min={1} value={goods.goodsNum} onChange={(val)=>this.updateCart(data,goods,val)} />
                 </Flex>
                 <div style={{ textAlign: 'right' }}>
