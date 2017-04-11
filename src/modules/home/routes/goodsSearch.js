@@ -197,7 +197,7 @@ class GoodsSearch extends Component {
           <Flex>
             <Flex.Item style={{color:'red'}}>{dataItem.storeName}</Flex.Item>
             <Flex.Item style={{ minWidth: '200px', paddingRight: '8px' }}>
-              {dataItem.commentnum}条评论 销量 {dataItem.salenum}
+              评论{dataItem.commentnum}条 销量 {dataItem.salenum}
             </Flex.Item>
           </Flex>
         </div>  
