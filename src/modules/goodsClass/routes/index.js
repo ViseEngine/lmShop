@@ -5,7 +5,7 @@ import App from 'container/appView';
 import goodsClass from './goodsClass';
 
 const routesConfig = (<Route path="/" component={App}>
-  <IndexRoute component={goodsClass} showBottomBar={true} title='分类' showTitle={true}/>
+  <IndexRoute component={goodsClass} showBottomBar={true} title='分类' showTitle={true} selectedTab='goodsClass'/>
 </Route>)
 
 function Routes({ history }) {

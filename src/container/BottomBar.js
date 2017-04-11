@@ -8,7 +8,7 @@ const IconClass = ({ url }) => {
   return <div style={{
     width: '0.50rem',
     height: '0.50rem',
-    background: `url(${common.SERVER_DOMAIN}/${url}) center center /  0.44rem 0.44rem no-repeat`
+    background: `url(${url}) center center /  0.44rem 0.44rem no-repeat`
   }}
   />
 }
@@ -18,12 +18,14 @@ class BottomBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTab: 'blueTab',
-      hidden: false,
-    };
+      selectedTab: props.selectedTab || 'home'
+    }
   }
 
   changeTab = (type) => {
+    this.setState({
+      selectedTab: type
+    });
     if (type == 'home') {
       window.location.href = 'home.html';
     } else if (type == 'goodsClass') {
@@ -45,15 +47,23 @@ class BottomBar extends React.Component {
           title="首页"
           key="首页"
           icon={
-            <IconClass url={'/res_v4.0/h5/images/b_1.png'}></IconClass>
+            <IconClass url={'./assets/img/home.png'}></IconClass>
           }
+          selectedIcon={
+            <IconClass url={'./assets/img/home-selected.png'}></IconClass>
+          }
+          selected={this.state.selectedTab === 'home'}
           onPress={()=>this.changeTab('home')}
         >
         </TabBar.Item>
         <TabBar.Item
           icon={
-            <IconClass url={'/res_v4.0/h5/images/b_2.png'}></IconClass>
+            <IconClass url={'./assets/img/goodsClass.png'}></IconClass>
           }
+          selectedIcon={
+            <IconClass url={'./assets/img/goodsClass-selected.png'}></IconClass>
+          }
+          selected={this.state.selectedTab === 'goodsClass'}
           title="分类"
           key="分类"
           onPress={()=>this.changeTab('goodsClass')}
@@ -61,8 +71,12 @@ class BottomBar extends React.Component {
         </TabBar.Item>
         <TabBar.Item
           icon={
-            <IconClass url={'/res_v4.0/h5/images/b_3.png'}></IconClass>
+            <IconClass url={'./assets/img/cart.png'}></IconClass>
           }
+          selectedIcon={
+            <IconClass url={'./assets/img/cart-selected.png'}></IconClass>
+          }
+          selected={this.state.selectedTab === 'cart'}
           title="购物车"
           key="购物车"
           onPress={()=>this.changeTab('cart')}
@@ -70,8 +84,12 @@ class BottomBar extends React.Component {
         </TabBar.Item>
         <TabBar.Item
           icon={
-            <IconClass url={'/res_v4.0/h5/images/b_4.png'}></IconClass>
+            <IconClass url={'./assets/img/my.png'}></IconClass>
           }
+          selectedIcon={
+            <IconClass url={'./assets/img/my-selected.png'}></IconClass>
+          }
+          selected={this.state.selectedTab === 'my'}
           title="我的"
           key="我的"
           onPress={()=>this.changeTab('my')}

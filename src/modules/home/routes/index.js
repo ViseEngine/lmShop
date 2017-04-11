@@ -44,7 +44,7 @@ import addressAdd from './address/addressAdd';
 import addressEdit from './address/addressEdit';
 
 const routesConfig = (<Route path="/" component={App}>
-  <IndexRoute component={home} showBottomBar={true} showTitle={false}/>
+  <IndexRoute component={home} showBottomBar={true} showTitle={false} selectedTab='home'/>
   <Route path='store/:storeId/'>
     <Route path='index' component={store} showTitle={false}/>    
     <Route path='detail' component={storeDetail} title='店铺详情'/>

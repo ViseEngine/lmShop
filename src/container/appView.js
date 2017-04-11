@@ -70,9 +70,9 @@ class App extends Component {
   }
 
   showBottomBar = () => {
-    let { showBottomBar } = this.props.children.props.route;
+    let { showBottomBar, selectedTab } = this.props.children.props.route;
     if (!!showBottomBar) {
-      return <BottomBar />;
+      return <BottomBar selectedTab={selectedTab} />;
     }
 
     return '';

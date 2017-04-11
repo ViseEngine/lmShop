@@ -5,7 +5,9 @@ import App from 'container/appView';
 import cart from './cart';
 
 const routesConfig = (<Route path="/" component={App}>
-  <IndexRoute component={cart} showBottomBar={true} title='购物车' showTitle={true}/>
+  <IndexRoute component={cart}
+    selectedTab='cart'
+    showBottomBar={true} title='购物车' showTitle={true} />
 </Route>)
 
 function Routes({ history }) {
