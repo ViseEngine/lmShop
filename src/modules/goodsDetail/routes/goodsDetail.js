@@ -46,9 +46,18 @@ class GoodsDetail extends Component {
 
   componentDidMount() {
     Toast.loading();
-    this.setState({
-      cartNum: common.getCartNum()
-    });
+    // this.setState({
+    //   cartNum: common.getCartNum()
+    // });
+
+    cartApi.cartList().then(result => {
+      if (result.result == 1 && result.data) {
+        this.setState({
+          cartNum: result.data[0].goodsNum
+        });
+      }
+    })
+
     // 获取商品详情
     goodsDetailApi.goodsdetail({ specId: this.specId }).then(result => {
       Toast.hide();
