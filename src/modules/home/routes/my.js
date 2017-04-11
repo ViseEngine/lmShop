@@ -132,11 +132,13 @@ class My extends Component {
         <WingBlank>
           <Flex>
             <Img onClick={() => {
-              this.props.router.push('/account')
+              if (common.isLogin()){
+                this.props.router.push('/account')  
+              }
               }}
-              style={{ width: '1rem', height: '1rem' }} src={memberDetail.memberAvatar}></Img>
+              style={{ width: '1rem', height: '1rem',marginRight:'0.2rem' }} src={memberDetail.memberAvatar}></Img>
             {
-              isLogin && memberDetail ? <div style={{marginLeft:'0.2rem'}}>
+              isLogin && memberDetail ? <div>
                 账户: {memberDetail.memberName}
               </div> : <Button inline size="small" onClick={this.gotoLogin}>登录</Button>
             }
