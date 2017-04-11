@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import { withRouter } from 'react-router'
 import {
   Modal,
@@ -23,6 +23,12 @@ import * as goodsApi from '../api/goods';
 import './goodsSearch.less';
 
 class GoodsSearch extends Component {
+
+  static contextTypes = {
+    initAction: PropTypes.func,
+    clearAction: PropTypes.func,
+  }
+
   constructor(props) {
     super(props);
     this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -34,8 +40,13 @@ class GoodsSearch extends Component {
       open: false,
       specList: [],
       maximumPrice: '',
-      minimumPrice: ''
+      minimumPrice: '',
+      layoutType: 1
     }
+  }
+
+  componentWillUnmount() {
+    this.context.clearAction();
   }
 
   refreshList = () => {
@@ -70,6 +81,15 @@ class GoodsSearch extends Component {
   }
 
   componentWillMount() {
+
+    // this.context.initAction({
+    //   title: '切换',
+    //   action: () => {
+    //     this.setState({
+    //       layoutType: this.state.layoutType == 1 ? 2 : 1
+    //     })
+    //   }
+    // });
     // 查询列表
     this.refreshList();
 
