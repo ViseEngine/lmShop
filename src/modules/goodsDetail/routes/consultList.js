@@ -56,7 +56,7 @@ class ConsultList extends Component {
   render() {
     const { consultList } = this.state;
     return (
-      <div className='wx-ConsultList'>
+      <div className='wx-ConsultList fix-scroll hastitle'>
       <List>
         {
           consultList.map(item => {
