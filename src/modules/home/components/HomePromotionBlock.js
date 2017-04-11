@@ -34,10 +34,10 @@ class HomePromotionBlock extends React.PureComponent {
       objectUnionVOList = objectUnionVOList.slice(0, 4);
     }
     return <List renderHeader={() => (
-        <div>
+      <div>
         <span style={{color:'red'}}>{data.activityName}</span>
-          <span>{data.activityTypeName}</span>
-        </div>
+        <span style={{fontSize:'.24rem'}}>&nbsp;{data.activityTypeName}</span>
+      </div>
     )}>
       <List.Item>
       <Grid data={objectUnionVOList} columnNum={4} hasLine={false}
