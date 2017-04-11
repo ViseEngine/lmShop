@@ -261,13 +261,15 @@ class GoodsDetail extends Component {
           }
         </Carousel>
         <Flex className='wx-goods-detail-info' direction='column' align='start'>
-          <WingBlank>
-            <Flex.Item>{goodsDetailInfo.goodsName}</Flex.Item>
-            <WhiteSpace size="lg" />
-            <Flex.Item>{goodsDetailInfo.goodsSubtitle}</Flex.Item>
-            <WhiteSpace size="lg" />
-            <Flex.Item>{`¥${goodsDetailInfo.goodsSpec.specGoodsPrice}`}</Flex.Item>
-          </WingBlank>
+            <WingBlank>
+              <Flex.Item>{goodsDetailInfo.goodsName}</Flex.Item>
+            </WingBlank>
+            <WingBlank>
+              <p style={{color:'red',fontSize:'.24rem'}}>
+                {goodsDetailInfo.goodsSubtitle}
+              </p>  
+              <p style={{color:'red',fontSize:'.24rem'}}>{`¥${goodsDetailInfo.goodsSpec.specGoodsPrice}`}</p>
+            </WingBlank>  
         </Flex>
 
         <List>  
