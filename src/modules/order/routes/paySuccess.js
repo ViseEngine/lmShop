@@ -44,7 +44,7 @@ class PaySuccess extends Component {
     return <div className='wx-pay-result'>
       <List>
         <Item>
-          订单编号: {payInfo.orderId}
+          订单编号: {payInfo.paySn}
         </Item>
         <Item>
           订单金额: <span style={{color:'red'}}>{payInfo.orderTotalPrice}</span>
