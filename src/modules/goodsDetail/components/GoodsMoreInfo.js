@@ -22,7 +22,7 @@ export default function({ goodsDetailInfo }) {
     }
   }
 
-  return <Tabs defaultActiveKey="1" swipeable={false}>
+  return <Tabs animated={false} defaultActiveKey="1" swipeable={false}>
     <TabPane tab="商品介绍" key="1">
       {
         goodsBody && goodsBody.length > 0 && goodsBody.map((item,index) => {
