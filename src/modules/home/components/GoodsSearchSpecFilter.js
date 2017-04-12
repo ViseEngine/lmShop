@@ -63,7 +63,6 @@ class GoodsSearchSpecFilter extends Component {
             placeholder="最低价"
             type='number'
             value={minimumPrice}
-            autoFocus
           ></InputItem>
           <InputItem
             type='number'  

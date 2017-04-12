@@ -256,7 +256,6 @@ class GoodsSearch extends Component {
           open:false
         })} className="am-modal-mask"></div> : null
       }
-      <Flex direction='column'>
         <Flex className='wx-goods-search-header'>
           <Flex.Item onClick={()=>this.changeOrder('')}>
             {
@@ -299,7 +298,6 @@ class GoodsSearch extends Component {
             delayTime={10}>
             </ListView>
         </div>
-      </Flex>  
     </div>
   }
 }
