@@ -57,7 +57,7 @@ export function get(requestUrl, params) {
   }
   return fetch(url, {
       headers,
-      credentials: 'include',
+      // credentials: 'include',
     }).then(checkStatus)
     .then(parseJSON);
 }
@@ -82,7 +82,7 @@ export function post(requestUrl, params) {
   return fetch(url, {
     method: "POST",
     headers,
-    credentials: 'include',
+    // credentials: 'include',
     body: qs.stringify(params),
   }).then(checkStatus).then(parseJSON);
 }
