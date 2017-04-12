@@ -19,7 +19,7 @@ export default function({ goodsDetailInfo, gotoEvaluateList, gotoConsultation })
   const goodsEvalue = goodsDetailInfo.evaluate / 5;
   const evalue = goodsEvalue.toFixed(2) * 100
   return <List>
-    <List.Item extra={`${evalue}%好评`} arrow="horizontal">
+    <List.Item onClick={()=>gotoEvaluateList(goodsDetailInfo)} extra={`${evalue}%好评`} arrow="horizontal">
       &nbsp;
     </List.Item>
     {

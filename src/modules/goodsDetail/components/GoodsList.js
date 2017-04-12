@@ -5,7 +5,12 @@ import {
   Flex
 } from 'antd-mobile';
 import { Img } from 'commonComponent';
+import { common } from 'common';
 const TabPane = Tabs.TabPane;
+
+const onClick = (el) => {
+  common.gotoGoodsDetail({ specId: el.specId });
+}
 
 const renderItem = (dataItem) => {
   return <Flex style={{ textAlign: 'center' }} direction='column' >
@@ -34,6 +39,7 @@ export default function({ goodsDetailInfo }) {
       {
         goodsDetailInfo.recommendList &&
         <Grid hasLine={false}
+          onClick={onClick}  
           renderItem={(dataItem, index) => (renderItem(dataItem))}
           data={goodsDetailInfo.recommendList} columnNum={3} >
       </Grid>
@@ -43,6 +49,7 @@ export default function({ goodsDetailInfo }) {
       {
         goodsDetailInfo.orderList &&
         <Grid hasLine={false}
+          onClick={onClick}  
           renderItem={(dataItem, index) => (renderItem(dataItem))}
           data={goodsDetailInfo.orderList} columnNum={3} >
       </Grid>

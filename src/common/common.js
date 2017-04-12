@@ -50,7 +50,8 @@ export function gotoCart() {
 }
 
 export function gotoGoodsDetail({ specId }) {
-  window.location.href = `goodsDetail.html#/?specId=${specId}`;
+  // window.location.href = `goodsDetail.html#/?specId=${specId}`;
+  window.location.href = `goodsDetail.html#/${specId}`;
 }
 
 export function gotoStore({ storeId }) {

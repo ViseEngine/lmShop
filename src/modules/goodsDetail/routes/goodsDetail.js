@@ -37,14 +37,23 @@ class GoodsDetail extends Component {
       isFav: 0
     }
     // 获取URL参数
-    if (this.props.location.query) {
-      if (this.props.location.query.specId) {
-        this.specId = this.props.location.query.specId;
-      }
+    // if (this.props.location.query) {
+    //   if (this.props.location.query.specId) {
+    // this.specId = this.props.location.query.specId;
+    //   }
+    // }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.params.specId != this.props.params.specId) {
+      console.log('componentDidUpdate', prevProps.params.specId,
+        this.props.params.specId);
+
+      this.refresh();
     }
   }
 
-  componentDidMount() {
+  refresh = () => {
     Toast.loading();
     // this.setState({
     //   cartNum: common.getCartNum()
@@ -59,7 +68,9 @@ class GoodsDetail extends Component {
     })
 
     // 获取商品详情
-    goodsDetailApi.goodsdetail({ specId: this.specId }).then(result => {
+    goodsDetailApi.goodsdetail({
+      specId: this.props.params.specId
+    }).then(result => {
       Toast.hide();
       if (result.result != 1) {
         Toast.error(result.msg);
@@ -72,6 +83,9 @@ class GoodsDetail extends Component {
         isFav: goodsDetailInfo.isFav
       });
 
+      const node = this.refs.detailScroll;
+      node.scrollTop = 0;
+
       // 登录后才上报 浏览记录
       if (common.isLogin()) {
         setTimeout(function() {
@@ -81,6 +95,10 @@ class GoodsDetail extends Component {
         }, 100);
       }
     });
+  }
+
+  componentDidMount() {
+    this.refresh();
   }
 
   gotoEvaluateList = (goodsDetailInfo) => {
@@ -231,8 +249,6 @@ class GoodsDetail extends Component {
       item.goodsSpecId = data.specId;
       return item;
     })
-    // 记录已选的规格ID，加购物车的时候需要
-    this.specId = data.specId
     this.setState({
       goodsDetailInfo: newGoodsDetailInfo,
     })
@@ -252,7 +268,7 @@ class GoodsDetail extends Component {
     const selectedSpecGoodsSpec = vals.join(' ');
     return (
       <div className='wx-goods-detail'>
-        <div className='fix-scroll hastitle hasbottom'>
+        <div ref='detailScroll' className='fix-scroll hastitle hasbottom'>
         <Carousel autoplay={false} infinite={false} dots={false}>
           {
             goodsDetailInfo.goodsCallyList.map((item,index) => (
