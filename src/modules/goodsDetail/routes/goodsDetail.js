@@ -61,8 +61,12 @@ class GoodsDetail extends Component {
 
     cartApi.cartList().then(result => {
       if (result.result == 1 && result.data) {
+        let cartNum = 0;
+        result.data.forEach(function(element) {
+          cartNum += element.goodsNum
+        });
         this.setState({
-          cartNum: result.data[0].goodsNum
+          cartNum
         });
       }
     })
@@ -141,6 +145,7 @@ class GoodsDetail extends Component {
    * 点击获取规格
    */
   getSpec = () => {
+    // document.style = 
     const goodsDetailInfo = this.state.goodsDetailInfo.toJS();
     Popup.show(
       <GoodsSpec
@@ -259,7 +264,7 @@ class GoodsDetail extends Component {
     if (!goodsDetailInfo || !goodsDetailInfo.goodsCallyList) {
       return null;
     }
-    console.log('render', goodsDetailInfo.goodsSpec.specGoodsSpec);
+    console.log('render', goodsDetailInfo);
 
     // 获取规格组合名
     const vals = Object.keys(goodsDetailInfo.goodsSpec.specGoodsSpec).map(function(key) {
