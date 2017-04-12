@@ -70,7 +70,9 @@ class AfterSaleOrderItem extends Component {
           dataItem.orderGoodsList.map(goods => {
             return <div key={goods.specId} >
               <Flex onClick={() => this.gotoOrderDetail(goods)}>
-                <Img src={goods.goodsImage} style={{ width: '1.5rem',height:'1.5rem' }} />
+                <div style={{ width: '1.5rem', height: '1.5rem' }}>
+                  <Img src={goods.goodsImage} style={{ width: '1.5rem', height: '1.5rem' }} />
+                </div>
                 <div>
                   <div style={{
                     marginTop:'0.1rem',
