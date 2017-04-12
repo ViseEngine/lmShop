@@ -29,6 +29,26 @@ class ProgressItem extends Component {
     this.props.router.push('/returnDetail/' + orderItem.refundId)
   }
 
+  changeGoods = (orderItem) => {
+    Modal.alert('提示', '是否确认换货?', [
+      { text: '取消' },
+      {
+        text: '确认',
+        onPress: () => {
+          orderApi.finishBarter({
+            barterId: orderItem.barterId
+          }).then(result => {
+            if (result.result == 1) {
+              this.props.onFinishBarter();
+            } else {
+              Toast.info(result.msg);
+            }
+          })
+        }
+      },
+    ]);
+  }
+
   render() {
     // type 0 代表退货退款列表，1 代表换货
     const { dataItem, type } = this.props;
@@ -36,6 +56,9 @@ class ProgressItem extends Component {
     const { refundType, sellerState, refundState, goodsState } = dataItem
 
     let showReturnBtn = false;
+    let showRedundBtn = true;
+    let showChangeGoodsBtn = false;
+    let showConfirmBtn = false;
 
     let statusShow = '';
     if (type == 0) {
@@ -63,15 +86,25 @@ class ProgressItem extends Component {
       }
     } else {
       if (goodsState == 4) {
-
+        statusShow = '进行中'
+        showConfirmBtn = true;
+        showChangeGoodsBtn = false;
       } else if (goodsState == 5) {
+        showConfirmBtn = false;
+        showChangeGoodsBtn = false;
         statusShow = '已完成'
       } else if (goodsState == 1 && sellerState == 30) {
+        showConfirmBtn = false;
+        showChangeGoodsBtn = true;
         statusShow = '商家同意换货'
       } else {
+        showConfirmBtn = false;
+        showChangeGoodsBtn = false;
         statusShow = '进行中'
       }
     }
+
+    console.log(showChangeGoodsBtn);
     return <div className='progressItem'>
       <WhiteSpace></WhiteSpace>
       <WingBlank>
@@ -101,11 +134,37 @@ class ProgressItem extends Component {
                     }}
                     inline>退货</Button> 
                 }
-                <Button size='small'
-                  onClick={()=>this.gotoReturnDetail(dataItem)}
-                  inline>退款详情</Button>
+                {
+                  showRedundBtn && <Button size='small'
+                    onClick={() => this.gotoReturnDetail(dataItem)}
+                    inline>退款详情</Button>
+                }
               </Flex>
             </Flex.Item>
+          }
+          {
+            type == 1 && <Flex.Item>
+              <Flex justify='end'>
+                {
+                  showConfirmBtn && <Button
+                    type='ghost'
+                    size='small'
+                    onClick={() => { 
+                      this.changeGoods(dataItem)
+                    }}
+                    inline>确认换货</Button> 
+                }
+                {
+                  showChangeGoodsBtn && <Button
+                    type='ghost'
+                    size='small'
+                    onClick={() => { 
+                      this.props.router.push(`/changeGoods/${dataItem.barterId}`)
+                    }}
+                    inline>换货</Button> 
+                }
+              </Flex>
+            </Flex.Item> 
           }
         </div>
       </WingBlank>

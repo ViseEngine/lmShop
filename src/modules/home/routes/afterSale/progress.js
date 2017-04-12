@@ -66,6 +66,10 @@ class Progress extends Component {
     this.props.router.replace('/progress/' + index);
   }
 
+  onFinishBarter = () => {
+    this.refreshList();
+  }
+
   render() {
     const { dataSource } = this.state
     let type = this.props.params.type
@@ -89,6 +93,7 @@ class Progress extends Component {
               dataSource={dataSource}
               renderRow={(dataItem) => (
               <ProgressItem
+                onFinishBarter={this.onFinishBarter}
                 type={type}
                 dataItem={dataItem}></ProgressItem>
               )}></ListView>

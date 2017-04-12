@@ -186,4 +186,25 @@ export function returnDelivery({
     refundId
   });
 }
-// http://testbbc.leimingtech.com/orderapi/returnDelivery
+
+// 换货
+export function barterDelivery({
+  invoiceNo,
+  expressName,
+  barterId
+}) {
+  return fetch.post('/orderapi/barterDelivery', {
+    invoiceNo,
+    expressName,
+    barterId
+  });
+}
+
+export function finishBarter({
+  barterId
+}) {
+  return fetch.post('/orderapi/finishBarter', {
+    barterId
+  });
+}
+// http: //testbbc.leimingtech.com/orderapi/finishBarter
