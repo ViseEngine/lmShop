@@ -47,6 +47,10 @@ class Comment extends Component {
   postComment = () => {
     const { goods, orderSn } = this.props.location.state;
     const files = this.state.files;
+    if (this.state.gevalContent == '') {
+      Toast.info('请填写评论', 1)
+      return;
+    }
     if (files.length == 0) {
       orderApi.saveReviews({
         ...this.state,
