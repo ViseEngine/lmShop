@@ -47,6 +47,21 @@ class Comment extends Component {
   postComment = () => {
     const { goods, orderSn } = this.props.location.state;
     const files = this.state.files;
+    if (files.length == 0) {
+      orderApi.saveReviews({
+        ...this.state,
+        orderSn,
+        recId: goods.recId,
+      }).then(r => {
+        if (r.result == 1) {
+          Toast.info(r.msg);
+          this.props.router.push('/orderList/3')
+        } else {
+          Toast.info(r.msg);
+        }
+      })
+      return;
+    }
     orderApi.filesUpload({
       images: files.map(item => item.file)
     }).then(result => {
